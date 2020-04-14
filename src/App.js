@@ -1,13 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
 import { Container } from 'react-bootstrap';
+import { Auth, Room } from './components';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
       <Container>
-        <Auth></Auth>
+        <Auth />
+        <Room />
       </Container>
     </div>
   );
