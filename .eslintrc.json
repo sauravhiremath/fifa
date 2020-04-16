@@ -24,6 +24,7 @@
     ],
     "rules": {
         "no-console":"off",
+        "no-use-before-define": "off",
         "jsx-a11y/href-no-hash": ["off"],
         "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
         "max-len": [
@@ -31,7 +32,7 @@
             {
                 "code": 120,
                 "tabWidth": 2,
-                "comments": 80,
+                "comments": 120,
                 "ignoreComments": false,
                 "ignoreTrailingComments": true,
                 "ignoreUrls": true,
