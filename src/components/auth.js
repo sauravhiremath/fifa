@@ -7,9 +7,6 @@ export default class Auth extends React.Component {
   constructor(props) {
     super(props);
     this.isLoggedIn = false;
-    this.state = {
-      username: '',
-    };
     this.enterUsername = this.enterUsername.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handleUsernameSubmit = this.handleUsernameSubmit.bind(this);

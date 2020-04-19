@@ -1,12 +1,18 @@
 import React from 'react';
-import { InputGroup, FormControl } from 'react-bootstrap';
+import Welcome from './Room.Welcome';
+import JoinRoom from './Room.join';
 
 export default class Room extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { passkey: '' };
+    this.state = {
+      roomId: '',
+      password: '',
+      createNew: false,
+    };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleChange.bind(this);
   }
 
   handleChange(event) {
@@ -20,11 +26,14 @@ export default class Room extends React.Component {
   }
 
   render() {
-    const { passkey } = this.state;
+    const { roomId, password, createNew } = this.state;
+    const username = localStorage.getItem('username');
 
     return (
       <div>
-        { welcomeMessage() }
+        <Welcome username={ username }/>
+        <hr />
+        <JoinRoom roomId={ roomId } passkey={ password }/>
       </div>
     );
   }

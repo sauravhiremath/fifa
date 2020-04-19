@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
-import { Auth, Room, Nav } from './components';
+import { Nav, Home } from './components';
 
 import './App.css';
 
@@ -11,8 +11,7 @@ function App() {
       <div className="App">
         <Nav />
         <Container className="min-vh-100">
-          <Auth />
-          {/* <Room /> */}
+          <Home />
         </Container>
       </div>
     </Router>
