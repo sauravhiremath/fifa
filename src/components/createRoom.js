@@ -24,19 +24,7 @@ export default class Room extends React.Component {
 
     return (
       <div>
-        <h1> Create Room or Join Room </h1>
-        <InputGroup className="mb-3">
-          <InputGroup.Prepend>
-            <InputGroup.Text id="room-password" />
-          </InputGroup.Prepend>
-          <FormControl
-            placeholder="Password"
-            aria-label="Password"
-            aria-describedby="room-password"
-            value={passkey}
-            onChange={this.handleChange}
-          />
-        </InputGroup>
+        { welcomeMessage() }
       </div>
     );
   }

@@ -1,16 +1,21 @@
 import React from 'react';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
-import { Auth, Room } from './components';
+import { Auth, Room, Nav } from './components';
+
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <Container>
-        <Auth />
-        <Room />
-      </Container>
-    </div>
+    <Router>
+      <div className="App">
+        <Nav />
+        <Container className="min-vh-100">
+          <Auth />
+          {/* <Room /> */}
+        </Container>
+      </div>
+    </Router>
   );
 }
 
