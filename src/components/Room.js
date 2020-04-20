@@ -1,6 +1,9 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
+
 import Welcome from './Room.Welcome';
-import JoinRoom from './Room.join';
+import JoinRoom from './Room.Join';
+import CreateRoom from './Room.Create';
 
 export default class Room extends React.Component {
   constructor(props) {
@@ -8,33 +11,65 @@ export default class Room extends React.Component {
     this.state = {
       roomId: '',
       password: '',
-      createNew: false,
+      joinRoomDisplay: true,
+      authSuccess: false,
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleChange.bind(this);
+    this.handleData = this.handleData.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.authSuccess = this.authSuccess.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({ passkey: event.target.passkey });
+  handleData(data) {
+    Object.entries(data).forEach(([key, val]) => {
+      this.setState({ [key]: val });
+    });
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    const { passkey } = this.state;
-    console.log(`A name was submitted: ${passkey}`);
+    const { password } = this.state;
+    console.log(`A name was submitted: ${password}`);
+  }
+
+  authSuccess(data) {
+    if (data.success) {
+      this.setState({ authSuccess: true });
+    }
   }
 
   render() {
-    const { roomId, password, createNew } = this.state;
+    const {
+      roomId, password, authSuccess, joinRoomDisplay,
+    } = this.state;
     const username = localStorage.getItem('username');
 
+    if (!authSuccess) {
+      return (
+        <div>
+          <Welcome username={ username }/>
+          <hr />
+          { joinRoomDisplay
+            && <JoinRoom
+                  roomId={ roomId }
+                  password={ password }
+                  authSuccess={ this.authSuccess }
+                  handleChange={ this.handleData }
+                />
+          }
+          { !joinRoomDisplay
+            && <CreateRoom
+                  roomId={ roomId }
+                  password={ password }
+                  authSuccess={ this.authSuccess }
+                  handleChange={ this.handleData }
+                />
+          }
+          <Button variant="link" onClick={ () => { this.setState({ joinRoomDisplay: !joinRoomDisplay }); }}>new Room Creation</Button>
+        </div>
+      );
+    }
     return (
-      <div>
-        <Welcome username={ username }/>
-        <hr />
-        <JoinRoom roomId={ roomId } passkey={ password }/>
-      </div>
+      <div>Entered successfully with AuthSuccess as { authSuccess }</div>
     );
   }
 }

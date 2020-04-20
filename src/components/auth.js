@@ -34,6 +34,7 @@ export default class Auth extends React.Component {
           <InputGroup>
             <FormControl
               placeholder="Enter your alias here"
+              name="username"
               aria-label="username"
               aria-describedby="text"
               onChange = { this.handleUsernameChange }

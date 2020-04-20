@@ -1,14 +1,18 @@
 import React from 'react';
 import {
-  Form, InputGroup, FormControl, Button,
+  Form, FormControl, InputGroup, Button,
 } from 'react-bootstrap';
 
-export default class JoinRoom extends React.Component {
+// TODO: Add Successfull creation of room authSuccess -> true
+export default class Create extends React.Component {
   constructor(props) {
     super(props);
 
+    this.renderNewRoomId();
+
     this.handleDataChange = this.handleDataChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.renderNewRoomId = this.renderNewRoomId.bind(this);
   }
 
   componentDidMount() {
@@ -16,13 +20,8 @@ export default class JoinRoom extends React.Component {
   }
 
   handleDataChange(event) {
-    const eventName = event.target.name;
     const { handleChange } = this.props;
-    if (eventName === 'roomId') {
-      const roomId = event.target.value;
-      handleChange({ roomId });
-      // this.setState({ roomId });
-    } else if (eventName === 'password') {
+    if (event.target.name === 'password') {
       const password = event.target.value;
       handleChange({ password });
       // this.setState({ password });
@@ -32,25 +31,31 @@ export default class JoinRoom extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     const { roomId, password } = this.props;
-    console.log('roomId and password are', roomId, password);
+    console.log(roomId, password);
+  }
+
+  renderNewRoomId() {
+    const { handleChange } = this.props;
+    const roomId = fetchRoomId();
+    handleChange({ roomId });
   }
 
   render() {
+    const {
+      roomId, authSuccess,
+    } = this.props;
+
     return (
       <div>
-        <h2>Enter Room ID</h2>
-        <div>
-          <Form onSubmit={ this.handleSubmit }>
+        <h2>Room ID</h2>
+        <Form onSubmit={this.handleSubmit}>
             <InputGroup>
               <FormControl
-                placeholder="Enter the RoomID here"
-                aria-label="roomId"
                 name="roomId"
+                value={ roomId }
+                aria-label="roomId"
                 aria-describedby="text"
-                onChange={ this.handleDataChange }
-                ref={(input) => {
-                  this.roomIdInput = input;
-                }}
+                readOnly
               />
               <FormControl
                 placeholder="Enter room password"
@@ -58,16 +63,23 @@ export default class JoinRoom extends React.Component {
                 aria-label="password"
                 aria-describedby="password"
                 onChange={ this.handleDataChange }
+                ref={(input) => {
+                  this.roomIdInput = input;
+                }}
               />
               <InputGroup.Append>
                 <Button variant="light" type="submit">
-                  Join
+                  Create
                 </Button>
               </InputGroup.Append>
             </InputGroup>
           </Form>
-        </div>
       </div>
     );
   }
+}
+
+function fetchRoomId() {
+  const roomId = '#A8HDG';
+  return roomId;
 }
