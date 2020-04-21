@@ -1,5 +1,7 @@
 # Fifa.io
 
+[![HitCount](http://hits.dwyl.com/sauravhiremath/fifa.svg)](http://hits.dwyl.com/{sauravhiremath}/{fifa})
+
 A realtime multi-user Fifa draft platform. Build custom teams bidding for the players
 
 ### Usage
