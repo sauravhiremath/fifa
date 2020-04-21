@@ -1,4 +1,12 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Fifa.io
+
+A realtime multi-user Fifa draft platform. Build custom teams bidding for the players
+
+### Usage
+* No registration, just add an alias.
+* Create a room and invite your friends
+* Start a draft and build a team bidding against each other.
+* Play with your custom teams now :)
 
 ## Available Scripts
 
