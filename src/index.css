@@ -1,13 +1,19 @@
 body {
   margin: 0px;
+  color: #E2E2E2;
   background-image: url('./images/background.jpg');
+  overflow: hidden;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
     'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #E2E2E2;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.TeamBox {
+  height: 60%;
+  overflow-y: scroll;
 }
