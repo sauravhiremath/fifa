@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap';
 import Welcome from './Room.Welcome';
 import JoinRoom from './Room.Join';
 import CreateRoom from './Room.Create';
+import Lobby from './Lobby';
 
 export default class Room extends React.Component {
   constructor(props) {
@@ -69,7 +70,7 @@ export default class Room extends React.Component {
       );
     }
     return (
-      <div>Entered successfully with AuthSuccess as { authSuccess }</div>
+      <Lobby />
     );
   }
 }

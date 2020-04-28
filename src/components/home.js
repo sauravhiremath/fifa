@@ -5,6 +5,7 @@ import Room from './Room';
 
 const Home = () => {
   const username = localStorage.getItem('username');
+
   if (username) return <Room />;
   return <Auth />;
 };

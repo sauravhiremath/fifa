@@ -18,6 +18,7 @@ export default class JoinRoom extends React.Component {
   handleDataChange(event) {
     const eventName = event.target.name;
     const { handleChange } = this.props;
+
     if (eventName === 'roomId') {
       const roomId = event.target.value;
       handleChange({ roomId });
@@ -31,8 +32,9 @@ export default class JoinRoom extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { roomId, password } = this.props;
+    const { roomId, password, authSuccess } = this.props;
     console.log('roomId and password are', roomId, password);
+    authSuccess({ success: true }); // This is done only if 200 from server
   }
 
   render() {
