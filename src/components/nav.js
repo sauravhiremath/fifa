@@ -1,35 +1,26 @@
 import React from 'react';
-import {
-  Navbar, Form, Button,
-} from 'react-bootstrap';
+import { Navbar, Form, Button } from 'react-bootstrap';
 import logo from '../logo.svg';
 
-export default function Nav() {
+const Nav = () => {
   return (
     <Navbar bg="dark" variant="dark">
       <Navbar.Brand href="/">
-        <img
-          src={ logo }
-          width="30"
-          height="30"
-          className="d-inline-block align-top"
-          alt="logo"
-        />{' '}
-        Fifa.io
+        <img src={logo} width="30" height="30" className="d-inline-block align-top" alt="logo" /> Fifa.io
       </Navbar.Brand>
       { loginStatus() }
     </Navbar>
   );
 }
 
-function loginStatus() {
+const loginStatus = () => {
   const username = localStorage.getItem('username');
 
   if (username !== '') {
     return (
       <Navbar.Collapse className="justify-content-end">
         <Navbar.Text>
-          Signed in as: <b>{ username }</b>
+          Signed in as: <b>{username}</b>
         </Navbar.Text>
       </Navbar.Collapse>
     );
@@ -43,3 +34,5 @@ function loginStatus() {
     </Navbar.Collapse>
   );
 }
+
+export default Nav;

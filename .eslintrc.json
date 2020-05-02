@@ -4,9 +4,8 @@
         "es6": true
     },
     "extends": [
-        "plugin:react/recommended",
-        "airbnb",
-        "prettier/react"
+      "plugin:react/recommended",
+      "xo-react/space"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -25,10 +24,21 @@
         "react"
     ],
     "rules": {
-        "no-console":"off",
+        "no-console": "off",
+        "indent": [2, 2],
         "no-use-before-define": "off",
         "jsx-a11y/href-no-hash": ["off"],
+        "object-curly-spacing": ["warn", "always"],
         "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
+        "react/jsx-tag-spacing": [
+          "warn",
+          {
+            "closingSlash": "never",
+            "beforeSelfClosing": "always",
+            "afterOpening": "never",
+            "beforeClosing": "allow"
+          }
+        ],
         "max-len": [
             "warn",
             {

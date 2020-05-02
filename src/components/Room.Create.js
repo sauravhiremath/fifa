@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Form, FormControl, InputGroup, Button,
-} from 'react-bootstrap';
+import { Form, FormControl, InputGroup, Button } from 'react-bootstrap';
 
 // TODO: Add Successfull creation of room authSuccess -> true
 export default class Create extends React.Component {
@@ -41,39 +39,31 @@ export default class Create extends React.Component {
   }
 
   render() {
-    const {
-      roomId, authSuccess,
-    } = this.props;
+    const { roomId, authSuccess } = this.props;
 
     return (
       <div>
         <h2>Room ID</h2>
         <Form onSubmit={this.handleSubmit}>
-            <InputGroup>
-              <FormControl
-                name="roomId"
-                value={ roomId }
-                aria-label="roomId"
-                aria-describedby="text"
-                readOnly
-              />
-              <FormControl
-                placeholder="Enter room password"
-                name="password"
-                aria-label="password"
-                aria-describedby="password"
-                onChange={ this.handleDataChange }
-                ref={(input) => {
-                  this.roomIdInput = input;
-                }}
-              />
-              <InputGroup.Append>
-                <Button variant="light" type="submit">
-                  Create
-                </Button>
-              </InputGroup.Append>
-            </InputGroup>
-          </Form>
+          <InputGroup>
+            <FormControl readOnly name="roomId" value={roomId} aria-label="roomId" aria-describedby="text" />
+            <FormControl
+              ref={input => {
+                this.roomIdInput = input;
+              }}
+              placeholder="Enter room password"
+              name="password"
+              aria-label="password"
+              aria-describedby="password"
+              onChange={this.handleDataChange}
+            />
+            <InputGroup.Append>
+              <Button variant="light" type="submit">
+                Create
+              </Button>
+            </InputGroup.Append>
+          </InputGroup>
+        </Form>
       </div>
     );
   }

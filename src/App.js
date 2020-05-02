@@ -5,17 +5,17 @@ import { Nav, Home } from './components';
 
 import './App.css';
 
-function App() {
+const App = () => {
   return (
     <Router>
       <div className="App">
         <Nav />
         <Container fluid>
-            <Home />
+          <Home />
         </Container>
       </div>
     </Router>
   );
-}
+};
 
 export default App;

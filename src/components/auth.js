@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Form, Button, InputGroup, FormControl,
-} from 'react-bootstrap';
+import { Form, Button, InputGroup, FormControl } from 'react-bootstrap';
 
 export default class Auth extends React.Component {
   constructor(props) {
@@ -33,12 +31,14 @@ export default class Auth extends React.Component {
         <Form onSubmit={this.handleUsernameSubmit}>
           <InputGroup>
             <FormControl
+              ref={input => {
+                this.usernameInput = input;
+              }}
               placeholder="Enter your alias here"
               name="username"
               aria-label="username"
               aria-describedby="text"
-              onChange = { this.handleUsernameChange }
-              ref={ (input) => { this.usernameInput = input; } }
+              onChange={this.handleUsernameChange}
             />
             <InputGroup.Append>
               <Button variant="dark" type="submit">
@@ -63,13 +63,12 @@ export default class Auth extends React.Component {
   }
 }
 
-function introInfo() {
+const introInfo = () => {
   return (
     <div>
       <div>Hate the default lineup?</div>
       <div>
-        Build custom teams <br />
-        with your friends. <br />
+        Build custom teams <br /> with your friends. <br />
       </div>
       <div>
         Create or join a room to start <br />

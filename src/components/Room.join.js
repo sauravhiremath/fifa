@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Form, InputGroup, FormControl, Button,
-} from 'react-bootstrap';
+import { Form, InputGroup, FormControl, Button } from 'react-bootstrap';
 
 export default class JoinRoom extends React.Component {
   constructor(props) {
@@ -42,24 +40,24 @@ export default class JoinRoom extends React.Component {
       <div>
         <h2>Enter Room ID</h2>
         <div>
-          <Form onSubmit={ this.handleSubmit }>
+          <Form onSubmit={this.handleSubmit}>
             <InputGroup>
               <FormControl
+                ref={input => {
+                  this.roomIdInput = input;
+                }}
                 placeholder="Enter the RoomID here"
                 aria-label="roomId"
                 name="roomId"
                 aria-describedby="text"
-                onChange={ this.handleDataChange }
-                ref={(input) => {
-                  this.roomIdInput = input;
-                }}
+                onChange={this.handleDataChange}
               />
               <FormControl
                 placeholder="Enter room password"
                 name="password"
                 aria-label="password"
                 aria-describedby="password"
-                onChange={ this.handleDataChange }
+                onChange={this.handleDataChange}
               />
               <InputGroup.Append>
                 <Button variant="light" type="submit">
