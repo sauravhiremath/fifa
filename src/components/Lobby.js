@@ -6,42 +6,41 @@ import mockPlayers from '../tests/playersFill.test';
 
 export default class Lobby extends React.Component {
   state = {
-    playersSelected: mockPlayers
-  };
-
-  addPlayers = () => {
-    // Add player names will fill data for testing
-    console.log(mockPlayers);
-    this.setState({
-      playersSelected: mockPlayers
-    });
-    this.renderPlayerNames();
-  };
-
-  getInitialState = () => {
-    const { playersSelected } = this.state;
-    return { playersSelected };
+    playersSelected: []
   };
 
   handleNewRowSubmit = newPlayer => {
     const { playersSelected } = this.state;
-    this.setState({ playersSelected: playersSelected.push(newPlayer) });
+    const playerInfo = {
+      id: newPlayer.objectID,
+      name: newPlayer.name,
+      position: 'ST',
+      rating: 88
+    }
+    if (playersSelected.every((v) => v.id !== playerInfo.id)) {
+      this.setState({ playersSelected: [...playersSelected, playerInfo] });
+    } else {
+      console.log("Player already added!");
+    }
   };
 
   renderPlayerNames = () => {
     const { playersSelected } = this.state;
     console.log(playersSelected);
+
     return playersSelected.map((player, index) => {
-      const { id, name, position, rating } = player;
-      return (
-        <tr key={id}>
-          <td>{index + 1}</td>
-          <td>{position}</td>
-          <td>{name}</td>
-          <td>{rating}</td>
-        </tr>
-      );
-    });
+      if (player) {
+        const { id, name, position, rating } = player;
+        return (
+          <tr key={id}>
+            <td>{index + 1}</td>
+            <td>{position}</td>
+            <td>{name}</td>
+            <td>{rating}</td>
+          </tr>
+        );
+      }
+    })
   };
 
   render() {

@@ -1,7 +1,11 @@
 import React from 'react';
+import GridLayout from 'react-grid-layout';
 import algoliasearch from 'algoliasearch/lite';
-import { InstantSearch, SearchBox, Hits, Highlight } from 'react-instantsearch-dom';
+import { InstantSearch, SearchBox, Highlight, connectHits } from 'react-instantsearch-dom';
 import { Row } from 'react-bootstrap';
+
+import 'react-resizable/css/styles.css';
+import 'react-grid-layout/css/styles.css';
 
 const searchClient = algoliasearch('latency', '6be0576ff61c053d5f9a3225e2a90f76');
 
@@ -10,29 +14,47 @@ export default class Searchbar extends React.Component {
     search: ''
   };
 
-  Hit = ({ hit }) => (
-    <Row>
-      <div className="hitImage">
-        <img src={hit.image} alt="player" />
+  PlayerHits = () => {
+    const CustomHits = connectHits(this.Hits);
+    return (
+      <div className="resultsBox">
+        <CustomHits />
       </div>
-      <div className="hitName">
-        <Highlight attribute="name" hit={hit} />
-      </div>
-      <div className="hitName">
-        <Highlight attribute="Overall Rating" hit={hit} />
-      </div>
-    </Row>
-  );
+    );
+  };
 
-  Content = () => (
-    <div className="resultsBox">
-      <Hits hitComponent={this.Hit} />
-    </div>
-  );
+  Hits = ({ hits }) => {
+    return (
+      <div>
+        {hits.map(item => (
+          <div
+            key={item.objectID}
+            className="playerRow"
+            onClick={() => {
+              this.updatePlayerList(item);
+            }}
+          >
+            <div className="playerImage">
+              <img src={item.image} alt="" />
+            </div>
+            <div className="playerContent">
+              <div>{item.name}</div>
+              <div>{item.text}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  updatePlayerList = playerInfo => {
+    const { addPlayer } = this.props;
+    addPlayer(playerInfo);
+  };
 
   render() {
     return (
-      <div>
+      <div className="d-none d-sm-block">
         <InstantSearch indexName="bestbuy" searchClient={searchClient}>
           <SearchBox
             showLoadingIndicator
@@ -42,8 +64,7 @@ export default class Searchbar extends React.Component {
               placeholder: 'Search players here...'
             }}
           />
-
-          <this.Content />
+          <this.PlayerHits />
         </InstantSearch>
       </div>
     );
