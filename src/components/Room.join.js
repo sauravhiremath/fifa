@@ -1,5 +1,7 @@
 import React from 'react';
-import { Form, InputGroup, FormControl, Button } from 'react-bootstrap';
+import { Form, InputGroup, FormControl } from 'react-bootstrap';
+import Button from 'react-uwp/Button';
+import { InputGroupText } from 'react-bootstrap/InputGroup';
 
 export default class JoinRoom extends React.Component {
   constructor(props) {
@@ -52,6 +54,9 @@ export default class JoinRoom extends React.Component {
                 aria-describedby="text"
                 onChange={this.handleDataChange}
               />
+            </InputGroup>
+            <br />
+            <InputGroup>
               <FormControl
                 placeholder="Enter room password"
                 name="password"
@@ -59,6 +64,9 @@ export default class JoinRoom extends React.Component {
                 aria-describedby="password"
                 onChange={this.handleDataChange}
               />
+            </InputGroup>
+            <br />
+            <InputGroup>
               <InputGroup.Append>
                 <Button variant="light" type="submit">
                   Join

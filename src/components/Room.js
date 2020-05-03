@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import HyperLink from 'react-uwp/HyperLink';
 
 import Welcome from './Room.Welcome';
 import JoinRoom from './Room.Join';
@@ -38,7 +38,7 @@ export default class Room extends React.Component {
 
     if (!authSuccess) {
       return (
-        <div>
+        <div className="p-3">
           <Welcome username={username} />
           <hr />
           {joinRoomDisplay && (
@@ -57,14 +57,14 @@ export default class Room extends React.Component {
               handleChange={this.handleData}
             />
           )}
-          <Button
-            variant="link"
+          <br />
+          <HyperLink
             onClick={() => {
               this.setState({ joinRoomDisplay: !joinRoomDisplay });
             }}
           >
-            new Room Creation
-          </Button>
+            Create New Room
+          </HyperLink>
         </div>
       );
     }

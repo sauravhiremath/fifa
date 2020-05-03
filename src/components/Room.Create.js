@@ -1,5 +1,6 @@
 import React from 'react';
-import { Form, FormControl, InputGroup, Button } from 'react-bootstrap';
+import { Form, FormControl, InputGroup } from 'react-bootstrap';
+import Button from 'react-uwp/Button';
 
 // TODO: Add Successfull creation of room authSuccess -> true
 export default class Create extends React.Component {

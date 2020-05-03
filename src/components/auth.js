@@ -1,5 +1,6 @@
 import React from 'react';
-import { Form, Button, InputGroup, FormControl } from 'react-bootstrap';
+import { Form, InputGroup, FormControl } from 'react-bootstrap';
+import Button from 'react-uwp/Button';
 
 export default class Auth extends React.Component {
   constructor(props) {
@@ -41,7 +42,7 @@ export default class Auth extends React.Component {
               onChange={this.handleUsernameChange}
             />
             <InputGroup.Append>
-              <Button variant="dark" type="submit">
+              <Button>
                 Submit
               </Button>
             </InputGroup.Append>
