@@ -12,13 +12,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-.TeamBox {
+.myTeamBox {
   height: 60vh;
   overflow-y: scroll;
   cursor: pointer;
 }
 
-.playerRow {
+.playerHitsRow {
   border-bottom: 1px solid #ebeced2c;
   text-align: left;
   margin: 5px 0;
@@ -27,15 +27,22 @@ code {
   cursor: pointer;
 }
 
-.playerImage {
+.playerHitsRow:hover {
+  -webkit-box-shadow: 0px 1px 0px 0px rgba(240, 240, 240, 0.28);
+  -moz-box-shadow: 0px 1px 0px 0px rgba(240, 240, 240, 0.28);
+  box-shadow: 0px 1px 0px 0px rgba(240, 240, 240, 0.28);
+  background-color: rgba(0, 118, 215, 0.123);
+}
+
+.playerHitsImage {
   margin-right: 10px;
 }
 
-.playerContent {
+.playerHitsContent {
   padding: 10px;
 }
 
-.resultsBox {
+.playerHitsBox {
   height: 100vh;
   overflow-y: scroll;
 }

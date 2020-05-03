@@ -1,14 +1,18 @@
 import React from 'react';
+import * as PropTypes from 'prop-types';
 import algoliasearch from 'algoliasearch/lite';
 import { InstantSearch, SearchBox, connectHits } from 'react-instantsearch-dom';
 
 const searchClient = algoliasearch('latency', '6be0576ff61c053d5f9a3225e2a90f76');
 
-export default class Searchbar extends React.Component {
+export default class Game extends React.Component {
+  static contextTypes = { theme: PropTypes.object };
+
   PlayerHits = () => {
     const CustomHits = connectHits(this.Hits);
+
     return (
-      <div className="resultsBox">
+      <div className="playerHitsBox">
         <CustomHits />
       </div>
     );
@@ -20,15 +24,15 @@ export default class Searchbar extends React.Component {
         {hits.map(item => (
           <div
             key={item.objectID}
-            className="playerRow"
+            className="playerHitsRow"
             onClick={() => {
               this.updatePlayerList(item);
             }}
           >
-            <div className="playerImage">
+            <div className="playerHitsImage">
               <img src={item.photo_url} alt="" />
             </div>
-            <div className="playerContent">
+            <div className="playerHitsContent">
               <div>{item.name}</div>
               <div>{item.rating}</div>
             </div>
@@ -44,8 +48,13 @@ export default class Searchbar extends React.Component {
   };
 
   render() {
+    const { theme } = this.context;
+
     return (
-      <div className="d-none d-sm-block">
+      <div
+        className="d-none d-sm-block"
+        style={{ background: theme.useFluentDesign ? theme.acrylicTexture80.background : 'none' }}
+      >
         <InstantSearch indexName="bestbuy" searchClient={searchClient}>
           <SearchBox
             showLoadingIndicator

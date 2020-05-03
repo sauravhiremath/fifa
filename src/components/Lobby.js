@@ -1,18 +1,14 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 import { Col, Row, Table, Button } from 'react-bootstrap';
-import Searchbar from './SearchBar';
-import ListView from 'react-uwp/ListView';
-import Theme, { getTheme } from 'react-uwp/Theme';
-
-import mockPlayers from '../tests/playersFill.test';
+import PlayerSearch from './PlayerSearch';
 
 export default class Lobby extends React.Component {
   state = {
     playersSelected: []
   };
 
-  static contextTypes = { theme: PropTypes.object, enableNoiseTexture: true };
+  static contextTypes = { theme: PropTypes.object };
 
   handleNewRowSubmit = newPlayer => {
     const { playersSelected } = this.state;
@@ -54,7 +50,7 @@ export default class Lobby extends React.Component {
     return (
       <Row className="mh-100 no-gutters">
         <Col lg={3} md={6} style={{ background: theme.useFluentDesign ? theme.acrylicTexture80.background : 'none' }}>
-          <div className="TeamBox">
+          <div className="myTeamBox">
             <Table
               striped
               borderless
@@ -62,9 +58,6 @@ export default class Lobby extends React.Component {
               variant="dark"
               id="team_players"
               style={{ background: theme.accentDarker2 }}
-              hoverStyle={{
-                background: theme.altMedium
-              }}
             >
               <thead>
                 <tr>
@@ -78,17 +71,17 @@ export default class Lobby extends React.Component {
             </Table>
           </div>
         </Col>
-        <Col lg={3} md={6}>
-          <h1>Chat box here soon</h1>
-        </Col>
         <Col style={{ background: theme.useFluentDesign ? theme.acrylicTexture80.background : 'none' }}>
-          <Searchbar
+          <PlayerSearch
             addPlayer={this.handleNewRowSubmit}
             style={{ background: theme.accentDarker2 }}
             hoverStyle={{
               background: theme.altMedium
             }}
           />
+        </Col>
+        <Col lg={3} md={6}>
+          <h1>Chat box here soon</h1>
         </Col>
       </Row>
     );
