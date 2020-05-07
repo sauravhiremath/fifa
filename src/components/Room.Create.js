@@ -29,7 +29,8 @@ export default class Create extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { roomId, password } = this.props;
+    const { roomId, password, authSuccess } = this.props;
+    authSuccess({ success: true }); // This is done only if 200 from server
     console.log(roomId, password);
   }
 

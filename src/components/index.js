@@ -1,4 +1,4 @@
-export { default as Auth } from './auth';
+export { default as Auth } from './Auth';
 export { default as Room } from './Room';
-export { default as Nav } from './nav';
-export { default as Home } from './home';
+export { default as Nav } from './Nav';
+export { default as Home } from './Home';

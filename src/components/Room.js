@@ -68,6 +68,6 @@ export default class Room extends React.Component {
         </div>
       );
     }
-    return <Lobby />;
+    return <Lobby username={this.props.username} action={joinRoomDisplay ? 'join' : 'create'} />;
   }
 }

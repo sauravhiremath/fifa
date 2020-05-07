@@ -1,7 +1,9 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
-import { Col, Row, Table, Button } from 'react-bootstrap';
+import { Col, Row, Table } from 'react-bootstrap';
 import PlayerSearch from './PlayerSearch';
+import GroupChat from './GroupChat';
+import { SockerInit } from './Socker';
 
 export default class Lobby extends React.Component {
   state = {
@@ -46,6 +48,7 @@ export default class Lobby extends React.Component {
 
   render() {
     const { theme } = this.context;
+    const socker = SockerInit(this.props.username, this.props.action);
 
     return (
       <Row className="mh-100 no-gutters">
@@ -81,7 +84,7 @@ export default class Lobby extends React.Component {
           />
         </Col>
         <Col lg={3} md={6}>
-          <h1>Chat box here soon</h1>
+          <GroupChat />
         </Col>
       </Row>
     );

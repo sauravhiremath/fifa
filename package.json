@@ -1,6 +1,6 @@
 {
   "name": "fifa",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -13,13 +13,15 @@
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.0",
+    "react-chat-elements": "^10.9.2",
     "react-dom": "^16.13.1",
     "react-grid-layout": "^0.18.3",
     "react-instantsearch-dom": "^6.4.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
     "react-uwp": "^1.3.1",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "socket.io-client": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
