@@ -1,15 +1,22 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import { Form, InputGroup, FormControl } from 'react-bootstrap';
 import Button from 'react-uwp/Button';
 
 export default class Auth extends React.Component {
+  state = { redirectToReferrer: false };
+
   constructor(props) {
     super(props);
-    this.isLoggedIn = false;
     this.enterUsername = this.enterUsername.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
-    this.handleUsernameSubmit = this.handleUsernameSubmit.bind(this);
   }
+
+  static propTypes = {
+    location: PropTypes.object.isRequired,
+    changeAuth: PropTypes.func.isRequired
+  };
 
   componentDidMount() {
     this.usernameInput.focus();
@@ -20,16 +27,22 @@ export default class Auth extends React.Component {
     this.setState({ username });
   }
 
-  handleUsernameSubmit(event) {
+  login = event => {
+    // Send login request here. True only when 200 status from server
     event.preventDefault();
     const { username } = this.state;
+    const { changeAuth } = this.props;
     localStorage.setItem('username', username);
-  }
+    changeAuth({ success: true });
+    this.setState({
+      redirectToReferrer: true
+    });
+  };
 
   enterUsername() {
     return (
       <div>
-        <Form onSubmit={this.handleUsernameSubmit}>
+        <Form onSubmit={this.login}>
           <InputGroup>
             <FormControl
               ref={input => {
@@ -42,9 +55,7 @@ export default class Auth extends React.Component {
               onChange={this.handleUsernameChange}
             />
             <InputGroup.Append>
-              <Button>
-                Submit
-              </Button>
+              <Button>Submit</Button>
             </InputGroup.Append>
           </InputGroup>
         </Form>
@@ -53,6 +64,13 @@ export default class Auth extends React.Component {
   }
 
   render() {
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
+    const { redirectToReferrer } = this.state;
+
+    if (redirectToReferrer === true) {
+      return <Redirect to={from} />;
+    }
+
     return (
       <div className="row align-items-center justify-content-left">
         <div className="col-sm-12 col-md-6">
@@ -72,9 +90,8 @@ const introInfo = () => {
         Build custom teams <br /> with your friends. <br />
       </div>
       <div>
-        Create or join a room to start <br />
-        custom draft with your friends <br />
+        Create or join a room to start <br /> custom draft with your friends <br />
       </div>
     </div>
   );
-}
+};

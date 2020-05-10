@@ -35,7 +35,7 @@ export default class Nav extends React.Component {
         <Navbar.Brand href="/">
           <img src={logo} width="30" height="30" className="d-inline-block align-top" alt="logo" /> Fifa.io
         </Navbar.Brand>
-        {this.loginStatus}
+        <this.loginStatus />
       </Navbar>
     );
   }

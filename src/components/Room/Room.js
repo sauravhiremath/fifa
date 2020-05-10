@@ -1,17 +1,22 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import HyperLink from 'react-uwp/HyperLink';
 
 import Welcome from './Room.Welcome';
 import JoinRoom from './Room.Join';
 import CreateRoom from './Room.Create';
-import Lobby from './Lobby';
+import Lobby from '../Core/Lobby';
 
 export default class Room extends React.Component {
   state = {
     roomId: '',
     password: '',
-    joinRoomDisplay: true,
-    authSuccess: false
+    joinRoomDisplay: true
+  };
+
+  static propTypes = {
+    username: PropTypes.string.isRequired,
+    route: PropTypes.node.isRequired
   };
 
   handleData = data => {
@@ -26,34 +31,31 @@ export default class Room extends React.Component {
     console.log(`A name was submitted: ${password}`);
   };
 
-  authSuccess = data => {
+  handleAuth = data => {
+    const { changeAuth } = this.props;
     if (data.success) {
-      this.setState({ authSuccess: true });
+      changeAuth({ success: true });
     }
   };
 
   render() {
-    const { roomId, password, authSuccess, joinRoomDisplay } = this.state;
+    const { roomId, password, joinRoomDisplay } = this.state;
+    const { isAuth } = this.props.route;
     const username = localStorage.getItem('username');
 
-    if (!authSuccess) {
+    if (!isAuth) {
       return (
         <div className="p-3">
           <Welcome username={username} />
           <hr />
           {joinRoomDisplay && (
-            <JoinRoom
-              roomId={roomId}
-              password={password}
-              authSuccess={this.authSuccess}
-              handleChange={this.handleData}
-            />
+            <JoinRoom roomId={roomId} password={password} changeAuth={this.handleAuth} handleChange={this.handleData} />
           )}
           {!joinRoomDisplay && (
             <CreateRoom
               roomId={roomId}
               password={password}
-              authSuccess={this.authSuccess}
+              changeAuth={this.handleAuth}
               handleChange={this.handleData}
             />
           )}

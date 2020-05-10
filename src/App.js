@@ -14,6 +14,22 @@ export default class App extends React.Component {
     isAuth: false
   };
 
+  handleRoomAuth = data => {
+    if (data.success) {
+      this.setState({
+        isAuth: true
+      });
+    }
+  };
+
+  handleProfileAuth = data => {
+    if (data.success) {
+      this.setState({
+        isAuth: true
+      });
+    }
+  };
+
   render() {
     return (
       <Router>
@@ -29,11 +45,9 @@ export default class App extends React.Component {
             <Nav />
             <Container fluid="sm" className="p-0">
               <Switch>
-                <Route path="/auth">
-                  <Auth />
-                </Route>
-                <PrivateRoute isAuth={this.state.isAuth} path="/room" component={Room} />
-                <PrivateRoute isAuth={this.state.isAuth} path="/" component={Home} />
+                <Route path="/auth" component={Auth} isAuth={this.state.isAuth} changeAuth={this.handleProfileAuth} />
+                <PrivateRoute path="/room" component={Room} />
+                <PrivateRoute path="/" component={Room} />
               </Switch>
             </Container>
           </div>
@@ -51,14 +65,15 @@ const PrivateRoute = ({ component: Component, isAuth, ...rest }) => {
         isAuth === true ? (
           <Component {...props} />
         ) : (
-          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-        )}
+          <Redirect to={{ pathname: '/auth', state: { from: props.location } }} />
+        )
+      }
     />
   );
 };
 
 PrivateRoute.propTypes = {
-  component: PropTypes.node.isRequired,
+  component: PropTypes.elementType.isRequired,
   isAuth: PropTypes.bool.isRequired,
-  location: PropTypes.string.isRequired
+  location: PropTypes.object.isRequired
 };

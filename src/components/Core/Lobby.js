@@ -1,9 +1,9 @@
 import React from 'react';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { Col, Row, Table } from 'react-bootstrap';
 import PlayerSearch from './PlayerSearch';
 import GroupChat from './GroupChat';
-import { SockerInit } from './Socker';
+import { SockerInit } from '../Socker';
 
 export default class Lobby extends React.Component {
   state = {
@@ -11,6 +11,11 @@ export default class Lobby extends React.Component {
   };
 
   static contextTypes = { theme: PropTypes.object };
+
+  static propTypes = {
+    username: PropTypes.string.isRequired,
+    action: PropTypes.string.isRequired
+  };
 
   handleNewRowSubmit = newPlayer => {
     const { playersSelected } = this.state;

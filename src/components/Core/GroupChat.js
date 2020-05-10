@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input, Button, MessageBox } from 'react-chat-elements';
-import { socker } from './Socker';
+import { socker } from '../Socker';
 
 class GroupChat extends React.Component {
   constructor(props) {

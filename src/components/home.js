@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Auth from './Auth';
-import Room from './Room';
+import Room from './Room/Room';
 
 const Home = () => {
   const username = localStorage.getItem('username');
