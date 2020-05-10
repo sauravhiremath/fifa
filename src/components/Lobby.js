@@ -21,9 +21,9 @@ export default class Lobby extends React.Component {
       rating: newPlayer['Overall Rating']
     };
     if (playersSelected.every(v => v.id !== playerInfo.id)) {
-      this.setState({ playersSelected: [...playersSelected, playerInfo] });
+      return this.setState({ playersSelected: [...playersSelected, playerInfo] });
     } else {
-      console.log('Player already added!');
+      return console.log('Player already added!');
     }
   };
 
@@ -49,6 +49,14 @@ export default class Lobby extends React.Component {
   render() {
     const { theme } = this.context;
     const socker = SockerInit(this.props.username, this.props.action);
+
+    socker.on('Error: Create a room first!', () => {
+      console.log('Error: Create a room first!');
+    });
+
+    socker.on('Error: Room already created. Join the room!', () => {
+      console.log('Error: Room already created. Join the room!');
+    });
 
     return (
       <Row className="mh-100 no-gutters">
