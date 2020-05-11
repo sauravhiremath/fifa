@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useRouteMatch, Route, Switch, Link, Redirect } from 'react-router-dom';
 import HyperLink from 'react-uwp/HyperLink';
 
 import Welcome from './Room.Welcome';
@@ -11,12 +11,8 @@ export default class Room extends React.Component {
   state = {
     roomId: '',
     password: '',
-    joinRoomDisplay: true
-  };
-
-  static propTypes = {
-    username: PropTypes.string.isRequired,
-    route: PropTypes.node.isRequired
+    action: 'join',
+    isAuth: false
   };
 
   handleData = data => {
@@ -32,15 +28,18 @@ export default class Room extends React.Component {
   };
 
   handleAuth = data => {
-    const { changeAuth } = this.props;
+    // ONly when recieved 200 from server for ROOM Authentication
+    const { isAuth } = this.state;
     if (data.success) {
-      changeAuth({ success: true });
+      this.setState({
+        isAuth: true
+      });
     }
   };
 
   render() {
-    const { roomId, password, joinRoomDisplay } = this.state;
-    const { isAuth } = this.props.route;
+    const { roomId, password, action, isAuth } = this.state;
+    const { pathname } = this.props.location;
     const username = localStorage.getItem('username');
 
     if (!isAuth) {
@@ -48,10 +47,15 @@ export default class Room extends React.Component {
         <div className="p-3">
           <Welcome username={username} />
           <hr />
-          {joinRoomDisplay && (
-            <JoinRoom roomId={roomId} password={password} changeAuth={this.handleAuth} handleChange={this.handleData} />
+          {action === 'join' && (
+            <JoinRoom
+              roomId={roomId}
+              password={password}
+              changeAuth={this.handleAuth}
+              handleChange={this.handleData}
+            />
           )}
-          {!joinRoomDisplay && (
+          {action === 'create' && (
             <CreateRoom
               roomId={roomId}
               password={password}
@@ -62,14 +66,32 @@ export default class Room extends React.Component {
           <br />
           <HyperLink
             onClick={() => {
-              this.setState({ joinRoomDisplay: !joinRoomDisplay });
+              this.setState(prevState => ({
+                action: prevState.action === 'join' ? 'create' : 'join'
+              }));
             }}
           >
-            Create New Room
+            {`${action === 'join' ? 'Create New' : 'Join'} Room`}
           </HyperLink>
         </div>
       );
     }
-    return <Lobby username={this.props.username} action={joinRoomDisplay ? 'join' : 'create'} />;
+
+    return (
+      <Switch>
+        <Redirect push to={{pathname: "/room", search: `?=${roomId}`}} />
+        <Route
+          path="/room:roomId"
+          render={props => (
+            <Lobby
+              {...props}
+              roomInfo={{ roomId, password }}
+              username={username}
+              action={action}
+            />
+          )}
+        />
+      </Switch>
+    );
   }
 }

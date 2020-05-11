@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { Theme as UWPThemeProvider, getTheme } from 'react-uwp/Theme';
 import { Container } from 'react-bootstrap';
-import { Nav, Home, Auth, Room } from './components';
+import { Nav, Auth, Room } from './components';
 import background from './images/background.jpg';
 
 import './App.css';
@@ -31,6 +31,8 @@ export default class App extends React.Component {
   };
 
   render() {
+    const { isAuth } = this.state;
+
     return (
       <Router>
         <UWPThemeProvider
@@ -45,9 +47,13 @@ export default class App extends React.Component {
             <Nav />
             <Container fluid="sm" className="p-0">
               <Switch>
-                <Route path="/auth" component={Auth} isAuth={this.state.isAuth} changeAuth={this.handleProfileAuth} />
-                <PrivateRoute path="/room" component={Room} />
-                <PrivateRoute path="/" component={Room} />
+                <Route
+                  path="/auth"
+                  render={props => (
+                    <Auth {...props} changeAuth={this.handleProfileAuth} />
+                  )}
+                />
+                <PrivateRoute path="/" component={Room} isAuthed={isAuth} />
               </Switch>
             </Container>
           </div>
@@ -57,12 +63,12 @@ export default class App extends React.Component {
   }
 }
 
-const PrivateRoute = ({ component: Component, isAuth, ...rest }) => {
+const PrivateRoute = ({ component: Component, isAuthed, ...rest }) => {
   return (
     <Route
       {...rest}
       render={props =>
-        isAuth === true ? (
+        isAuthed === true ? (
           <Component {...props} />
         ) : (
           <Redirect to={{ pathname: '/auth', state: { from: props.location } }} />
@@ -74,6 +80,6 @@ const PrivateRoute = ({ component: Component, isAuth, ...rest }) => {
 
 PrivateRoute.propTypes = {
   component: PropTypes.elementType.isRequired,
-  isAuth: PropTypes.bool.isRequired,
-  location: PropTypes.object.isRequired
+  isAuthed: PropTypes.bool.isRequired,
+  location: PropTypes.object
 };
