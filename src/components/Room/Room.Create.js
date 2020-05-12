@@ -1,17 +1,25 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Form, FormControl, InputGroup } from 'react-bootstrap';
 import Button from 'react-uwp/Button';
 
 // TODO: Add Successfull creation of room authSuccess -> true
 export default class Create extends React.Component {
+  static propTypes = {
+    handleChange: PropTypes.func.isRequired,
+    roomId: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired,
+    changeAuth: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
 
-    this.renderNewRoomId();
+    this.getNewRoomId();
 
     this.handleDataChange = this.handleDataChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.renderNewRoomId = this.renderNewRoomId.bind(this);
+    this.getNewRoomId = this.getNewRoomId.bind(this);
   }
 
   componentDidMount() {
@@ -29,18 +37,19 @@ export default class Create extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { roomId, password } = this.props;
+    const { roomId, password, changeAuth } = this.props;
     console.log(roomId, password);
+    changeAuth({ success: true }); // This is done only if 200 from server
   }
 
-  renderNewRoomId() {
+  getNewRoomId() {
     const { handleChange } = this.props;
-    const roomId = fetchRoomId();
+    const roomId = generateRoomId();
     handleChange({ roomId });
   }
 
   render() {
-    const { roomId, authSuccess } = this.props;
+    const { roomId } = this.props;
 
     return (
       <div>
@@ -70,7 +79,7 @@ export default class Create extends React.Component {
   }
 }
 
-function fetchRoomId() {
+function generateRoomId() {
   const roomId = '#A8HDG';
   return roomId;
 }

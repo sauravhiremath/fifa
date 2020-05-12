@@ -1,7 +1,10 @@
 import React from 'react';
-import * as PropTypes from 'prop-types';
-import { Col, Row, Table, Button } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
+import { Col, Row, Table } from 'react-bootstrap';
 import PlayerSearch from './PlayerSearch';
+import GroupChat from './GroupChat';
+import { SockerInit } from '../Socker';
 
 export default class Lobby extends React.Component {
   state = {
@@ -9,6 +12,12 @@ export default class Lobby extends React.Component {
   };
 
   static contextTypes = { theme: PropTypes.object };
+
+  static propTypes = {
+    roomInfo: PropTypes.object.isRequired,
+    username: PropTypes.string.isRequired,
+    action: PropTypes.string.isRequired
+  };
 
   handleNewRowSubmit = newPlayer => {
     const { playersSelected } = this.state;
@@ -19,9 +28,9 @@ export default class Lobby extends React.Component {
       rating: newPlayer['Overall Rating']
     };
     if (playersSelected.every(v => v.id !== playerInfo.id)) {
-      this.setState({ playersSelected: [...playersSelected, playerInfo] });
+      return this.setState({ playersSelected: [...playersSelected, playerInfo] });
     } else {
-      console.log('Player already added!');
+      return console.log('Player already added!');
     }
   };
 
@@ -45,11 +54,27 @@ export default class Lobby extends React.Component {
   };
 
   render() {
+    const { roomId, password } = this.props.roomInfo;
     const { theme } = this.context;
+    const socker = SockerInit(this.props.username, this.props.action);
+
+    socker.on('Error: Create a room first!', () => {
+      console.log('Error: Create a room first!');
+    });
+
+    socker.on('Error: Room already created. Join the room!', () => {
+      console.log('Error: Room already created. Join the room!');
+    });
 
     return (
       <Row className="mh-100 no-gutters">
-        <Col lg={3} md={6} style={{ background: theme.useFluentDesign ? theme.acrylicTexture80.background : 'none' }}>
+        <Col
+          lg={3}
+          md={6}
+          style={{
+            background: theme.useFluentDesign ? theme.acrylicTexture80.background : 'none'
+          }}
+        >
           <div className="myTeamBox">
             <Table
               striped
@@ -71,7 +96,11 @@ export default class Lobby extends React.Component {
             </Table>
           </div>
         </Col>
-        <Col style={{ background: theme.useFluentDesign ? theme.acrylicTexture80.background : 'none' }}>
+        <Col
+          style={{
+            background: theme.useFluentDesign ? theme.acrylicTexture80.background : 'none'
+          }}
+        >
           <PlayerSearch
             addPlayer={this.handleNewRowSubmit}
             style={{ background: theme.accentDarker2 }}
@@ -81,7 +110,7 @@ export default class Lobby extends React.Component {
           />
         </Col>
         <Col lg={3} md={6}>
-          <h1>Chat box here soon</h1>
+          <GroupChat />
         </Col>
       </Row>
     );

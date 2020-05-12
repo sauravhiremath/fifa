@@ -1,17 +1,40 @@
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { Theme as UWPThemeProvider, getTheme } from 'react-uwp/Theme';
 import { Container } from 'react-bootstrap';
-import { Nav, Home } from './components';
+import { Nav, Auth, Room } from './components';
 import background from './images/background.jpg';
 
 import './App.css';
+import 'react-chat-elements/dist/main.css';
 
-const App = () => {
-  return (
-    <Router>
-      <div className="App">
-        <Nav />
+export default class App extends React.Component {
+  state = {
+    isAuth: false
+  };
+
+  handleRoomAuth = data => {
+    if (data.success) {
+      this.setState({
+        isAuth: true
+      });
+    }
+  };
+
+  handleProfileAuth = data => {
+    if (data.success) {
+      this.setState({
+        isAuth: true
+      });
+    }
+  };
+
+  render() {
+    const { isAuth } = this.state;
+
+    return (
+      <Router>
         <UWPThemeProvider
           theme={getTheme({
             themeName: 'dark', // set custom theme
@@ -20,13 +43,43 @@ const App = () => {
             desktopBackgroundImage: background // set global desktop background image
           })}
         >
-          <Container fluid="sm" className="p-0">
-            <Home />
-          </Container>
+          <div className="App">
+            <Nav />
+            <Container fluid="sm" className="p-0">
+              <Switch>
+                <Route
+                  path="/auth"
+                  render={props => (
+                    <Auth {...props} changeAuth={this.handleProfileAuth} />
+                  )}
+                />
+                <PrivateRoute path="/" component={Room} isAuthed={isAuth} />
+              </Switch>
+            </Container>
+          </div>
         </UWPThemeProvider>
-      </div>
-    </Router>
+      </Router>
+    );
+  }
+}
+
+const PrivateRoute = ({ component: Component, isAuthed, ...rest }) => {
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        isAuthed === true ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to={{ pathname: '/auth', state: { from: props.location } }} />
+        )
+      }
+    />
   );
 };
 
-export default App;
+PrivateRoute.propTypes = {
+  component: PropTypes.elementType.isRequired,
+  isAuthed: PropTypes.bool.isRequired,
+  location: PropTypes.object
+};

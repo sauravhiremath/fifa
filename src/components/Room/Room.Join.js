@@ -1,9 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Form, InputGroup, FormControl } from 'react-bootstrap';
 import Button from 'react-uwp/Button';
 import { InputGroupText } from 'react-bootstrap/InputGroup';
 
 export default class JoinRoom extends React.Component {
+  static propTypes = {
+    handleChange: PropTypes.func.isRequired,
+    roomId: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired,
+    changeAuth: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
 
@@ -32,9 +40,9 @@ export default class JoinRoom extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { roomId, password, authSuccess } = this.props;
+    const { roomId, password, changeAuth } = this.props;
     console.log('roomId and password are', roomId, password);
-    authSuccess({ success: true }); // This is done only if 200 from server
+    changeAuth({ success: true }); // This is done only if 200 status code from server
   }
 
   render() {

@@ -1,5 +1,5 @@
 import React from 'react';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import algoliasearch from 'algoliasearch/lite';
 import { InstantSearch, SearchBox, connectHits } from 'react-instantsearch-dom';
 
@@ -7,6 +7,10 @@ const searchClient = algoliasearch('latency', '6be0576ff61c053d5f9a3225e2a90f76'
 
 export default class Game extends React.Component {
   static contextTypes = { theme: PropTypes.object };
+
+  static propTypes = {
+    addPlayer: PropTypes.func.isRequired
+  };
 
   PlayerHits = () => {
     const CustomHits = connectHits(this.Hits);
