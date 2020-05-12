@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRouteMatch, Route, Switch, Link, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-router-dom';
 import HyperLink from 'react-uwp/HyperLink';
 
 import Welcome from './Room.Welcome';
@@ -28,7 +28,7 @@ export default class Room extends React.Component {
   };
 
   handleAuth = data => {
-    // ONly when recieved 200 from server for ROOM Authentication
+    // Only when recieved 200 from server for ROOM Authentication
     const { isAuth } = this.state;
     if (data.success) {
       this.setState({
@@ -78,20 +78,30 @@ export default class Room extends React.Component {
     }
 
     return (
-      <Switch>
-        <Redirect push to={{pathname: "/room", search: `?=${roomId}`}} />
-        <Route
-          path="/room:roomId"
-          render={props => (
-            <Lobby
-              {...props}
-              roomInfo={{ roomId, password }}
-              username={username}
-              action={action}
-            />
-          )}
-        />
-      </Switch>
+      <Router>
+        <Switch>
+          <Route
+            exact
+            path="/room"
+            render={props => (
+              <Lobby
+                {...props}
+                roomInfo={{ roomId, password }}
+                username={username}
+                action={action}
+              />
+            )}
+          />
+          <Redirect
+            push
+            to={{
+              pathname: '/room',
+              search: `?=${roomId}`,
+              state: { referrer: '/' }
+            }}
+          />
+        </Switch>
+      </Router>
     );
   }
 }
