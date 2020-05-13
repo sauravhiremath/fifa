@@ -9,6 +9,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 export function SockerInit(username, action) {
-  const socker = openSocket(sockerURL, { path: '/classic-mode', query: { roomId: '#558909', action } });
+  const socker = openSocket(sockerURL, { path: '/classic-mode', query: { username, roomId: '558909', action } });
   return socker;
 }

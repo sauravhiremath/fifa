@@ -39,7 +39,6 @@ export default class Room extends React.Component {
 
   render() {
     const { roomId, password, action, isAuth } = this.state;
-    const { pathname } = this.props.location;
     const username = localStorage.getItem('username');
 
     if (!isAuth) {
@@ -81,7 +80,6 @@ export default class Room extends React.Component {
       <Router>
         <Switch>
           <Route
-            exact
             path="/room"
             render={props => (
               <Lobby
