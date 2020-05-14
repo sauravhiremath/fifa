@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, InputGroup, FormControl } from 'react-bootstrap';
 import Button from 'react-uwp/Button';
-import { InputGroupText } from 'react-bootstrap/InputGroup';
 
 export default class JoinRoom extends React.Component {
   static propTypes = {

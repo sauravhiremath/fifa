@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import HyperLink from 'react-uwp/HyperLink';
 
 import Welcome from './Room.Welcome';
@@ -29,7 +29,6 @@ export default class Room extends React.Component {
 
   handleAuth = data => {
     // Only when recieved 200 from server for ROOM Authentication
-    const { isAuth } = this.state;
     if (data.success) {
       this.setState({
         isAuth: true

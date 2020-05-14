@@ -9,8 +9,12 @@ import ErrorHandler from './ErrorHandler';
 
 export default class Lobby extends React.Component {
   state = {
-    playersSelected: []
+    playersSelected: [],
+    errorTitle: 'Unknown Error',
+    errorContent: 'Unknown Error'
   };
+
+  static socker = SockerInit(this.props.username, this.props.action);
 
   static contextTypes = { theme: PropTypes.object };
 
@@ -19,6 +23,25 @@ export default class Lobby extends React.Component {
     username: PropTypes.string.isRequired,
     action: PropTypes.string.isRequired
   };
+
+  constructor() {
+    super(props);
+    socker.on('Error: Create a room first!', () => {
+      console.log('Error: Create a room first!');
+      this.setState({
+        errorTitle: 'ROOM NOT FOUND',
+        errorContent: 'Error: Create a new Room or enter the correct ROOM ID'
+      });
+    });
+
+    socker.on('Error: Room already created. Join the room!', () => {
+      console.log('Error: Create a new room again or Join existing one!');
+      this.setState({
+        errorTitle: 'ROOM ALREADY PRESENT',
+        errorContent: 'Error: Join the existing room or Create a new room again'
+      });
+    });
+  }
 
   handleNewRowSubmit = newPlayer => {
     const { playersSelected } = this.state;
@@ -55,23 +78,11 @@ export default class Lobby extends React.Component {
   };
 
   render() {
+    const { errorTitle, errorContent } = this.state;
     const { roomId, password } = this.props.roomInfo;
     const { theme } = this.context;
-    const socker = SockerInit(this.props.username, this.props.action);
 
-    socker.on('Error: Create a room first!', () => {
-      console.log('Error: Create a room first!');
-    });
-
-    return (
-      <ErrorHandler
-        redirectUrl="/"
-        error={{ title: 'NO ROOM FOUND', content: 'Error: Create a room first!' }}
-      />
-    );
-
-    socker.on('Error: Room already created. Join the room!', () => {
-      console.log('Error: Create a new room again or Join existing one!');
+    if (errorTitle || errorContent) {
       return (
         <ErrorHandler
           redirectUrl="/"
@@ -81,7 +92,7 @@ export default class Lobby extends React.Component {
           }}
         />
       );
-    });
+    }
 
     return (
       <Row className="mh-100 no-gutters">

@@ -15,7 +15,7 @@ export default class App extends React.Component {
   };
 
   handleRoomAuth = data => {
-    if (data.success) {
+    if (data.success ) {
       this.setState({
         isAuth: true
       });
@@ -72,8 +72,7 @@ const PrivateRoute = ({ component: Component, isAuthed, ...rest }) => {
           <Component {...props} />
         ) : (
           <Redirect to={{ pathname: '/auth', state: { from: props.location } }} />
-        )
-      }
+        )}
     />
   );
 };
