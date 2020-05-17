@@ -1,4 +1,5 @@
 import React from 'react';
+import Cookies from 'js-cookie';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import HyperLink from 'react-uwp/HyperLink';
 
@@ -38,7 +39,8 @@ export default class Room extends React.Component {
 
   render() {
     const { roomId, password, action, isAuth } = this.state;
-    const username = localStorage.getItem('username');
+    const token = Cookies.get('fifa-profile');
+    const username = parseJwt(token).username;
 
     if (!isAuth) {
       return (
@@ -102,3 +104,11 @@ export default class Room extends React.Component {
     );
   }
 }
+
+const parseJwt = (token) => {
+  try {
+    return JSON.parse(atob(token.split('.')[1]));
+  } catch (e) {
+    return null;
+  }
+};

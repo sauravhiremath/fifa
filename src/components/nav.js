@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Cookies from 'js-cookie';
 import { Navbar, Form, Button } from 'react-bootstrap';
 import logo from '../logo.svg';
 
@@ -7,9 +8,10 @@ export default class Nav extends React.Component {
   static contextTypes = { theme: PropTypes.object };
 
   loginStatus = () => {
-    const username = localStorage.getItem('username');
-
-    if (username !== '') {
+    const token = Cookies.get('fifa-profile');
+    console.log(token);
+    if (token) {
+      const username = parseJwt(token).username;
       return (
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
@@ -40,3 +42,11 @@ export default class Nav extends React.Component {
     );
   }
 }
+
+const parseJwt = (token) => {
+  try {
+    return JSON.parse(atob(token.split('.')[1]));
+  } catch (e) {
+    return null;
+  }
+};

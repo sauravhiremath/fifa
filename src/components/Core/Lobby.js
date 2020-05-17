@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
 import { Col, Row, Table } from 'react-bootstrap';
 import PlayerSearch from './PlayerSearch';
 import GroupChat from './GroupChat';
@@ -14,8 +13,6 @@ export default class Lobby extends React.Component {
     errorContent: 'Unknown Error'
   };
 
-  static socker = SockerInit(this.props.username, this.props.action);
-
   static contextTypes = { theme: PropTypes.object };
 
   static propTypes = {
@@ -24,8 +21,10 @@ export default class Lobby extends React.Component {
     action: PropTypes.string.isRequired
   };
 
-  constructor() {
+  constructor(props) {
     super(props);
+    const socker = SockerInit(this.props.username, this.props.action);
+
     socker.on('Error: Create a room first!', () => {
       console.log('Error: Create a room first!');
       this.setState({

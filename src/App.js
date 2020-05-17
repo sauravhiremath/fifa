@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Cookies from 'js-cookie';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { Theme as UWPThemeProvider, getTheme } from 'react-uwp/Theme';
 import { Container } from 'react-bootstrap';
@@ -14,13 +15,12 @@ export default class App extends React.Component {
     isAuth: false
   };
 
-  handleRoomAuth = data => {
-    if (data.success ) {
-      this.setState({
-        isAuth: true
-      });
+  componentDidMount() {
+    const cookie = Cookies.get('fifa-profile');
+    if (cookie) {
+      this.setState({ isAuth: true });
     }
-  };
+  }
 
   handleProfileAuth = data => {
     if (data.success) {
@@ -47,13 +47,14 @@ export default class App extends React.Component {
             <Nav />
             <Container fluid="sm" className="p-0">
               <Switch>
-                <Route
+                <PrivateRoute exact path="/" component={Room} isAuthed={isAuth} />
+                <AuthRoute
+                  strict
+                  exact
                   path="/auth"
-                  render={props => (
-                    <Auth {...props} changeAuth={this.handleProfileAuth} />
-                  )}
+                  component={Auth}
+                  changeAuth={this.handleProfileAuth}
                 />
-                <PrivateRoute path="/" component={Room} isAuthed={isAuth} />
               </Switch>
             </Container>
           </div>
@@ -72,7 +73,8 @@ const PrivateRoute = ({ component: Component, isAuthed, ...rest }) => {
           <Component {...props} />
         ) : (
           <Redirect to={{ pathname: '/auth', state: { from: props.location } }} />
-        )}
+        )
+      }
     />
   );
 };
@@ -81,4 +83,26 @@ PrivateRoute.propTypes = {
   component: PropTypes.elementType.isRequired,
   isAuthed: PropTypes.bool.isRequired,
   location: PropTypes.object
+};
+
+const AuthRoute = ({ component: Component, isAuthed, changeAuth, ...rest }) => {
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        !isAuthed ? (
+          <Component {...props} changeAuth={changeAuth} />
+        ) : (
+          <Redirect from='/auth' to={{ pathname: '/', state: { from: props.location } }} />
+        )
+      }
+    />
+  );
+};
+
+AuthRoute.propTypes = {
+  component: PropTypes.elementType.isRequired,
+  isAuthed: PropTypes.bool.isRequired,
+  location: PropTypes.object,
+  changeAuth: PropTypes.func.isRequired
 };

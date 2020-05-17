@@ -2,19 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 import { Form, InputGroup, FormControl } from 'react-bootstrap';
 import Button from 'react-uwp/Button';
 import ErrorHandler from './Core/ErrorHandler';
 
 export default class Auth extends React.Component {
-  state = { redirectToReferrer: false };
-
-  constructor(props) {
-    super(props);
-    this.enterUsername = this.enterUsername.bind(this);
-    this.handleUsernameChange = this.handleUsernameChange.bind(this);
-  }
+  state = { username: '', redirectToReferrer: false };
 
   static propTypes = {
     location: PropTypes.object.isRequired,
@@ -22,13 +17,20 @@ export default class Auth extends React.Component {
   };
 
   componentDidMount() {
-    this.usernameInput.focus();
+    const cookie = Cookies.get('fifa-profile');
+    if (cookie) {
+      this.setState({ redirectToReferrer: true });
+    }
   }
 
-  handleUsernameChange(event) {
+  componentDidMount = () => {
+    this.usernameInput.focus();
+  };
+
+  handleUsernameChange = event => {
     const username = event.target.value;
     this.setState({ username });
-  }
+  };
 
   login = async event => {
     // Send login request here. True only when 200 status from server
@@ -37,19 +39,18 @@ export default class Auth extends React.Component {
     const { changeAuth } = this.props;
 
     const response = await axios.post('http://localhost:3003/auth/login', { username });
-    if (!response || !response.success) {
+    console.log(JSON.stringify(response));
+    if (!response || !response.data.success) {
       return (
         <ErrorHandler
           redirectUrl="/"
-          error={{ title: 'NO ROOM FOUND', content: response.message }}
+          error={{ title: 'AUTH FAILED, TRY AGAIN!', content: response.message }}
         />
       );
     }
-    localStorage.setItem('token', response.token);
+    Cookies.set('fifa-profile', response.data.token);
     changeAuth({ success: true });
-    return this.setState({
-      redirectToReferrer: true
-    });
+    this.setState({ redirectToReferrer: true });
   };
 
   enterUsername() {
