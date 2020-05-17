@@ -53,6 +53,7 @@ export default class App extends React.Component {
                   exact
                   path="/auth"
                   component={Auth}
+                  isAuthed={isAuth}
                   changeAuth={this.handleProfileAuth}
                 />
               </Switch>

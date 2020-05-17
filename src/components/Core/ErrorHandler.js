@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BrowserRouter as Router, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { ContentDialog } from 'react-uwp';
 
 export default class ErrorHandler extends React.Component {
-  // Render Error modal
-  // Received props -> Redirect URL
-  //                -> Erorr Topic and Message
-
+  /**
+   * Render Error modal
+   * Received props -> Redirect URL
+   *                -> Erorr Topic and Message
+  */
   state = {
     redirect: false
   };
@@ -23,9 +24,9 @@ export default class ErrorHandler extends React.Component {
 
     if (redirect) {
       return (
-        <Router>
+        <div>
           <Redirect exact to={`${redirectUrl}`} />
-        </Router>
+        </div>
       );
     }
 

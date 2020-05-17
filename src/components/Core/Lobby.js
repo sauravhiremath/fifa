@@ -3,14 +3,11 @@ import PropTypes from 'prop-types';
 import { Col, Row, Table } from 'react-bootstrap';
 import PlayerSearch from './PlayerSearch';
 import GroupChat from './GroupChat';
-import { SockerInit } from '../Socker';
 import ErrorHandler from './ErrorHandler';
 
 export default class Lobby extends React.Component {
   state = {
     playersSelected: [],
-    errorTitle: 'Unknown Error',
-    errorContent: 'Unknown Error'
   };
 
   static contextTypes = { theme: PropTypes.object };
@@ -20,27 +17,6 @@ export default class Lobby extends React.Component {
     username: PropTypes.string.isRequired,
     action: PropTypes.string.isRequired
   };
-
-  constructor(props) {
-    super(props);
-    const socker = SockerInit(this.props.username, this.props.action);
-
-    socker.on('Error: Create a room first!', () => {
-      console.log('Error: Create a room first!');
-      this.setState({
-        errorTitle: 'ROOM NOT FOUND',
-        errorContent: 'Error: Create a new Room or enter the correct ROOM ID'
-      });
-    });
-
-    socker.on('Error: Room already created. Join the room!', () => {
-      console.log('Error: Create a new room again or Join existing one!');
-      this.setState({
-        errorTitle: 'ROOM ALREADY PRESENT',
-        errorContent: 'Error: Join the existing room or Create a new room again'
-      });
-    });
-  }
 
   handleNewRowSubmit = newPlayer => {
     const { playersSelected } = this.state;
@@ -77,21 +53,22 @@ export default class Lobby extends React.Component {
   };
 
   render() {
-    const { errorTitle, errorContent } = this.state;
     const { roomId, password } = this.props.roomInfo;
     const { theme } = this.context;
 
-    if (errorTitle || errorContent) {
-      return (
-        <ErrorHandler
-          redirectUrl="/"
-          error={{
-            topic: 'ROOM ALREADY PRESENT',
-            content: 'Error: Create a new room again or Join existing one!'
-          }}
-        />
-      );
-    }
+    // if (errorTitle || errorContent) {
+    //   return (
+    //     <Route>
+    //       <ErrorHandler
+    //         redirectUrl="/"
+    //         error={{
+    //           topic: 'ROOM ALREADY PRESENT',
+    //           content: 'Error: Create a new room again or Join existing one!'
+    //         }}
+    //       />
+    //     </Route>
+    //   );
+    // }
 
     return (
       <Row className="mh-100 no-gutters">

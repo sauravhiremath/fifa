@@ -1,10 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import Cookies from 'js-cookie';
 
-const Welcome = ({ username }) => <div>Welcome {username}</div>;
-
-Welcome.propTypes = {
-  username: PropTypes.string.isRequired
+const Welcome = () => {
+  const token = Cookies.get('fifa-profile');
+  const username = parseJwt(token).username;
+  return <div>Welcome {username}</div>;
 };
 
 export default Welcome;
+
+const parseJwt = token => {
+  try {
+    return JSON.parse(atob(token.split('.')[1]));
+  } catch (e) {
+    return null;
+  }
+};

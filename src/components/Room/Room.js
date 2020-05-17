@@ -7,14 +7,21 @@ import Welcome from './Room.Welcome';
 import JoinRoom from './Room.Join';
 import CreateRoom from './Room.Create';
 import Lobby from '../Core/Lobby';
+import { SockerInit } from '../Socker/Socker';
+import { initListeners } from '../Socker/listeners';
+
+export let socker = undefined;
 
 export default class Room extends React.Component {
   state = {
+    username: '',
     roomId: '',
     password: '',
     action: 'join',
     isAuth: false
   };
+
+  spawnInitListeners = initListeners;
 
   handleData = data => {
     Object.entries(data).forEach(([key, val]) => {
@@ -22,30 +29,23 @@ export default class Room extends React.Component {
     });
   };
 
-  handleSubmit = event => {
-    event.preventDefault();
-    const { password } = this.state;
-    console.log(`A name was submitted: ${password}`);
-  };
-
   handleAuth = data => {
     // Only when recieved 200 from server for ROOM Authentication
-    if (data.success) {
-      this.setState({
-        isAuth: true
-      });
-    }
+    const token = Cookies.get('fifa-profile');
+    this.setState({ username: parseJwt(token).username });
+    const { username, action } = this.state;
+    socker = SockerInit(username, action);
+    this.spawnInitListeners = this.spawnInitListeners.bind(this);
+    this.spawnInitListeners(socker);
   };
 
   render() {
-    const { roomId, password, action, isAuth } = this.state;
-    const token = Cookies.get('fifa-profile');
-    const username = parseJwt(token).username;
+    const { username, roomId, password, action, isAuth } = this.state;
 
     if (!isAuth) {
       return (
         <div className="p-3">
-          <Welcome username={username} />
+          <Welcome />
           <hr />
           {action === 'join' && (
             <JoinRoom
@@ -105,7 +105,7 @@ export default class Room extends React.Component {
   }
 }
 
-const parseJwt = (token) => {
+const parseJwt = token => {
   try {
     return JSON.parse(atob(token.split('.')[1]));
   } catch (e) {

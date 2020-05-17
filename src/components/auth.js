@@ -39,7 +39,6 @@ export default class Auth extends React.Component {
     const { changeAuth } = this.props;
 
     const response = await axios.post('http://localhost:3003/auth/login', { username });
-    console.log(JSON.stringify(response));
     if (!response || !response.data.success) {
       return (
         <ErrorHandler
