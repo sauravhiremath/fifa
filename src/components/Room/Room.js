@@ -1,6 +1,7 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { Row, Col } from 'react-bootstrap';
 import HyperLink from 'react-uwp/HyperLink';
 
 import Welcome from './Room.Welcome';
@@ -21,8 +22,6 @@ export default class Room extends React.Component {
     isAuth: false
   };
 
-  spawnInitListeners = initListeners;
-
   handleData = data => {
     Object.entries(data).forEach(([key, val]) => {
       this.setState({ [key]: val });
@@ -33,10 +32,9 @@ export default class Room extends React.Component {
     // Only when recieved 200 from server for ROOM Authentication
     const token = Cookies.get('fifa-profile');
     this.setState({ username: parseJwt(token).username });
-    const { username, action } = this.state;
-    socker = SockerInit(username, action);
-    this.spawnInitListeners = this.spawnInitListeners.bind(this);
-    this.spawnInitListeners(socker);
+    const { username, roomId, action } = this.state;
+    socker = SockerInit(username, roomId, action);
+    initListeners(this, socker);
   };
 
   render() {
@@ -47,22 +45,28 @@ export default class Room extends React.Component {
         <div className="p-3">
           <Welcome />
           <hr />
-          {action === 'join' && (
-            <JoinRoom
-              roomId={roomId}
-              password={password}
-              changeAuth={this.handleAuth}
-              handleChange={this.handleData}
-            />
-          )}
-          {action === 'create' && (
-            <CreateRoom
-              roomId={roomId}
-              password={password}
-              changeAuth={this.handleAuth}
-              handleChange={this.handleData}
-            />
-          )}
+          <Row>
+            <Col>
+              {action === 'join' && (
+                <JoinRoom
+                  roomId={roomId}
+                  password={password}
+                  changeAuth={this.handleAuth}
+                  handleChange={this.handleData}
+                />
+              )}
+            </Col>
+            <Col>
+              {action === 'create' && (
+                <CreateRoom
+                  roomId={roomId}
+                  password={password}
+                  changeAuth={this.handleAuth}
+                  handleChange={this.handleData}
+                />
+              )}
+            </Col>
+          </Row>
           <br />
           <HyperLink
             onClick={() => {

@@ -48,6 +48,7 @@ export default class App extends React.Component {
             <Container fluid="sm" className="p-0">
               <Switch>
                 <PrivateRoute exact path="/" component={Room} isAuthed={isAuth} />
+                <PrivateRoute path="/room" component={Room} isAuthed={isAuth} />
                 <AuthRoute
                   strict
                   exact
@@ -94,7 +95,10 @@ const AuthRoute = ({ component: Component, isAuthed, changeAuth, ...rest }) => {
         !isAuthed ? (
           <Component {...props} changeAuth={changeAuth} />
         ) : (
-          <Redirect from='/auth' to={{ pathname: '/', state: { from: props.location } }} />
+          <Redirect
+            from="/auth"
+            to={{ pathname: '/', state: { from: props.location } }}
+          />
         )
       }
     />

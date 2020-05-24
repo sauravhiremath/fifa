@@ -9,7 +9,6 @@ export default class Nav extends React.Component {
 
   loginStatus = () => {
     const token = Cookies.get('fifa-profile');
-    console.log(token);
     if (token) {
       const username = parseJwt(token).username;
       return (

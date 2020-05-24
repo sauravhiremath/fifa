@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'production') {
   sockerURL = 'http://localhost:3004/classic-mode';
 }
 
-export function SockerInit(username, action) {
+export function SockerInit(username, roomId, action) {
   const socker = openSocket(sockerURL, { path: '/classic-mode', query: { username, roomId: '558909', action } });
   return socker;
 }

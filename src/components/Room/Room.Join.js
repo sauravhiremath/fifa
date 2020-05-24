@@ -11,18 +11,11 @@ export default class JoinRoom extends React.Component {
     changeAuth: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-
-    this.handleDataChange = this.handleDataChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
   componentDidMount() {
     this.roomIdInput.focus();
   }
 
-  handleDataChange(event) {
+  handleDataChange = (event) => {
     const eventName = event.target.name;
     const { handleChange } = this.props;
 
@@ -37,7 +30,7 @@ export default class JoinRoom extends React.Component {
     }
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault();
     const { roomId, password, changeAuth } = this.props;
     console.log('roomId and password are', roomId, password);
