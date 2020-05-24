@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import { Row, Col } from 'react-bootstrap';
 import HyperLink from 'react-uwp/HyperLink';
 
+import ErrorHandler from '../ErrorHandler';
 import Welcome from './Room.Welcome';
 import JoinRoom from './Room.Join';
 import CreateRoom from './Room.Create';
@@ -19,7 +20,8 @@ export default class Room extends React.Component {
     roomId: '',
     password: '',
     action: 'join',
-    isAuth: false
+    isAuth: false,
+    error: {}
   };
 
   handleData = data => {
@@ -32,13 +34,22 @@ export default class Room extends React.Component {
     // Only when recieved 200 from server for ROOM Authentication
     const token = Cookies.get('fifa-profile');
     this.setState({ username: parseJwt(token).username });
-    const { username, roomId, action } = this.state;
-    socker = SockerInit(username, roomId, action);
+    const { username, roomId, password, action } = this.state;
+    socker = SockerInit(username, roomId, password, action);
     initListeners(this, socker);
   };
 
   render() {
-    const { username, roomId, password, action, isAuth } = this.state;
+    const { username, roomId, password, action, isAuth, error } = this.state;
+
+    // if (error) {
+    //   return (
+    //     <ErrorHandler
+    //       redirectUrl="/"
+    //       error={{ ...error }}
+    //     />
+    //   );
+    // }
 
     if (!isAuth) {
       return (

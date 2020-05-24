@@ -63,12 +63,13 @@ export default class Create extends React.Component {
             />
           </InputGroup>
           <br />
+          Add password to keep it exclusive
           <InputGroup>
             <FormControl
               ref={input => {
                 this.roomIdInput = input;
               }}
-              placeholder="Enter room password"
+              placeholder="Optional: Enter room password"
               name="password"
               aria-label="password"
               aria-describedby="password"

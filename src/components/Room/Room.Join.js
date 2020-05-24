@@ -15,7 +15,7 @@ export default class JoinRoom extends React.Component {
     this.roomIdInput.focus();
   }
 
-  handleDataChange = (event) => {
+  handleDataChange = event => {
     const eventName = event.target.name;
     const { handleChange } = this.props;
 
@@ -28,14 +28,14 @@ export default class JoinRoom extends React.Component {
       handleChange({ password });
       // this.setState({ password });
     }
-  }
+  };
 
-  handleSubmit = (event) => {
+  handleSubmit = event => {
     event.preventDefault();
     const { roomId, password, changeAuth } = this.props;
     console.log('roomId and password are', roomId, password);
     changeAuth({ success: true }); // This is done only if 200 status code from server
-  }
+  };
 
   render() {
     return (
@@ -56,6 +56,7 @@ export default class JoinRoom extends React.Component {
               />
             </InputGroup>
             <br />
+            Leave blank if no password
             <InputGroup>
               <FormControl
                 placeholder="Enter room password"

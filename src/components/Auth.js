@@ -6,7 +6,7 @@ import Cookies from 'js-cookie';
 
 import { Form, InputGroup, FormControl } from 'react-bootstrap';
 import Button from 'react-uwp/Button';
-import ErrorHandler from './Core/ErrorHandler';
+import ErrorHandler from './ErrorHandler';
 
 export default class Auth extends React.Component {
   state = { username: '', redirectToReferrer: false };

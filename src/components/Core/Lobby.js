@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Col, Row, Table } from 'react-bootstrap';
 import PlayerSearch from './PlayerSearch';
 import GroupChat from './GroupChat';
-import ErrorHandler from './ErrorHandler';
+import ErrorHandler from '../ErrorHandler';
 
 export default class Lobby extends React.Component {
   state = {
