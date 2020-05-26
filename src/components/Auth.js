@@ -11,28 +11,29 @@ import { logIn } from '../modules/action';
 import { connect } from 'react-redux';
 
 class Auth extends React.Component {
+  state = {
+    redirectToReferrer: false
+  }
+
   static propTypes = {
     location: PropTypes.object.isRequired,
     logIn: PropTypes.func.isRequired
   };
 
   componentDidMount() {
+    this.usernameInput.focus();
     const cookie = Cookies.get('fifa-profile');
     if (cookie) {
       this.setState({ redirectToReferrer: true });
     }
   }
 
-  componentDidMount = () => {
-    this.usernameInput.focus();
-  };
-
   handleUsernameChange = event => {
     const username = event.target.value;
     this.setState({ username });
   };
 
-  login = async event => {
+  handleLogin = async event => {
     // Send login request here. True only when 200 status from server
     event.preventDefault();
     const { username } = this.state;
@@ -49,12 +50,13 @@ class Auth extends React.Component {
     }
     Cookies.set('fifa-profile', response.data.token);
     logIn(username);
+    this.setState({ redirectToReferrer: true });
   };
 
   enterUsername() {
     return (
       <div>
-        <Form onSubmit={this.login}>
+        <Form onSubmit={this.handleLogin}>
           <InputGroup>
             <FormControl
               ref={input => {
@@ -113,7 +115,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  logIn: (username) => dispatch(logIn(username)),
+  logIn: (username) => dispatch(logIn({ username })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Auth);

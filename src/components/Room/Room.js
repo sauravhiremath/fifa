@@ -89,8 +89,8 @@ const mapStateToProps = function (state) {
 };
 
 const mapDispatchToProps = dispatch => ({
-  addRoomId: roomId => dispatch(addRoomId(roomId)),
-  addPassword: password => dispatch(addPassword(password))
+  addRoomId: roomId => dispatch(addRoomId({ roomId })),
+  addPassword: password => dispatch(addPassword({ password }))
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Room));

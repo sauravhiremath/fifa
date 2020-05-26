@@ -1,5 +1,6 @@
 import React from 'react';
 import { Theme as UWPThemeProvider, getTheme } from 'react-uwp/Theme';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 
 import ROUTES, { RenderRoutes } from './routes';
@@ -10,7 +11,6 @@ import './App.css';
 import 'react-chat-elements/dist/main.css';
 
 export default class App extends React.Component {
-
   render() {
     return (
       <UWPThemeProvider
@@ -23,9 +23,11 @@ export default class App extends React.Component {
       >
         <div className="App">
           <Nav />
-          <Container fluid="sm" className="p-0">
-            <RenderRoutes routes={ROUTES} />
-          </Container>
+          <Router>
+            <Container fluid="sm" className="p-0">
+              <RenderRoutes routes={ROUTES} />
+            </Container>
+          </Router>
         </div>
       </UWPThemeProvider>
     );
