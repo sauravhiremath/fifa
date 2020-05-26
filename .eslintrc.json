@@ -30,6 +30,7 @@
         "jsx-a11y/href-no-hash": ["off"],
         "object-curly-spacing": ["warn", "always"],
         "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
+        "react/display-name": ["off", { "ignoreTranspilerName": true }],
         "react/jsx-tag-spacing": [
           "warn",
           {

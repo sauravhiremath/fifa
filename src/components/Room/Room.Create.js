@@ -6,11 +6,15 @@ import Button from 'react-uwp/Button';
 
 // TODO: Add Successfull creation of room authSuccess -> true
 export default class Create extends React.Component {
+  state = {
+    roomId: '',
+    password: ''
+  };
+
   static propTypes = {
-    handleChange: PropTypes.func.isRequired,
+    changeAuth: PropTypes.func.isRequired,
     roomId: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
-    changeAuth: PropTypes.func.isRequired
+    password: PropTypes.string.isRequired
   };
 
   constructor(props) {
@@ -23,26 +27,24 @@ export default class Create extends React.Component {
   }
 
   handleDataChange = event => {
-    const { handleChange } = this.props;
     if (event.target.name === 'password') {
       const password = event.target.value;
-      handleChange({ password });
-      // this.setState({ password });
+      this.setState({ password });
     }
   };
 
   handleSubmit = event => {
     event.preventDefault();
-    const { roomId, password, changeAuth } = this.props;
-    console.log(roomId, password);
-    changeAuth({ success: true }); // This is done only if 200 from server
+    const { changeAuth } = this.props;
+    const { roomId, password } = this.state;
+    changeAuth({ roomId, password });
   };
 
   getNewRoomId = () => {
-    const { roomId, handleChange } = this.props;
+    const { roomId } = this.state;
     if (!roomId) {
-      const roomId = generateRoomId(5);
-      handleChange({ roomId });
+      const newRoomId = generateRoomId(5);
+      this.setState({ roomId: newRoomId });
     }
   };
 

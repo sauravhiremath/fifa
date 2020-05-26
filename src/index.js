@@ -1,13 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider as ReduxProvider } from 'react-redux';
+
+import configureStore from './modules/store';
+import { defaultState } from './modules/reducer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
-
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+const reduxStore = configureStore(defaultState);
+
 ReactDOM.render(
-  <App />,
+  <ReduxProvider store={reduxStore}>
+    <App />
+  </ReduxProvider>,
   document.getElementById('root'),
 );
 

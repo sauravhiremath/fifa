@@ -7,13 +7,13 @@ import Cookies from 'js-cookie';
 import { Form, InputGroup, FormControl } from 'react-bootstrap';
 import Button from 'react-uwp/Button';
 import ErrorHandler from './ErrorHandler';
+import { logIn } from '../modules/action';
+import { connect } from 'react-redux';
 
-export default class Auth extends React.Component {
-  state = { username: '', redirectToReferrer: false };
-
+class Auth extends React.Component {
   static propTypes = {
     location: PropTypes.object.isRequired,
-    changeAuth: PropTypes.func.isRequired
+    logIn: PropTypes.func.isRequired
   };
 
   componentDidMount() {
@@ -36,7 +36,7 @@ export default class Auth extends React.Component {
     // Send login request here. True only when 200 status from server
     event.preventDefault();
     const { username } = this.state;
-    const { changeAuth } = this.props;
+    const { logIn } = this.props;
 
     const response = await axios.post('http://localhost:3003/auth/login', { username });
     if (!response || !response.data.success) {
@@ -48,8 +48,7 @@ export default class Auth extends React.Component {
       );
     }
     Cookies.set('fifa-profile', response.data.token);
-    changeAuth({ success: true });
-    this.setState({ redirectToReferrer: true });
+    logIn(username);
   };
 
   enterUsername() {
@@ -108,3 +107,13 @@ const introInfo = () => {
     </div>
   );
 };
+
+const mapStateToProps = state => ({
+  loggedIn: state.loggedIn
+});
+
+const mapDispatchToProps = dispatch => ({
+  logIn: (username) => dispatch(logIn(username)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

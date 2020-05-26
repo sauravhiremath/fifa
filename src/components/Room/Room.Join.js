@@ -4,10 +4,12 @@ import { Form, InputGroup, FormControl } from 'react-bootstrap';
 import Button from 'react-uwp/Button';
 
 export default class JoinRoom extends React.Component {
+  state = {
+    roomId: '',
+    password: ''
+  };
+
   static propTypes = {
-    handleChange: PropTypes.func.isRequired,
-    roomId: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
     changeAuth: PropTypes.func.isRequired
   };
 
@@ -17,24 +19,21 @@ export default class JoinRoom extends React.Component {
 
   handleDataChange = event => {
     const eventName = event.target.name;
-    const { handleChange } = this.props;
 
     if (eventName === 'roomId') {
       const roomId = event.target.value;
-      handleChange({ roomId });
-      // this.setState({ roomId });
+      this.setState({ roomId });
     } else if (eventName === 'password') {
       const password = event.target.value;
-      handleChange({ password });
-      // this.setState({ password });
+      this.setState({ password });
     }
   };
 
   handleSubmit = event => {
     event.preventDefault();
-    const { roomId, password, changeAuth } = this.props;
-    console.log('roomId and password are', roomId, password);
-    changeAuth({ success: true }); // This is done only if 200 status code from server
+    const { roomId, password } = this.state;
+    const { changeAuth } = this.props;
+    changeAuth({ roomId, password });
   };
 
   render() {

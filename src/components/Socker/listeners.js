@@ -1,9 +1,7 @@
-export const initListeners = (room, socker) => {
+export const initListeners = (room, roomId, socker) => {
   socker.on('[SUCCESS] Successfully initialised', () => {
     console.log('[SUCCESS] Successfully initialised');
-    room.setState({
-      isAuth: true
-    });
+    room.props.addRoomId(roomId);
   });
 
   socker.on('Error: Incorrect password!', () => {
