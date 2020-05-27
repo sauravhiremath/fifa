@@ -1,21 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Col, Row, Table } from 'react-bootstrap';
+
 import PlayerSearch from './PlayerSearch';
 import GroupChat from './GroupChat';
 import ErrorHandler from '../ErrorHandler';
 
-export default class Lobby extends React.Component {
+class Lobby extends React.Component {
   state = {
-    playersSelected: [],
+    playersSelected: []
   };
 
   static contextTypes = { theme: PropTypes.object };
 
   static propTypes = {
-    roomInfo: PropTypes.object.isRequired,
-    username: PropTypes.string.isRequired,
-    action: PropTypes.string.isRequired
+    roomId: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired
   };
 
   handleNewRowSubmit = newPlayer => {
@@ -53,7 +55,7 @@ export default class Lobby extends React.Component {
   };
 
   render() {
-    const { roomId, password } = this.props.roomInfo;
+    const { roomId, password } = this.props;
     const { theme } = this.context;
 
     // if (errorTitle || errorContent) {
@@ -120,3 +122,13 @@ export default class Lobby extends React.Component {
     );
   }
 }
+
+const mapStateToProps = function (state) {
+  return {
+    username: state.username,
+    roomId: state.roomId,
+    password: state.password
+  };
+};
+
+export default connect(mapStateToProps)(Lobby);
