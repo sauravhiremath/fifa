@@ -22,8 +22,8 @@ export default class App extends React.Component {
         })}
       >
         <div className="App">
-          <Nav />
           <Router>
+            <Nav />
             <Container fluid="sm" className="p-0">
               <RenderRoutes routes={ROUTES} />
             </Container>

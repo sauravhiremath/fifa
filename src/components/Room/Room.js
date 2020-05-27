@@ -81,7 +81,7 @@ class Room extends React.Component {
 
 const mapStateToProps = function (state) {
   return {
-    auth: state.auth,
+    loggedIn: state.loggedIn,
     username: state.username,
     roomId: state.roomId,
     password: state.password

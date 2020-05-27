@@ -9,7 +9,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-const reduxStore = configureStore(defaultState);
+export const reduxStore = configureStore(defaultState);
 
 ReactDOM.render(
   <ReduxProvider store={reduxStore}>

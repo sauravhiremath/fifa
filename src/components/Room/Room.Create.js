@@ -13,17 +13,11 @@ export default class Create extends React.Component {
 
   static propTypes = {
     changeAuth: PropTypes.func.isRequired,
-    roomId: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired
   };
-
-  constructor(props) {
-    super(props);
-    this.getNewRoomId();
-  }
 
   componentDidMount() {
     this.roomIdInput.focus();
+    this.getNewRoomId();
   }
 
   handleDataChange = event => {
@@ -49,7 +43,7 @@ export default class Create extends React.Component {
   };
 
   render() {
-    const { roomId } = this.props;
+    const { roomId } = this.state;
 
     return (
       <div>

@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import { reduxStore } from './index';
 import { Auth, Room, Lobby } from './components';
-import { updateUsername } from './modules/action';
-import axios from 'axios';
 
 const ROUTES = [
   { path: '/auth', key: 'AUTH', exact: true, component: Auth },
@@ -12,13 +11,10 @@ const ROUTES = [
     path: '/',
     key: 'APP',
     component: props => {
-      const token = Cookies.get('fifa-profile');
-      let decoded; 
-      verifyToken(token).then(decode => decoded = decode);
-      if (!token || !decoded) {
+      const { loggedIn } = reduxStore.getState();
+      if (!loggedIn) {
         return <Redirect to={{ pathname: '/auth', state: { from: props.location } }} />;
       }
-      updateUsername({ ...decoded });
       return <RenderRoutes {...props} />;
     },
     routes: [
@@ -69,12 +65,4 @@ export const RenderRoutes = ({ routes }) => {
 
 RenderRoutes.propTypes = {
   routes: PropTypes.array.isRequired
-};
-
-const verifyToken = async token => {
-  const response = await axios.post('http://localhost:3003/auth/verify', { token });
-  if (response.success) {
-    return response.decoded;
-  }
-  return undefined;
 };

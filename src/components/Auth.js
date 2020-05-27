@@ -11,21 +11,29 @@ import { logIn } from '../modules/action';
 import { connect } from 'react-redux';
 
 class Auth extends React.Component {
-  // state = {
-  //   redirectToReferrer: false
-  // }
+  state = {
+    redirectToReferrer: false
+  }
 
   static propTypes = {
-    // location: PropTypes.object.isRequired,
-    logIn: PropTypes.func.isRequired
+    location: PropTypes.object.isRequired,
+    logIn: PropTypes.func.isRequired,
+    loggedIn: PropTypes.bool.isRequired
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     this.usernameInput.focus();
-    // const cookie = Cookies.get('fifa-profile');
-    // if (cookie) {
-    //   this.setState({ redirectToReferrer: true });
-    // }
+    const { loggedIn, logIn } = this.props;
+    if (loggedIn) {
+      return this.setState({ redirectToReferrer: true });
+    }
+
+    const token = Cookies.get('fifa-profile');
+    const decoded = await verifyToken(token);
+    if (decoded) {
+      logIn(decoded.username);
+      return this.setState({ redirectToReferrer: true });
+    }
   }
 
   handleUsernameChange = event => {
@@ -40,7 +48,7 @@ class Auth extends React.Component {
     const { logIn } = this.props;
 
     const response = await axios.post('http://localhost:3003/auth/login', { username });
-    if (!response || !response.data.success) {
+    if (!response.data.success) {
       return (
         <ErrorHandler
           redirectUrl="/"
@@ -78,12 +86,12 @@ class Auth extends React.Component {
   }
 
   render() {
-    // const { from } = this.props.location.state || { from: { pathname: '/' } };
-    // const { redirectToReferrer } = this.state;
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
+    const { redirectToReferrer } = this.state;
 
-    // if (redirectToReferrer === true) {
-    //   return <Redirect to={from} />;
-    // }
+    if (redirectToReferrer === true) {
+      return <Redirect to={from} />;
+    }
 
     return (
       <div className="row align-items-center justify-content-left">
@@ -108,6 +116,14 @@ const introInfo = () => {
       </div>
     </div>
   );
+};
+
+const verifyToken = async token => {
+  const response = await axios.post('http://localhost:3003/auth/verify', { token });
+  if (response.data.success) {
+    return response.data.decoded;
+  }
+  return undefined;
 };
 
 const mapStateToProps = state => ({
