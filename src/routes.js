@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Auth, Room, Lobby } from './components';
+import { updateUsername } from './modules/action';
+import axios from 'axios';
 
 const ROUTES = [
   { path: '/auth', key: 'AUTH', exact: true, component: Auth },
@@ -10,9 +12,13 @@ const ROUTES = [
     path: '/',
     key: 'APP',
     component: props => {
-      if (!Cookies.get('fifa-profile')) {
+      const token = Cookies.get('fifa-profile');
+      let decoded; 
+      verifyToken(token).then(decode => decoded = decode);
+      if (!token || !decoded) {
         return <Redirect to={{ pathname: '/auth', state: { from: props.location } }} />;
       }
+      updateUsername({ ...decoded });
       return <RenderRoutes {...props} />;
     },
     routes: [
@@ -48,7 +54,7 @@ const RouteWithSubRoutes = route => {
 };
 
 /**
- * Use this component for any new section of routes (any config object that has a "routes" property
+ * Use this component for any new section of routes (any config object that has a "routes" property)
  */
 export const RenderRoutes = ({ routes }) => {
   return (
@@ -59,4 +65,16 @@ export const RenderRoutes = ({ routes }) => {
       <Route component={() => <h1>Not Found!</h1>} />
     </Switch>
   );
+};
+
+RenderRoutes.propTypes = {
+  routes: PropTypes.array.isRequired
+};
+
+const verifyToken = async token => {
+  const response = await axios.post('http://localhost:3003/auth/verify', { token });
+  if (response.success) {
+    return response.decoded;
+  }
+  return undefined;
 };

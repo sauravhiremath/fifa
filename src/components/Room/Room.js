@@ -93,4 +93,4 @@ const mapDispatchToProps = dispatch => ({
   addPassword: password => dispatch(addPassword({ password }))
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Room));
+export default connect(mapStateToProps, mapDispatchToProps)(Room);

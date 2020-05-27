@@ -11,21 +11,21 @@ import { logIn } from '../modules/action';
 import { connect } from 'react-redux';
 
 class Auth extends React.Component {
-  state = {
-    redirectToReferrer: false
-  }
+  // state = {
+  //   redirectToReferrer: false
+  // }
 
   static propTypes = {
-    location: PropTypes.object.isRequired,
+    // location: PropTypes.object.isRequired,
     logIn: PropTypes.func.isRequired
   };
 
   componentDidMount() {
     this.usernameInput.focus();
-    const cookie = Cookies.get('fifa-profile');
-    if (cookie) {
-      this.setState({ redirectToReferrer: true });
-    }
+    // const cookie = Cookies.get('fifa-profile');
+    // if (cookie) {
+    //   this.setState({ redirectToReferrer: true });
+    // }
   }
 
   handleUsernameChange = event => {
@@ -78,12 +78,12 @@ class Auth extends React.Component {
   }
 
   render() {
-    const { from } = this.props.location.state || { from: { pathname: '/' } };
-    const { redirectToReferrer } = this.state;
+    // const { from } = this.props.location.state || { from: { pathname: '/' } };
+    // const { redirectToReferrer } = this.state;
 
-    if (redirectToReferrer === true) {
-      return <Redirect to={from} />;
-    }
+    // if (redirectToReferrer === true) {
+    //   return <Redirect to={from} />;
+    // }
 
     return (
       <div className="row align-items-center justify-content-left">

@@ -1,18 +1,16 @@
 import React from 'react';
-import Cookies from 'js-cookie';
+import { connect } from 'react-redux';
 
-const Welcome = () => {
-  const token = Cookies.get('fifa-profile');
-  const username = parseJwt(token).username;
+const Welcome = (props) => {
+  const username = props.username;
   return <div>Welcome {username}</div>;
 };
 
-export default Welcome;
-
-const parseJwt = token => {
-  try {
-    return JSON.parse(atob(token.split('.')[1]));
-  } catch (e) {
-    return null;
-  }
+const mapStateToProps = function (state) {
+  return {
+    auth: state.auth,
+    username: state.username,
+  };
 };
+
+export default connect(mapStateToProps)(Welcome);
