@@ -1,58 +1,53 @@
 {
-    "env": {
-        "browser": true,
-        "es6": true
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": ["plugin:react/recommended", "xo-react/space"],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true,
+      "experimentalObjectRestSpread": true
     },
-    "extends": [
-      "plugin:react/recommended",
-      "xo-react/space"
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "plugins": ["react"],
+  "rules": {
+    "no-console": "off",
+    "indent": [2, 2, { "SwitchCase": 1 }],
+    "no-use-before-define": "off",
+    "jsx-a11y/href-no-hash": ["off"],
+    "object-curly-spacing": ["warn", "always"],
+    "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
+    "react/display-name": ["off", { "ignoreTranspilerName": true }],
+    "react/jsx-tag-spacing": [
+      "warn",
+      {
+        "closingSlash": "never",
+        "beforeSelfClosing": "always",
+        "afterOpening": "never",
+        "beforeClosing": "allow"
+      }
     ],
-    "globals": {
-        "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
-    },
-    "parser": "babel-eslint",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true,
-            "experimentalObjectRestSpread": true
-        },
-        "ecmaVersion": 2020,
-        "sourceType": "module"
-    },
-    "plugins": [
-        "react"
-    ],
-    "rules": {
-        "no-console": "off",
-        "indent": [2, 2],
-        "no-use-before-define": "off",
-        "jsx-a11y/href-no-hash": ["off"],
-        "object-curly-spacing": ["warn", "always"],
-        "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
-        "react/display-name": ["off", { "ignoreTranspilerName": true }],
-        "react/jsx-tag-spacing": [
-          "warn",
-          {
-            "closingSlash": "never",
-            "beforeSelfClosing": "always",
-            "afterOpening": "never",
-            "beforeClosing": "allow"
-          }
-        ],
-        "max-len": [
-            "warn",
-            {
-                "code": 120,
-                "tabWidth": 2,
-                "comments": 120,
-                "ignoreComments": false,
-                "ignoreTrailingComments": true,
-                "ignoreUrls": true,
-                "ignoreStrings": true,
-                "ignoreTemplateLiterals": true,
-                "ignoreRegExpLiterals": true
-            }
-        ]
-    }
+    "max-len": [
+      "warn",
+      {
+        "code": 120,
+        "tabWidth": 2,
+        "comments": 120,
+        "ignoreComments": false,
+        "ignoreTrailingComments": true,
+        "ignoreUrls": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreRegExpLiterals": true
+      }
+    ]
+  }
 }
