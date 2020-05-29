@@ -18,6 +18,7 @@ class Auth extends React.Component {
   static propTypes = {
     location: PropTypes.object.isRequired,
     logIn: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/boolean-prop-naming
     loggedIn: PropTypes.bool.isRequired
   };
 
@@ -42,7 +43,7 @@ class Auth extends React.Component {
   };
 
   handleLogin = async event => {
-    // Send login request here. True only when 200 status from server
+    // Send login request here. Passed when success status true from server
     event.preventDefault();
     const { username } = this.state;
     const { logIn } = this.props;

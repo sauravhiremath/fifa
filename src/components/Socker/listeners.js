@@ -8,8 +8,8 @@ export const initListeners = (room, roomId, socker) => {
     console.log('Error: Incorrect password!');
     room.setState({
       error: {
-        errorTitle: 'INCORRECT PASSWORD',
-        errorContent: 'Sorry, incorrect password for the room. Try again'
+        title: 'INCORRECT PASSWORD',
+        content: 'Sorry, incorrect password for the room. Try again'
       }
     });
   });
@@ -18,8 +18,9 @@ export const initListeners = (room, roomId, socker) => {
     console.log('Error: Create a room first!');
     room.setState({
       error: {
-        errorTitle: 'ROOM NOT FOUND',
-        errorContent: 'Sorry, requested Room does not exist. Create a New Room or enter the correct ROOM ID'
+        title: 'ROOM NOT FOUND',
+        content:
+          'Sorry, requested Room does not exist. Create a New Room or enter the correct ROOM ID'
       }
     });
   });
@@ -28,9 +29,10 @@ export const initListeners = (room, roomId, socker) => {
     console.log('Error: Create a new room again or Join existing one!');
     room.setState({
       error: {
-        errorTitle: 'ROOM ALREADY PRESENT',
-        errorContent: 'Sorry, requested Room already present, Join the existing room or Create a new room again'
+        title: 'ROOM ALREADY PRESENT',
+        content:
+          'Sorry, requested Room already present, Join the existing room or Create a new room again'
       }
     });
   });
-}
+};

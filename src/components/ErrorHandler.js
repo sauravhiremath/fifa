@@ -6,17 +6,25 @@ import { ContentDialog } from 'react-uwp';
 export default class ErrorHandler extends React.Component {
   /**
    * Render Error modal
-   * Received props -> Redirect URL
-   *                -> Erorr Topic and Message
-  */
+   * Received props -> redirectUrl  string   - URL to redirect to, after processing error
+   *                -> error        Object   - Topic and Message for the error
+   *                -> resetError   func     - Reset Error state on parent component
+   */
   state = {
     redirect: false
   };
 
   static propTypes = {
     redirectUrl: PropTypes.string.isRequired,
-    error: PropTypes.object.isRequired
+    error: PropTypes.object.isRequired,
+    resetError: PropTypes.func.isRequired
   };
+
+  handleError = () => {
+    const { resetError } = this.props;
+    this.setState({ redirect: true });
+    resetError();
+  }
 
   render() {
     const { redirectUrl, error } = this.props;
@@ -36,13 +44,13 @@ export default class ErrorHandler extends React.Component {
           title={`${error.title}`}
           content={`${error.content}`}
           defaultShow="true"
-          primaryButtonAction={() => this.setState({ redirect: true })}
-          secondaryButtonAction={() => this.setState({ redirect: true })}
-          closeButtonAction={() => this.setState({ redirect: true })}
+          primaryButtonAction={() => this.handleError()}
+          secondaryButtonAction={() => this.handleError()}
+          closeButtonAction={() => this.handleError()}
           primaryButtonText="Redirect back"
           secondaryButtonText={null}
           onCloseDialog={() => {
-            this.setState({ redirect: true });
+            this.handleError();
           }}
         />
       </div>

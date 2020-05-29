@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Redirect, withRouter } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 import HyperLink from 'react-uwp/HyperLink';
 
@@ -17,7 +18,12 @@ export let socker = undefined;
 class Room extends React.Component {
   state = {
     action: 'join',
-    error: {}
+    error: '',
+  };
+
+  static propTypes = {
+    username: PropTypes.string.isRequired,
+    roomId: PropTypes.string.isRequired
   };
 
   handleAuth = data => {
@@ -28,18 +34,17 @@ class Room extends React.Component {
     initListeners(this, roomId, socker);
   };
 
+  resetError = () => {
+    this.setState({ error: '' });
+  };
+
   render() {
     const { action, error } = this.state;
     const { roomId } = this.props;
 
-    // if (error) {
-    //   return (
-    //     <ErrorHandler
-    //       redirectUrl="/"
-    //       error={{ ...error }}
-    //     />
-    //   );
-    // }
+    if (error) {
+      return <ErrorHandler redirectUrl="/" error={error} resetError={this.resetError} />;
+    }
 
     if (!roomId) {
       return (
@@ -81,7 +86,6 @@ class Room extends React.Component {
 
 const mapStateToProps = function (state) {
   return {
-    loggedIn: state.loggedIn,
     username: state.username,
     roomId: state.roomId,
     password: state.password

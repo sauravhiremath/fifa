@@ -1,16 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Cookies from 'js-cookie';
+import { connect } from 'react-redux';
+
 import { Navbar, Form, Button } from 'react-bootstrap';
 import logo from '../logo.svg';
 
-export default class Nav extends React.Component {
+class Nav extends React.Component {
   static contextTypes = { theme: PropTypes.object };
 
+  static propTypes = {
+    username: PropTypes.string.isRequired,
+  };
+
   loginStatus = () => {
-    const token = Cookies.get('fifa-profile');
-    if (token) {
-      const username = parseJwt(token).username;
+    const username = this.props.username;
+    if (username) {
       return (
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
@@ -42,10 +46,11 @@ export default class Nav extends React.Component {
   }
 }
 
-const parseJwt = (token) => {
-  try {
-    return JSON.parse(atob(token.split('.')[1]));
-  } catch (e) {
-    return null;
-  }
+const mapStateToProps = function (state) {
+  return {
+    loggedIn: state.loggedIn,
+    username: state.username,
+  };
 };
+
+export default connect(mapStateToProps)(Nav);
