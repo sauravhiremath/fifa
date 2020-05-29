@@ -10,7 +10,7 @@ import Welcome from './Room.Welcome';
 import JoinRoom from './Room.Join';
 import CreateRoom from './Room.Create';
 import { SockerInit } from '../Socker/Socker';
-import { initListeners } from '../Socker/listeners';
+import { initListeners } from '../Socker/init.Listeners';
 import { addRoomId, addPassword } from '../../modules/action';
 
 export let socker = undefined;

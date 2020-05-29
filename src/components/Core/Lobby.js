@@ -7,11 +7,10 @@ import PlayerSearch from './PlayerSearch';
 import GroupChat from './GroupChat';
 import JoinedPlayers from './JoinedPlayers';
 
-
 class Lobby extends React.Component {
   state = {
     teamPlayers: [],
-    joinedPlayers: []
+    playersJoined: []
   };
 
   static contextTypes = { theme: PropTypes.object };
@@ -57,8 +56,13 @@ class Lobby extends React.Component {
     });
   };
 
+  showPlayers = (playersJoined) => {
+    this.setState({ playersJoined });
+  }
+
   render() {
     const { roomId, password } = this.props;
+    const { playersJoined } = this.state;
     const { theme } = this.context;
 
     return (
@@ -90,9 +94,7 @@ class Lobby extends React.Component {
               <tbody>{this.teamPlayers()}</tbody>
             </Table>
           </div>
-          <div className="joinedPlayers">
-            {/* <JoinedPlayers /> */}
-          </div>
+          <JoinedPlayers playersJoined={playersJoined} showPlayers={this.showPlayers} />
         </Col>
         <Col
           style={{
