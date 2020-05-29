@@ -5,11 +5,13 @@ import { Col, Row, Table } from 'react-bootstrap';
 
 import PlayerSearch from './PlayerSearch';
 import GroupChat from './GroupChat';
-import ErrorHandler from '../ErrorHandler';
+import JoinedPlayers from './JoinedPlayers';
+
 
 class Lobby extends React.Component {
   state = {
-    playersSelected: []
+    teamPlayers: [],
+    joinedPlayers: []
   };
 
   static contextTypes = { theme: PropTypes.object };
@@ -21,25 +23,26 @@ class Lobby extends React.Component {
   };
 
   handleNewRowSubmit = newPlayer => {
-    const { playersSelected } = this.state;
+    const { teamPlayers } = this.state;
     const playerInfo = {
       id: newPlayer.objectID,
       name: newPlayer.name,
       position: newPlayer.positions,
       rating: newPlayer['Overall Rating']
     };
-    if (playersSelected.every(v => v.id !== playerInfo.id)) {
-      return this.setState({ playersSelected: [...playersSelected, playerInfo] });
+    if (teamPlayers.every(v => v.id !== playerInfo.id)) {
+      return this.setState({ teamPlayers: [...teamPlayers, playerInfo] });
     } else {
       return console.log('Player already added!');
     }
   };
 
-  renderPlayerNames = () => {
-    const { playersSelected } = this.state;
-    console.log(playersSelected);
+  teamPlayers = () => {
+    const { teamPlayers } = this.state;
+    const { username } = this.props;
+    console.log(`${username} --> Team is: ${teamPlayers}`);
 
-    return playersSelected.map((player, index) => {
+    return teamPlayers.map((player, index) => {
       if (player) {
         const { id, name, position, rating } = player;
         return (
@@ -57,20 +60,6 @@ class Lobby extends React.Component {
   render() {
     const { roomId, password } = this.props;
     const { theme } = this.context;
-
-    // if (errorTitle || errorContent) {
-    //   return (
-    //     <Route>
-    //       <ErrorHandler
-    //         redirectUrl="/"
-    //         error={{
-    //           topic: 'ROOM ALREADY PRESENT',
-    //           content: 'Error: Create a new room again or Join existing one!'
-    //         }}
-    //       />
-    //     </Route>
-    //   );
-    // }
 
     return (
       <Row className="mh-100 no-gutters">
@@ -98,8 +87,11 @@ class Lobby extends React.Component {
                   <th>Rating</th>
                 </tr>
               </thead>
-              <tbody>{this.renderPlayerNames()}</tbody>
+              <tbody>{this.teamPlayers()}</tbody>
             </Table>
+          </div>
+          <div className="joinedPlayers">
+            {/* <JoinedPlayers /> */}
           </div>
         </Col>
         <Col
