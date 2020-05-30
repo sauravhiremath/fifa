@@ -15,31 +15,37 @@ class JoinedPlayers extends React.Component {
     roomId: PropTypes.string.isRequired,
     password: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
-    joinedPlayers: PropTypes.array.isRequired,
+    playersJoined: PropTypes.array.isRequired,
     showPlayers: PropTypes.func.isRequired
   };
 
-  componentDidUpdate() {
-    socker.on('joined-players', (joinedPlayers) => {
-      console.log('Players joined');
-      this.props.showPlayers(joinedPlayers);
-    });
+  componentDidMount() {
+    const { roomId } = this.props;
+    console.log('roomId is: '+roomId);
+    if (roomId) {
+      socker.on('players-joined', data => {
+        const { playersJoined } = data;
+        console.log('Players joined: ' + JSON.stringify(playersJoined));
+        this.props.showPlayers(playersJoined);
+      });
+    }
   }
 
   render() {
     const { theme } = this.context;
-    const { joinedPlayers } = this.props;
+    const { playersJoined } = this.props;
 
-    console.log(JSON.stringify(joinedPlayers));
+    console.log('JOINED PLAYERS ARE: '+JSON.stringify(playersJoined));
 
     return (
       <div>
         <ListView
-          listSource={joinedPlayers.map((player, index) => (
+          listSource={playersJoined.map((playerInfo, index) => (
             <div key={index}>
               <IconButton disabled style={{ margin: 10 }}>
                 ContactLegacy
               </IconButton>
+              {playerInfo.username}
             </div>
           ))}
         />

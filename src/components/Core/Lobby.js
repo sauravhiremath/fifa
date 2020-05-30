@@ -6,6 +6,7 @@ import { Col, Row, Table } from 'react-bootstrap';
 import PlayerSearch from './PlayerSearch';
 import GroupChat from './GroupChat';
 import JoinedPlayers from './JoinedPlayers';
+import { Redirect } from 'react-router-dom';
 
 class Lobby extends React.Component {
   state = {
@@ -56,62 +57,76 @@ class Lobby extends React.Component {
     });
   };
 
-  showPlayers = (playersJoined) => {
+  showPlayers = playersJoined => {
     this.setState({ playersJoined });
-  }
+  };
 
   render() {
     const { roomId, password } = this.props;
     const { playersJoined } = this.state;
     const { theme } = this.context;
 
+    if (!roomId) {
+      return <Redirect to="/" />;
+    }
+
     return (
       <Row className="mh-100 no-gutters">
-        <Col
-          lg={3}
-          md={6}
-          style={{
-            background: theme.useFluentDesign ? theme.acrylicTexture80.background : 'none'
-          }}
-        >
-          <div className="myTeamBox">
-            <Table
-              striped
-              borderless
-              hover
-              variant="dark"
-              id="team_players"
-              style={{ background: theme.accentDarker2 }}
-            >
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Pos</th>
-                  <th>Name</th>
-                  <th>Rating</th>
-                </tr>
-              </thead>
-              <tbody>{this.teamPlayers()}</tbody>
-            </Table>
-          </div>
-          <JoinedPlayers playersJoined={playersJoined} showPlayers={this.showPlayers} />
-        </Col>
-        <Col
-          style={{
-            background: theme.useFluentDesign ? theme.acrylicTexture80.background : 'none'
-          }}
-        >
-          <PlayerSearch
-            addPlayer={this.handleNewRowSubmit}
-            style={{ background: theme.accentDarker2 }}
-            hoverStyle={{
-              background: theme.altMedium
+        {roomId && (
+          <Col
+            lg={3}
+            md={6}
+            style={{
+              background: theme.useFluentDesign
+                ? theme.acrylicTexture80.background
+                : 'none'
             }}
-          />
-        </Col>
-        <Col lg={3} md={6}>
-          <GroupChat />
-        </Col>
+          >
+            <div className="myTeamBox">
+              <Table
+                striped
+                borderless
+                hover
+                variant="dark"
+                id="team_players"
+                style={{ background: theme.accentDarker2 }}
+              >
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Pos</th>
+                    <th>Name</th>
+                    <th>Rating</th>
+                  </tr>
+                </thead>
+                <tbody>{this.teamPlayers()}</tbody>
+              </Table>
+            </div>
+            <JoinedPlayers playersJoined={playersJoined} showPlayers={this.showPlayers} />
+          </Col>
+        )}
+        {roomId && (
+          <Col
+            style={{
+              background: theme.useFluentDesign
+                ? theme.acrylicTexture80.background
+                : 'none'
+            }}
+          >
+            <PlayerSearch
+              addPlayer={this.handleNewRowSubmit}
+              style={{ background: theme.accentDarker2 }}
+              hoverStyle={{
+                background: theme.altMedium
+              }}
+            />
+          </Col>
+        )}
+        {roomId && (
+          <Col lg={3} md={6}>
+            <GroupChat />
+          </Col>
+        )}
       </Row>
     );
   }
