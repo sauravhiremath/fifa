@@ -7,27 +7,21 @@ import IconButton from 'react-uwp/IconButton';
 import { SockerInit } from '../Socker/Socker';
 import { initListeners } from '../Socker/init.Listeners';
 import { socker } from '../Room/Room';
+import { subscribeTo } from '../Socker/game.Listeners';
 
 class JoinedPlayers extends React.Component {
   static contextTypes = { theme: PropTypes.object };
 
   static propTypes = {
-    roomId: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired,
     playersJoined: PropTypes.array.isRequired,
     showPlayers: PropTypes.func.isRequired
   };
 
-  componentDidMount() {
-    const { roomId } = this.props;
-    console.log('roomId is: ' + roomId);
-    if (roomId) {
-      socker.on('players-joined', data => {
-        const { playersJoined } = data;
-        this.props.showPlayers(playersJoined);
-      });
-    }
+  constructor(props) {
+    super(props);
+    subscribeTo.showPlayers((err, playersJoined) =>
+      this.props.showPlayers(playersJoined)
+    );
   }
 
   render() {
