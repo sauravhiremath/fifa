@@ -21,11 +21,10 @@ class JoinedPlayers extends React.Component {
 
   componentDidMount() {
     const { roomId } = this.props;
-    console.log('roomId is: '+roomId);
+    console.log('roomId is: ' + roomId);
     if (roomId) {
       socker.on('players-joined', data => {
         const { playersJoined } = data;
-        console.log('Players joined: ' + JSON.stringify(playersJoined));
         this.props.showPlayers(playersJoined);
       });
     }
@@ -35,7 +34,7 @@ class JoinedPlayers extends React.Component {
     const { theme } = this.context;
     const { playersJoined } = this.props;
 
-    console.log('JOINED PLAYERS ARE: '+JSON.stringify(playersJoined));
+    console.log(`[DEBUG] PLAYERS JOINED ARE: ${JSON.stringify(playersJoined)}`);
 
     return (
       <div>
@@ -45,7 +44,8 @@ class JoinedPlayers extends React.Component {
               <IconButton disabled style={{ margin: 10 }}>
                 ContactLegacy
               </IconButton>
-              {playerInfo.username}
+              {playerInfo.username} <br />
+              {playerInfo.readyStatus ? 'READY' : 'NOT READY'}
             </div>
           ))}
         />
