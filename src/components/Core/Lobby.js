@@ -1,15 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Col, Row, Table } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
+import { Col, Row } from 'react-bootstrap';
+import Button from 'react-uwp/Button';
 
+import TeamPlayers from './TeamPlayers';
 import PlayerSearch from './PlayerSearch';
 import GroupChat from './GroupChat';
 import JoinedPlayers from './JoinedPlayers';
-import { Redirect } from 'react-router-dom';
+import { emit } from '../Socker/game.Emitters';
 
 class Lobby extends React.Component {
   state = {
+    readyStatus: false,
+    draftReadyStatus: false,
     teamPlayers: [],
     playersJoined: []
   };
@@ -22,7 +27,26 @@ class Lobby extends React.Component {
     username: PropTypes.string.isRequired
   };
 
-  handleNewRowSubmit = newPlayer => {
+  preDraft = () => {
+    const { readyStatus } = this.state;
+    const message = readyStatus ? 'WAITING FOR OTHERS...' : 'YOU READY?';
+
+    return (
+      <Button
+        tooltip="Marks you ready for the draft"
+        style={{ fontSize: 32, margin: 4 }}
+        disabled={{ readyStatus } ? false : true}
+        onClick={() => {
+          emit.startDraft();
+          this.setState({ readyStatus: true });
+        }}
+      >
+        {message}
+      </Button>
+    );
+  };
+
+  handleNewTeamPlayer = newPlayer => {
     const { teamPlayers } = this.state;
     const playerInfo = {
       id: newPlayer.objectID,
@@ -37,33 +61,13 @@ class Lobby extends React.Component {
     }
   };
 
-  teamPlayers = () => {
-    const { teamPlayers } = this.state;
-    const { username } = this.props;
-    console.log(`${username} --> Team is: ${teamPlayers}`);
-
-    return teamPlayers.map((player, index) => {
-      if (player) {
-        const { id, name, position, rating } = player;
-        return (
-          <tr key={id}>
-            <td>{index + 1}</td>
-            <td>{position}</td>
-            <td>{name}</td>
-            <td>{rating}</td>
-          </tr>
-        );
-      }
-    });
-  };
-
   showPlayers = playersJoined => {
     this.setState({ playersJoined });
   };
 
   render() {
     const { roomId, password } = this.props;
-    const { playersJoined } = this.state;
+    const { teamPlayers, playersJoined, readyStatus, draftReadyStatus } = this.state;
     const { theme } = this.context;
 
     if (!roomId) {
@@ -72,61 +76,34 @@ class Lobby extends React.Component {
 
     return (
       <Row className="mh-100 no-gutters">
-        {roomId && (
-          <Col
-            lg={3}
-            md={6}
-            style={{
-              background: theme.useFluentDesign
-                ? theme.acrylicTexture80.background
-                : 'none'
+        <Col
+          lg={3}
+          md={6}
+          style={{
+            background: theme.useFluentDesign ? theme.acrylicTexture80.background : 'none'
+          }}
+        >
+          {!draftReadyStatus && this.preDraft()}
+          {draftReadyStatus && <TeamPlayers teamPlayers={teamPlayers} />}
+          <JoinedPlayers playersJoined={playersJoined} showPlayers={this.showPlayers} />
+        </Col>
+        <Col
+          style={{
+            background: theme.useFluentDesign ? theme.acrylicTexture80.background : 'none'
+          }}
+        >
+          <PlayerSearch
+            addPlayer={this.handleNewTeamPlayer}
+            style={{ background: theme.accentDarker2 }}
+            hoverStyle={{
+              background: theme.altMedium
             }}
-          >
-            <div className="myTeamBox">
-              <Table
-                striped
-                borderless
-                hover
-                variant="dark"
-                id="team_players"
-                style={{ background: theme.accentDarker2 }}
-              >
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Pos</th>
-                    <th>Name</th>
-                    <th>Rating</th>
-                  </tr>
-                </thead>
-                <tbody>{this.teamPlayers()}</tbody>
-              </Table>
-            </div>
-            <JoinedPlayers playersJoined={playersJoined} showPlayers={this.showPlayers} />
-          </Col>
-        )}
-        {roomId && (
-          <Col
-            style={{
-              background: theme.useFluentDesign
-                ? theme.acrylicTexture80.background
-                : 'none'
-            }}
-          >
-            <PlayerSearch
-              addPlayer={this.handleNewRowSubmit}
-              style={{ background: theme.accentDarker2 }}
-              hoverStyle={{
-                background: theme.altMedium
-              }}
-            />
-          </Col>
-        )}
-        {roomId && (
-          <Col lg={3} md={6}>
-            <GroupChat />
-          </Col>
-        )}
+          />
+        </Col>
+        <Col lg={3} md={6}>
+          <GroupChat />
+        </Col>
+        )
       </Row>
     );
   }

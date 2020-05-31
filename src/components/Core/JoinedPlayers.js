@@ -4,10 +4,7 @@ import { connect } from 'react-redux';
 import ListView from 'react-uwp/ListView';
 import IconButton from 'react-uwp/IconButton';
 
-import { SockerInit } from '../Socker/Socker';
-import { initListeners } from '../Socker/init.Listeners';
-import { socker } from '../Room/Room';
-import { subscribeTo } from '../Socker/game.Listeners';
+import { subscribeTo } from '../Socker/game.Subscriptions';
 
 class JoinedPlayers extends React.Component {
   static contextTypes = { theme: PropTypes.object };
