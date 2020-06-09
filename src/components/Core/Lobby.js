@@ -103,7 +103,6 @@ class Lobby extends React.Component {
         <Col lg={3} md={6}>
           <GroupChat />
         </Col>
-        )
       </Row>
     );
   }

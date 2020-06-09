@@ -31,7 +31,7 @@ class JoinedPlayers extends React.Component {
       <div>
         <ListView
           listSource={playersJoined.map((playerInfo, index) => (
-            <div key={index}>
+            <div key={playerInfo.id}>
               <IconButton disabled style={{ margin: 10 }}>
                 ContactLegacy
               </IconButton>
