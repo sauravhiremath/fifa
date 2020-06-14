@@ -1,9 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import algoliasearch from 'algoliasearch/lite';
+import Cookies from 'js-cookie';
 import { InstantSearch, SearchBox, connectHits } from 'react-instantsearch-dom';
 
-const searchClient = algoliasearch('latency', '6be0576ff61c053d5f9a3225e2a90f76');
+const customSearchClient = {
+  async search(requests) {
+    const res = await fetch('http://localhost:3003/search', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: Cookies.get('fifa-profile')
+      },
+      body: JSON.stringify({ requests })
+    });
+    return res.json();
+  }
+};
 
 export default class Game extends React.Component {
   static contextTypes = { theme: PropTypes.object };
@@ -38,7 +50,9 @@ export default class Game extends React.Component {
             </div>
             <div className="playerHitsContent">
               <div>{item.name}</div>
-              <div>{item.rating}</div>
+              <div>
+                <b>Rating:</b> {item['Overall Rating']}  <b>Positions:</b> {item.positions}
+              </div>
             </div>
           </div>
         ))}
@@ -57,9 +71,15 @@ export default class Game extends React.Component {
     return (
       <div
         className="items-collection d-none d-sm-block"
-        style={{ background: theme.useFluentDesign ? theme.acrylicTexture80.background : 'none' }}
+        style={{
+          background: theme.useFluentDesign ? theme.acrylicTexture80.background : 'none'
+        }}
       >
-        <InstantSearch indexName="bestbuy" searchClient={searchClient}>
+        <InstantSearch
+          indexName="dev_PLAYERS"
+          searchClient={customSearchClient}
+          stalledSearchDelay={500}
+        >
           <SearchBox
             showLoadingIndicator
             translations={{
