@@ -5,7 +5,7 @@ export const emit = {
     socker.emit('is-ready');
   },
 
-  playerTurnEnd: () => {
-    socker.emit('player-turn-end');
+  playerTurnPass: () => {
+    socker.emit('player-turn-pass');
   }
 };

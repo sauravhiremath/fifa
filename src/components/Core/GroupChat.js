@@ -17,6 +17,11 @@ class GroupChat extends React.Component {
       }
     });
 
+    subscribeTo.draftStart((err, message) => {
+      this.setState(messages => ({ messages: [...messages, message] }));
+      console.log(message);
+    });
+
     subscribeTo.draftMessage((err, message) => {
       this.setState(messages => ({ messages: [...messages, message] }));
       console.log(message);

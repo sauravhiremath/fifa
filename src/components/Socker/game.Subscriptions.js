@@ -6,18 +6,37 @@ export const subscribeTo = {
   },
 
   draftMessage: cb => {
-    socker.on('draft-message', message => cb(null, message));
+    socker.on('draft-message', message => {
+      console.log(message);
+      // cb(null, message);
+    });
   },
 
   playerTurnStart: cb => {
-    socker.on('player-turn-start', message => cb(null, message));
+    socker.on('player-turn-start', message => {
+      console.log(message);
+      // cb(null, message);
+    });
   },
 
   playerTurnEnd: cb => {
-    socker.on('player-turn-end', message => cb(null, message));
+    socker.on('player-turn-end', message => {
+      console.log(message);
+      // cb(null, message);
+    });
+  },
+
+  draftStart: cb => {
+    socker.on('draft-start', message => {
+      console.log(message);
+      // cb(null, message);
+    });
   },
 
   draftEnd: cb => {
-    socker.on('draft-end', message => cb(null, message));
+    socker.on('draft-end', message => {
+      console.log(message);
+      // cb(null, message);
+    });
   }
 };

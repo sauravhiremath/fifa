@@ -32,17 +32,31 @@ class Lobby extends React.Component {
     const message = readyStatus ? 'WAITING FOR OTHERS...' : 'YOU READY?';
 
     return (
-      <Button
-        tooltip="Marks you ready for the draft"
-        style={{ fontSize: 32, margin: 4 }}
-        disabled={{ readyStatus } ? false : true}
-        onClick={() => {
-          emit.startDraft();
-          this.setState({ readyStatus: true });
-        }}
-      >
-        {message}
-      </Button>
+      <div>
+        <Button
+          tooltip="Marks you ready for the draft"
+          style={{ fontSize: 32, margin: 4 }}
+          disabled={{ readyStatus } ? false : true}
+          onClick={() => {
+            emit.startDraft();
+            this.setState({ readyStatus: true });
+          }}
+        >
+          {message}
+        </Button>
+
+        <Button
+          tooltip="Marks you ready for the draft"
+          style={{ fontSize: 32, margin: 4 }}
+          disabled={{ readyStatus } ? false : true}
+          onClick={() => {
+            emit.playerTurnPass();
+            this.setState({ readyStatus: true });
+          }}
+        >
+          NEXT TURN
+        </Button>
+      </div>
     );
   };
 
