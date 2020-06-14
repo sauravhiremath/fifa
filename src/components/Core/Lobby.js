@@ -16,7 +16,8 @@ class Lobby extends React.Component {
     readyStatus: false,
     draftReadyStatus: false,
     teamPlayers: [],
-    playersJoined: []
+    playersJoined: [],
+    currentItemId: undefined
   };
 
   static contextTypes = { theme: PropTypes.object };
@@ -32,31 +33,35 @@ class Lobby extends React.Component {
     const message = readyStatus ? 'WAITING FOR OTHERS...' : 'YOU READY?';
 
     return (
-      <div>
-        <Button
-          tooltip="Marks you ready for the draft"
-          style={{ fontSize: 32, margin: 4 }}
-          disabled={{ readyStatus } ? false : true}
-          onClick={() => {
-            emit.startDraft();
-            this.setState({ readyStatus: true });
-          }}
-        >
-          {message}
-        </Button>
+      <Button
+        tooltip="Marks you ready for the draft"
+        style={{ fontSize: 32, margin: 4 }}
+        disabled={readyStatus ? true : false}
+        onClick={() => {
+          emit.startDraft();
+          this.setState({ readyStatus: true });
+        }}
+      >
+        {message}
+      </Button>
+    );
+  };
 
-        <Button
-          tooltip="Marks you ready for the draft"
-          style={{ fontSize: 32, margin: 4 }}
-          disabled={{ readyStatus } ? false : true}
-          onClick={() => {
-            emit.playerTurnPass();
-            this.setState({ readyStatus: true });
-          }}
-        >
-          NEXT TURN
-        </Button>
-      </div>
+  onDraft = () => {
+    const { currentItemId } = this.state;
+
+    return (
+      <Button
+        tooltip="I confirm selection"
+        style={{ fontSize: 32, margin: 4 }}
+        disabled={false} // TODO: mark as true when `not my chance`
+        onClick={() => {
+          emit.playerTurnPass(currentItemId);
+          this.setState({ currentItemId: undefined });
+        }}
+      >
+        CONFIRM SELECTION
+      </Button>
     );
   };
 
@@ -69,7 +74,10 @@ class Lobby extends React.Component {
       rating: newPlayer['Overall Rating']
     };
     if (teamPlayers.every(v => v.id !== playerInfo.id)) {
-      return this.setState({ teamPlayers: [...teamPlayers, playerInfo] });
+      return this.setState({
+        currentItemId: playerInfo.id,
+        teamPlayers: [...teamPlayers, playerInfo]
+      });
     } else {
       return console.log('Player already added!');
     }
@@ -77,6 +85,13 @@ class Lobby extends React.Component {
 
   showPlayers = playersJoined => {
     this.setState({ playersJoined });
+  };
+
+  setStates = states => {
+    console.log('stesssss ' + states)
+    return states.forEach(state => {
+      this.setState({ ...state });
+    });
   };
 
   render() {
@@ -98,6 +113,7 @@ class Lobby extends React.Component {
           }}
         >
           {!draftReadyStatus && this.preDraft()}
+          {draftReadyStatus && this.onDraft()}
           {draftReadyStatus && <TeamPlayers teamPlayers={teamPlayers} />}
           <JoinedPlayers playersJoined={playersJoined} showPlayers={this.showPlayers} />
         </Col>
@@ -115,7 +131,7 @@ class Lobby extends React.Component {
           />
         </Col>
         <Col lg={3} md={6}>
-          <GroupChat />
+          <GroupChat setParentStates={this.setStates} />
         </Col>
       </Row>
     );

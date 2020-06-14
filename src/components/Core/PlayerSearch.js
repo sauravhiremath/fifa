@@ -56,7 +56,7 @@ export default class Game extends React.Component {
 
     return (
       <div
-        className="d-none d-sm-block"
+        className="items-collection d-none d-sm-block"
         style={{ background: theme.useFluentDesign ? theme.acrylicTexture80.background : 'none' }}
       >
         <InstantSearch indexName="bestbuy" searchClient={searchClient}>

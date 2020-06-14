@@ -1,66 +1,129 @@
 import React from 'react';
-import { Input, Button, MessageBox } from 'react-chat-elements';
+import PropTypes from 'prop-types';
+import { Input, Button, MessageList, SystemMessage } from 'react-chat-elements';
 
 import { subscribeTo } from '../Socker/game.Subscriptions';
 
 class GroupChat extends React.Component {
   state = {
-    messages: ['Joined Room']
+    messages: []
+  };
+
+  static propTypes = {
+    setParentStates: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
+
     subscribeTo.showPlayers((err, message) => {
-      if (message) {
-        console.log(message[0].username);
-        // this.setState(messages => ({ messages: [...messages, message[0].username] }));
-      }
+      let convertedMsg = '';
+      message.forEach(player => {
+        convertedMsg += `${player.username} is ${
+          player.readyStatus ? 'ready' : 'not ready'
+        } \n`;
+      });
+      const systemMsg = {
+        position: 'right',
+        notch: false,
+        date: null,
+        type: 'text',
+        text: convertedMsg
+      };
+      this.setState(state => ({
+        messages: [...state.messages, systemMsg]
+      }));
+      console.log(message);
     });
 
     subscribeTo.draftStart((err, message) => {
-      this.setState(messages => ({ messages: [...messages, message] }));
+      const systemMsg = {
+        position: 'right',
+        notch: false,
+        date: null,
+        type: 'text',
+        text: message
+      };
+      this.setState(state => ({ messages: [...state.messages, systemMsg] }));
+      this.props.setParentStates([{ draftReadyStatus: true }]);
+
       console.log(message);
     });
 
     subscribeTo.draftMessage((err, message) => {
-      this.setState(messages => ({ messages: [...messages, message] }));
+      const systemMsg = {
+        position: 'right',
+        notch: false,
+        date: null,
+        type: 'text',
+        text: message
+      };
+
+      this.setState(state => ({ messages: [...state.messages, systemMsg] }));
       console.log(message);
     });
 
     subscribeTo.playerTurnStart((err, message) => {
-      this.setState(messages => ({ messages: [...messages, message] }));
+      const systemMsg = {
+        position: 'right',
+        notch: false,
+        date: null,
+        type: 'text',
+        text: message
+      };
+
+      this.setState(state => ({ messages: [...state.messages, systemMsg] }));
       console.log(message);
     });
 
     subscribeTo.playerTurnEnd((err, message) => {
-      this.setState(messages => ({ messages: [...messages, message] }));
+      const systemMsg = {
+        position: 'right',
+        notch: false,
+        date: null,
+        type: 'text',
+        text: message
+      };
+
+      this.setState(state => ({ messages: [...state.messages, systemMsg] }));
       console.log(message);
     });
 
     subscribeTo.draftEnd((err, message) => {
-      this.setState(messages => ({ messages: [...messages, message] }));
+      const systemMsg = {
+        position: 'right',
+        notch: false,
+        date: null,
+        type: 'text',
+        text: message
+      };
+
+      this.setState(state => ({ messages: [...state.messages, systemMsg] }));
       console.log(message);
     });
   }
 
-  showLogs = () => {
-    const { messages } = this.state;
-
-    return messages.map((message, index) => {
-      return (
-        <div key={index} style={{ color: 'black' }}>
-          <MessageBox title position="left" type="text" text={message} />
-        </div>
-      );
-    });
-  };
-
   render() {
-    const { message } = this.state;
+    const { messages } = this.state;
 
     return (
       <div>
-        {this.showLogs()}
+        <div
+          style={{
+            color: '#88898a',
+            fontSize: '0.5em',
+            height: '80vh',
+            overflowY: 'scroll'
+          }}
+        >
+          <MessageList
+            className="group-chat"
+            lockable={false}
+            toBottomHeight="100%"
+            dataSource={messages}
+            style={{ }}
+          />
+        </div>
         <Input
           multiline
           placeholder="Type here..."

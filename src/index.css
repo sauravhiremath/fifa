@@ -43,6 +43,6 @@ code {
 }
 
 .playerHitsBox {
-  height: 100vh;
+  height: 90vh;
   overflow-y: scroll;
 }

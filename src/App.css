@@ -30,3 +30,22 @@
 .App-link {
   color: #61dafb;
 }
+
+/* Workaround for multiline messages in react-chat-component */
+.rce-mbox-text {
+  white-space: pre-wrap;
+}
+
+.group-chat .rce-mbox-text {
+  text-align: center;
+  font-size: xx-small;
+}
+
+.group-chat .rce-container-mbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.group-chat .rce-mbox-text:after {
+  display: none;
+}

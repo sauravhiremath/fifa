@@ -4,7 +4,7 @@ import { Col, Row, Table } from 'react-bootstrap';
 
 export default class TeamPlayers extends React.Component {
   static propTypes = {
-    teamPlayers: PropTypes.object.isRequired
+    teamPlayers: PropTypes.array.isRequired
   };
 
   static contextTypes = { theme: PropTypes.object };
