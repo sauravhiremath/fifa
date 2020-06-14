@@ -12,6 +12,7 @@ import CreateRoom from './Room.Create';
 import { SockerInit } from '../Socker/Socker';
 import { initListeners } from '../Socker/init.Listeners';
 import { addRoomId, addPassword } from '../../modules/action';
+import { emit } from '../Socker/game.Emitters';
 
 export let socker = undefined;
 
@@ -43,6 +44,7 @@ class Room extends React.Component {
     const { roomId } = this.props;
 
     if (error) {
+      emit.closeConnection();
       return <ErrorHandler redirectUrl="/" error={error} resetError={this.resetError} />;
     }
 
