@@ -2,7 +2,7 @@ export let sockerUrl;
 export let restUrl;
 
 if (process.env.NODE_ENV === 'production') {
-  sockerUrl = 'https://socker.fifa.sauravmh.me/classsic-mode';
+  sockerUrl = 'https://socker.fifa.sauravmh.me/classic-mode';
   restUrl = 'https://api.fifa.sauravmh.me'
 } else {
   sockerUrl = 'http://localhost:3004/classic-mode';
