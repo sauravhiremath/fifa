@@ -9,6 +9,7 @@ import Button from 'react-uwp/Button';
 import ErrorHandler from './ErrorHandler';
 import { logIn } from '../modules/action';
 import { connect } from 'react-redux';
+import { restUrl } from '../env';
 
 class Auth extends React.Component {
   state = {
@@ -48,7 +49,7 @@ class Auth extends React.Component {
     const { username } = this.state;
     const { logIn } = this.props;
 
-    const response = await axios.post('http://localhost:3003/auth/login', { username });
+    const response = await axios.post(`${restUrl}/auth/login`, { username });
     if (!response.data.success) {
       return (
         <ErrorHandler
@@ -120,7 +121,7 @@ const introInfo = () => {
 };
 
 const verifyToken = async token => {
-  const response = await axios.post('http://localhost:3003/auth/verify', { token });
+  const response = await axios.post(`${restUrl}/auth/verify`, { token });
   if (response.data.success) {
     return response.data.decoded;
   }

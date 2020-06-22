@@ -5,7 +5,7 @@ import { InstantSearch, SearchBox, connectHits } from 'react-instantsearch-dom';
 
 const customSearchClient = {
   async search(requests) {
-    const res = await fetch('http://localhost:3003/search', {
+    const res = await fetch(`${restUrl}/search`, {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
