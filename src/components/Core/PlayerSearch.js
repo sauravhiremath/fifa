@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 import { InstantSearch, SearchBox, connectHits } from 'react-instantsearch-dom';
 
+import { restUrl } from '../../env';
+
 const customSearchClient = {
   async search(requests) {
     const res = await fetch(`${restUrl}/search`, {
