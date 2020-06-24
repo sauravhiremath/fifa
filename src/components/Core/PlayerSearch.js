@@ -52,15 +52,9 @@ export default class Game extends React.Component {
               {/* <img src={item.photo_url} alt="" /> */}
               <Image
                 src={item.photo_url.replace('https', 'http')}
-                onError={e => {
-                  fetch(item.photo_url.replace('https', 'http'), {
-                    referrerPolicy: "origin-when-cross-origin",
-                    referrer: 'http://sofifa.com',
-                    cache: 'force-cache'
-                  })
-                    .then(r => r.blob())
-                    .then(d => (e.target.src = window.URL.createObjectURL(d)));
-                }}
+                onError={e =>
+                  (e.target.src = 'https://media.giphy.com/media/ely755SrwemZZTiXpJ/source.gif')
+                }
               />
             </div>
             <div className="playerHitsContent">
