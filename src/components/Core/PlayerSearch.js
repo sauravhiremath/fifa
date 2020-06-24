@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 import { InstantSearch, SearchBox, connectHits } from 'react-instantsearch-dom';
+import { Image } from 'react-bootstrap';
 
 import { restUrl } from '../../env';
 
@@ -48,12 +49,24 @@ export default class Game extends React.Component {
             }}
           >
             <div className="playerHitsImage">
-              <img src={item.photo_url} alt="" />
+              {/* <img src={item.photo_url} alt="" /> */}
+              <Image
+                src={item.photo_url.replace('https', 'http')}
+                onError={e => {
+                  fetch(item.photo_url.replace('https', 'http'), {
+                    referrerPolicy: "origin-when-cross-origin",
+                    referrer: 'http://sofifa.com',
+                    cache: 'force-cache'
+                  })
+                    .then(r => r.blob())
+                    .then(d => (e.target.src = window.URL.createObjectURL(d)));
+                }}
+              />
             </div>
             <div className="playerHitsContent">
               <div>{item.name}</div>
               <div>
-                <b>Rating:</b> {item['Overall Rating']}  <b>Positions:</b> {item.positions}
+                <b>Rating:</b> {item['Overall Rating']} <b>Positions:</b> {item.positions}
               </div>
             </div>
           </div>
