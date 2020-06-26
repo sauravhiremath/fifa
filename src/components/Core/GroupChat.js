@@ -50,7 +50,7 @@ class GroupChat extends React.Component {
       console.log(message);
     });
 
-    subscribeTo.draftMessage((err, message) => {
+    subscribeTo.personalTurnStart((err, message) => {
       const systemMsg = {
         position: 'right',
         notch: false,
@@ -60,6 +60,7 @@ class GroupChat extends React.Component {
       };
 
       this.setState(state => ({ messages: [...state.messages, systemMsg] }));
+      this.props.setParentStates([{ isTurn: true }]);
       console.log(message);
     });
 
@@ -73,6 +74,20 @@ class GroupChat extends React.Component {
       };
 
       this.setState(state => ({ messages: [...state.messages, systemMsg] }));
+      console.log(message);
+    });
+
+    subscribeTo.personalTurnEnd((err, message) => {
+      const systemMsg = {
+        position: 'right',
+        notch: false,
+        date: null,
+        type: 'text',
+        text: message
+      };
+
+      this.setState(state => ({ messages: [...state.messages, systemMsg] }));
+      this.props.setParentStates([{ isTurn: false }]);
       console.log(message);
     });
 
@@ -121,7 +136,7 @@ class GroupChat extends React.Component {
             lockable={false}
             toBottomHeight="100%"
             dataSource={messages}
-            style={{ }}
+            style={{}}
           />
         </div>
         <Input

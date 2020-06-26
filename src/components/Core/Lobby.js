@@ -10,7 +10,6 @@ import PlayerSearch from './PlayerSearch';
 import GroupChat from './GroupChat';
 import JoinedPlayers from './JoinedPlayers';
 import { emit } from '../Socker/game.Emitters';
-import { ContentDialog } from 'react-uwp';
 
 class Lobby extends React.Component {
   state = {
@@ -38,7 +37,7 @@ class Lobby extends React.Component {
       <Button
         tooltip="Marks you ready for the draft"
         style={{ fontSize: 32, margin: 4 }}
-        disabled={isReady ? true : false}
+        disabled={isReady}
         onClick={() => {
           emit.startDraft();
           this.setState({ isReady: true });
@@ -58,7 +57,7 @@ class Lobby extends React.Component {
         <Button
           tooltip="I confirm selection"
           style={{ fontSize: 16, margin: 4 }}
-          disabled={isTurn} // TODO: mark as true when `not my chance`
+          disabled={!isTurn} // TODO: mark as true when `not my chance`
           onClick={() => {
             if (currentItem && teamPlayers.every(v => v.id !== currentItem.id)) {
               this.setState({ teamPlayers: [...teamPlayers, currentItem] });

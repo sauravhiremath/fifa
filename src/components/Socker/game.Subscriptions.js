@@ -9,8 +9,8 @@ export const subscribeTo = {
     socker.on('show-players-teams', data => cb(null, data.teams));
   },
 
-  draftMessage: cb => {
-    socker.on('draft-message', message => {
+  personalTurnStart: cb => {
+    socker.on('personal-turn-start', message => {
       console.log(message);
       cb(null, message);
     });
@@ -18,6 +18,13 @@ export const subscribeTo = {
 
   playerTurnStart: cb => {
     socker.on('player-turn-start', message => {
+      console.log(message);
+      cb(null, message);
+    });
+  },
+
+  personalTurnEnd: cb => {
+    socker.on('personal-turn-end', message => {
       console.log(message);
       cb(null, message);
     });
