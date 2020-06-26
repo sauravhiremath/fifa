@@ -36,7 +36,7 @@ class JoinedPlayers extends React.Component {
                 ContactLegacy
               </IconButton>
               {playerInfo.username} <br />
-              {playerInfo.readyStatus ? 'READY' : 'NOT READY'}
+              {playerInfo.isReady ? 'READY' : 'NOT READY'}
             </div>
           ))}
         />

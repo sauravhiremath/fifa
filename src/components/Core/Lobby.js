@@ -10,14 +10,16 @@ import PlayerSearch from './PlayerSearch';
 import GroupChat from './GroupChat';
 import JoinedPlayers from './JoinedPlayers';
 import { emit } from '../Socker/game.Emitters';
+import { ContentDialog } from 'react-uwp';
 
 class Lobby extends React.Component {
   state = {
-    readyStatus: false,
-    draftReadyStatus: false,
+    isReady: false,
+    isDraftReady: false,
+    isTurn: false,
     teamPlayers: [],
     playersJoined: [],
-    currentItemId: undefined
+    currentItem: undefined
   };
 
   static contextTypes = { theme: PropTypes.object };
@@ -29,17 +31,17 @@ class Lobby extends React.Component {
   };
 
   preDraft = () => {
-    const { readyStatus } = this.state;
-    const message = readyStatus ? 'WAITING FOR OTHERS...' : 'YOU READY?';
+    const { isReady } = this.state;
+    const message = isReady ? 'WAITING FOR OTHERS...' : 'YOU READY?';
 
     return (
       <Button
         tooltip="Marks you ready for the draft"
         style={{ fontSize: 32, margin: 4 }}
-        disabled={readyStatus ? true : false}
+        disabled={isReady ? true : false}
         onClick={() => {
           emit.startDraft();
-          this.setState({ readyStatus: true });
+          this.setState({ isReady: true });
         }}
       >
         {message}
@@ -48,24 +50,38 @@ class Lobby extends React.Component {
   };
 
   onDraft = () => {
-    const { currentItemId } = this.state;
+    const { currentItem, isTurn, teamPlayers } = this.state;
 
+    // TODO: Make `itemCollection` as Set()
     return (
-      <Button
-        tooltip="I confirm selection"
-        style={{ fontSize: 32, margin: 4 }}
-        disabled={false} // TODO: mark as true when `not my chance`
-        onClick={() => {
-          emit.playerTurnPass(currentItemId);
-          this.setState({ currentItemId: undefined });
-        }}
-      >
-        CONFIRM SELECTION
-      </Button>
+      <div>
+        <Button
+          tooltip="I confirm selection"
+          style={{ fontSize: 16, margin: 4 }}
+          disabled={isTurn} // TODO: mark as true when `not my chance`
+          onClick={() => {
+            if (currentItem && teamPlayers.every(v => v.id !== currentItem.id)) {
+              this.setState({ teamPlayers: [...teamPlayers, currentItem] });
+              emit.playerTurnPass(currentItem);
+            }
+          }}
+        >
+          <div>
+            <span style={{ fontSize: 24 }}>
+              CONFIRM SELECTION <br />
+            </span>
+            <span style={{ overflowX: 'scroll' }}>
+              Name: {currentItem?.name} <br />
+              Rating: {currentItem?.rating} <br />
+              Position: {currentItem?.position}
+            </span>
+          </div>
+        </Button>
+      </div>
     );
   };
 
-  handleNewTeamPlayer = newPlayer => {
+  updateCurrentItem = newPlayer => {
     const { teamPlayers } = this.state;
     const playerInfo = {
       id: newPlayer.objectID,
@@ -75,8 +91,7 @@ class Lobby extends React.Component {
     };
     if (teamPlayers.every(v => v.id !== playerInfo.id)) {
       return this.setState({
-        currentItemId: playerInfo.id,
-        teamPlayers: [...teamPlayers, playerInfo]
+        currentItem: playerInfo
       });
     } else {
       return console.log('Player already added!');
@@ -88,7 +103,7 @@ class Lobby extends React.Component {
   };
 
   setStates = states => {
-    console.log('stesssss ' + states)
+    console.log('stesssss ' + states);
     return states.forEach(state => {
       this.setState({ ...state });
     });
@@ -96,7 +111,7 @@ class Lobby extends React.Component {
 
   render() {
     const { roomId, password } = this.props;
-    const { teamPlayers, playersJoined, readyStatus, draftReadyStatus } = this.state;
+    const { teamPlayers, playersJoined, isReady, isDraftReady } = this.state;
     const { theme } = this.context;
 
     if (!roomId) {
@@ -112,9 +127,9 @@ class Lobby extends React.Component {
             background: theme.useFluentDesign ? theme.acrylicTexture80.background : 'none'
           }}
         >
-          {!draftReadyStatus && this.preDraft()}
-          {draftReadyStatus && this.onDraft()}
-          {draftReadyStatus && <TeamPlayers teamPlayers={teamPlayers} />}
+          {!isDraftReady && this.preDraft()}
+          {isDraftReady && this.onDraft()}
+          {isDraftReady && <TeamPlayers teamPlayers={teamPlayers} />}
           <JoinedPlayers playersJoined={playersJoined} showPlayers={this.showPlayers} />
         </Col>
         <Col
@@ -123,7 +138,8 @@ class Lobby extends React.Component {
           }}
         >
           <PlayerSearch
-            addPlayer={this.handleNewTeamPlayer}
+            updateCurrentItem={this.updateCurrentItem}
+            isDraftReady={isDraftReady}
             style={{ background: theme.accentDarker2 }}
             hoverStyle={{
               background: theme.altMedium

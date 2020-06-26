@@ -20,7 +20,7 @@ class GroupChat extends React.Component {
       let convertedMsg = '';
       message.forEach(player => {
         convertedMsg += `${player.username} is ${
-          player.readyStatus ? 'ready' : 'not ready'
+          player.isReady ? 'ready' : 'not ready'
         } \n`;
       });
       const systemMsg = {
@@ -45,7 +45,7 @@ class GroupChat extends React.Component {
         text: message
       };
       this.setState(state => ({ messages: [...state.messages, systemMsg] }));
-      this.props.setParentStates([{ draftReadyStatus: true }]);
+      this.props.setParentStates([{ isDraftReady: true }]);
 
       console.log(message);
     });
@@ -112,7 +112,7 @@ class GroupChat extends React.Component {
           style={{
             color: '#88898a',
             fontSize: '0.5em',
-            height: '80vh',
+            height: '40vh',
             overflowY: 'scroll'
           }}
         >

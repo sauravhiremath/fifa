@@ -5,6 +5,7 @@ import { InstantSearch, SearchBox, connectHits } from 'react-instantsearch-dom';
 import { Image } from 'react-bootstrap';
 
 import { restUrl } from '../../env';
+import { emit } from '../Socker/game.Emitters';
 
 const customSearchClient = {
   async search(requests) {
@@ -20,12 +21,22 @@ const customSearchClient = {
   }
 };
 
-export default class Game extends React.Component {
+export default class PlayerSearch extends React.Component {
+  state = { searchParameter: '' };
+
   static contextTypes = { theme: PropTypes.object };
 
   static propTypes = {
-    addPlayer: PropTypes.func.isRequired
+    updateCurrentItem: PropTypes.func.isRequired,
+    isDraftReady: PropTypes.bool.isRequired
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState.searchParameter === this.state.searchParameter) {
+      return false;
+    }
+    return true;
+  }
 
   PlayerHits = () => {
     const CustomHits = connectHits(this.Hits);
@@ -44,16 +55,14 @@ export default class Game extends React.Component {
           <div
             key={item.objectID}
             className="playerHitsRow"
-            onClick={() => {
-              this.updatePlayerList(item);
-            }}
+            onClick={() => this.addItem(item)}
           >
             <div className="playerHitsImage">
-              {/* <img src={item.photo_url} alt="" /> */}
               <Image
                 src={item.photo_url.replace('https', 'http')}
                 onError={e =>
-                  (e.target.src = 'https://media.giphy.com/media/ely755SrwemZZTiXpJ/source.gif')
+                  (e.target.src =
+                    'https://media.giphy.com/media/ely755SrwemZZTiXpJ/source.gif')
                 }
               />
             </div>
@@ -69,9 +78,11 @@ export default class Game extends React.Component {
     );
   };
 
-  updatePlayerList = playerInfo => {
-    const { addPlayer } = this.props;
-    addPlayer(playerInfo);
+  addItem = item => {
+    const { updateCurrentItem, isDraftReady } = this.props;
+    if (isDraftReady) {
+      updateCurrentItem(item);
+    }
   };
 
   render() {
@@ -96,6 +107,7 @@ export default class Game extends React.Component {
               resetTitle: 'Clear your search query.',
               placeholder: 'Search players here...'
             }}
+            onChange={e => this.setState({ searchParameter: e.target.value })}
           />
           <this.PlayerHits />
         </InstantSearch>

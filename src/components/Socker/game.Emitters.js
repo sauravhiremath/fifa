@@ -5,8 +5,8 @@ export const emit = {
     socker.emit('is-ready');
   },
 
-  playerTurnPass: (itemId) => {
-    socker.emit('player-turn-pass');
+  playerTurnPass: itemId => {
+    socker.emit('player-turn-pass', { itemId });
   },
 
   closeConnection: () => {
