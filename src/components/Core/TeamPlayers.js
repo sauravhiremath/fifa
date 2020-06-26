@@ -4,15 +4,20 @@ import { Col, Row, Table } from 'react-bootstrap';
 
 export default class TeamPlayers extends React.Component {
   static propTypes = {
-    teamPlayers: PropTypes.array.isRequired
+    teamPlayers: PropTypes.array.isRequired,
+    allCollections: PropTypes.object.isRequired,
+    collectionId: PropTypes.string.isRequired
   };
 
   static contextTypes = { theme: PropTypes.object };
 
   renderTeamPlayers = () => {
-    const { teamPlayers } = this.props;
-
-    return teamPlayers.map((player, index) => {
+    const { teamPlayers, allCollections, collectionId } = this.props;
+    let currentCollection = teamPlayers
+    if (collectionId !== 'current-user') {
+      currentCollection = allCollections[collectionId];
+    }
+    return currentCollection.map((player, index) => {
       if (player) {
         const { id, name, position, rating } = player;
         return (

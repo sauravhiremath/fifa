@@ -20,7 +20,7 @@ class GroupChat extends React.Component {
       let convertedMsg = '';
       message.forEach(player => {
         convertedMsg += `${player.username} is ${
-          player.readyStatus ? 'ready' : 'not ready'
+          player.isReady ? 'ready' : 'not ready'
         } \n`;
       });
       const systemMsg = {
@@ -45,12 +45,17 @@ class GroupChat extends React.Component {
         text: message
       };
       this.setState(state => ({ messages: [...state.messages, systemMsg] }));
-      this.props.setParentStates([{ draftReadyStatus: true }]);
+      this.props.setParentStates([{ isDraftReady: true }]);
 
       console.log(message);
     });
 
-    subscribeTo.draftMessage((err, message) => {
+    subscribeTo.playerCollections((err, message) => {
+      this.props.setParentStates([{ allCollections: message }]);
+      console.log(message);
+    });
+
+    subscribeTo.personalTurnStart((err, message) => {
       const systemMsg = {
         position: 'right',
         notch: false,
@@ -60,6 +65,7 @@ class GroupChat extends React.Component {
       };
 
       this.setState(state => ({ messages: [...state.messages, systemMsg] }));
+      this.props.setParentStates([{ isTurn: true }]);
       console.log(message);
     });
 
@@ -73,6 +79,20 @@ class GroupChat extends React.Component {
       };
 
       this.setState(state => ({ messages: [...state.messages, systemMsg] }));
+      console.log(message);
+    });
+
+    subscribeTo.personalTurnEnd((err, message) => {
+      const systemMsg = {
+        position: 'right',
+        notch: false,
+        date: null,
+        type: 'text',
+        text: message
+      };
+
+      this.setState(state => ({ messages: [...state.messages, systemMsg] }));
+      this.props.setParentStates([{ isTurn: false }]);
       console.log(message);
     });
 
@@ -112,7 +132,7 @@ class GroupChat extends React.Component {
           style={{
             color: '#88898a',
             fontSize: '0.5em',
-            height: '80vh',
+            height: '40vh',
             overflowY: 'scroll'
           }}
         >
@@ -121,7 +141,7 @@ class GroupChat extends React.Component {
             lockable={false}
             toBottomHeight="100%"
             dataSource={messages}
-            style={{ }}
+            style={{}}
           />
         </div>
         <Input

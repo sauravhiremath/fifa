@@ -11,19 +11,20 @@ class JoinedPlayers extends React.Component {
 
   static propTypes = {
     playersJoined: PropTypes.array.isRequired,
-    showPlayers: PropTypes.func.isRequired
+    onPlayerJoin: PropTypes.func.isRequired,
+    changeCollectionTo: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
     subscribeTo.showPlayers((err, playersJoined) =>
-      this.props.showPlayers(playersJoined)
+      this.props.onPlayerJoin(playersJoined)
     );
   }
 
   render() {
     const { theme } = this.context;
-    const { playersJoined } = this.props;
+    const { playersJoined, changeCollectionTo } = this.props;
 
     console.log(`[DEBUG] PLAYERS JOINED ARE: ${JSON.stringify(playersJoined)}`);
 
@@ -31,12 +32,17 @@ class JoinedPlayers extends React.Component {
       <div>
         <ListView
           listSource={playersJoined.map((playerInfo, index) => (
-            <div key={playerInfo.id}>
+            <div
+              key={playerInfo.id}
+              onClick={() => {
+                changeCollectionTo(playerInfo.id);
+              }}
+            >
               <IconButton disabled style={{ margin: 10 }}>
                 ContactLegacy
               </IconButton>
               {playerInfo.username} <br />
-              {playerInfo.readyStatus ? 'READY' : 'NOT READY'}
+              {playerInfo.isReady ? 'READY' : 'NOT READY'}
             </div>
           ))}
         />
