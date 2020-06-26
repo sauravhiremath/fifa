@@ -5,7 +5,7 @@ export const subscribeTo = {
     socker.on('show-players-joined', data => cb(null, data.playersJoined));
   },
 
-  showPlayersTeams: cb => {
+  playerCollections: cb => {
     socker.on('show-players-teams', data => cb(null, data.teams));
   },
 

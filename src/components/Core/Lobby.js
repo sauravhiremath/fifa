@@ -18,7 +18,9 @@ class Lobby extends React.Component {
     isTurn: false,
     teamPlayers: [],
     playersJoined: [],
-    currentItem: undefined
+    currentItem: undefined,
+    allCollections: [],
+    currentCollectionId: 'current-user'
   };
 
   static contextTypes = { theme: PropTypes.object };
@@ -97,12 +99,15 @@ class Lobby extends React.Component {
     }
   };
 
-  showPlayers = playersJoined => {
+  updatePlayers = playersJoined => {
     this.setState({ playersJoined });
   };
 
+  switchCollection = playerId => {
+    this.setState({ currentCollectionId: playerId });
+  };
+
   setStates = states => {
-    console.log('stesssss ' + states);
     return states.forEach(state => {
       this.setState({ ...state });
     });
@@ -110,7 +115,14 @@ class Lobby extends React.Component {
 
   render() {
     const { roomId, password } = this.props;
-    const { teamPlayers, playersJoined, isReady, isDraftReady } = this.state;
+    const {
+      teamPlayers,
+      playersJoined,
+      isReady,
+      isDraftReady,
+      allCollections,
+      currentCollectionId
+    } = this.state;
     const { theme } = this.context;
 
     if (!roomId) {
@@ -128,8 +140,18 @@ class Lobby extends React.Component {
         >
           {!isDraftReady && this.preDraft()}
           {isDraftReady && this.onDraft()}
-          {isDraftReady && <TeamPlayers teamPlayers={teamPlayers} />}
-          <JoinedPlayers playersJoined={playersJoined} showPlayers={this.showPlayers} />
+          {isDraftReady && (
+            <TeamPlayers
+              allCollections={allCollections}
+              collectionId={currentCollectionId}
+              teamPlayers={teamPlayers}
+            />
+          )}
+          <JoinedPlayers
+            playersJoined={playersJoined}
+            changeCollectionTo={this.switchCollection}
+            onPlayerJoin={this.updatePlayers}
+          />
         </Col>
         <Col
           style={{

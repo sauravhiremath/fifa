@@ -50,6 +50,11 @@ class GroupChat extends React.Component {
       console.log(message);
     });
 
+    subscribeTo.playerCollections((err, message) => {
+      this.props.setParentStates([{ allCollections: message }]);
+      console.log(message);
+    });
+
     subscribeTo.personalTurnStart((err, message) => {
       const systemMsg = {
         position: 'right',
