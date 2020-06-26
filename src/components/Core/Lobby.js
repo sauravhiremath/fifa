@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Col, Row } from 'react-bootstrap';
 import Button from 'react-uwp/Button';
+import ContentDialog from 'react-uwp/ContentDialog';
 
 import TeamPlayers from './TeamPlayers';
 import PlayerSearch from './PlayerSearch';
@@ -13,13 +14,14 @@ import { emit } from '../Socker/game.Emitters';
 
 class Lobby extends React.Component {
   state = {
+    warning: [false, undefined, undefined],
     isReady: false,
     isDraftReady: false,
     isTurn: false,
     teamPlayers: [],
     playersJoined: [],
     currentItem: undefined,
-    allCollections: [],
+    allCollections: {},
     currentCollectionId: 'current-user'
   };
 
@@ -59,11 +61,19 @@ class Lobby extends React.Component {
         <Button
           tooltip="I confirm selection"
           style={{ fontSize: 16, margin: 4 }}
-          disabled={!isTurn} // TODO: mark as true when `not my chance`
+          disabled={!isTurn}
           onClick={() => {
             if (currentItem && teamPlayers.every(v => v.id !== currentItem.id)) {
               this.setState({ teamPlayers: [...teamPlayers, currentItem] });
               emit.playerTurnPass(currentItem);
+            } else {
+              return this.setState({
+                warning: [
+                  true,
+                  'Duplicate Entry Found',
+                  'This item has already been picked by you, choose another'
+                ]
+              });
             }
           }}
         >
@@ -83,16 +93,24 @@ class Lobby extends React.Component {
   };
 
   updateCurrentItem = newPlayer => {
-    const { teamPlayers } = this.state;
-    const playerInfo = {
+    const { teamPlayers, allCollections, playersJoined } = this.state;
+    const item = {
       id: newPlayer.objectID,
       name: newPlayer.name,
       position: newPlayer.positions,
       rating: newPlayer['Overall Rating']
     };
-    if (teamPlayers.every(v => v.id !== playerInfo.id)) {
-      return this.setState({
-        currentItem: playerInfo
+    const warning = warnIfDuplicateAcrossCollections(item, allCollections, playersJoined);
+    if (warning) {
+      return this.setState({ warning });
+    }
+
+    // TODO: This check shouldn't be necessary, the above
+    //       check should handle all duplicate cases of all
+    //       players. (Test and remove later)
+    if (teamPlayers.every(v => v.id !== item.id)) {
+      this.setState({
+        currentItem: item
       });
     } else {
       return console.log('Player already added!');
@@ -113,6 +131,20 @@ class Lobby extends React.Component {
     });
   };
 
+  showWarning = warning => {
+    return (
+      <ContentDialog
+        showCloseButton
+        defaultShow={warning[0]}
+        primaryButtonText="OKAY, UNDERSTOOD"
+        secondaryButtonText={null}
+        title={warning[1]}
+        content={warning[2]}
+        onCloseDialog={() => this.setState({ warning: [false, undefined, undefined] })}
+      />
+    );
+  };
+
   render() {
     const { roomId, password } = this.props;
     const {
@@ -121,7 +153,8 @@ class Lobby extends React.Component {
       isReady,
       isDraftReady,
       allCollections,
-      currentCollectionId
+      currentCollectionId,
+      warning
     } = this.state;
     const { theme } = this.context;
 
@@ -138,6 +171,7 @@ class Lobby extends React.Component {
             background: theme.useFluentDesign ? theme.acrylicTexture80.background : 'none'
           }}
         >
+          {this.showWarning(warning)}
           {!isDraftReady && this.preDraft()}
           {isDraftReady && this.onDraft()}
           {isDraftReady && (
@@ -175,12 +209,28 @@ class Lobby extends React.Component {
   }
 }
 
-const mapStateToProps = function (state) {
+const mapStateToProps = state => {
   return {
     username: state.username,
     roomId: state.roomId,
     password: state.password
   };
+};
+
+const warnIfDuplicateAcrossCollections = (item, collections, players) => {
+  for (const sockerId in collections) {
+    for (const eachItem of collections[sockerId]) {
+      if (eachItem.id === item.id) {
+        const { username } = players.filter(player => player.id === sockerId)[0];
+        return [
+          true,
+          'Duplicate Entry Found!',
+          `This item is already taken by ${username}`
+        ];
+      }
+    }
+  }
+  return false;
 };
 
 export default connect(mapStateToProps)(Lobby);

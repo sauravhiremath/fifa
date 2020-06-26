@@ -29,7 +29,7 @@ class JoinedPlayers extends React.Component {
     console.log(`[DEBUG] PLAYERS JOINED ARE: ${JSON.stringify(playersJoined)}`);
 
     return (
-      <div>
+      <div style={{ overflowY: 'scroll', overflowX: 'hidden' }}>
         <ListView
           listSource={playersJoined.map((playerInfo, index) => (
             <div

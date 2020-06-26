@@ -6,9 +6,9 @@ import { ContentDialog } from 'react-uwp';
 export default class ErrorHandler extends React.Component {
   /**
    * Render Error modal
-   * Received props -> redirectUrl  string   - URL to redirect to, after processing error
-   *                -> error        Object   - Topic and Message for the error
-   *                -> resetError   func     - Reset Error state on parent component
+   * Received props -> redirectUrl  string       - URL to redirect to, after processing error
+   *                -> error        Object       - Topic and Message for the error
+   *                -> resetError   function     - Reset Error state on parent component
    */
   state = {
     redirect: false
@@ -45,7 +45,6 @@ export default class ErrorHandler extends React.Component {
           content={`${error.content}`}
           defaultShow="true"
           primaryButtonAction={() => this.handleError()}
-          secondaryButtonAction={() => this.handleError()}
           closeButtonAction={() => this.handleError()}
           primaryButtonText="Redirect back"
           secondaryButtonText={null}
