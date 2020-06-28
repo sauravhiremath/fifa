@@ -13,10 +13,7 @@ export default class TeamPlayers extends React.Component {
 
   renderTeamPlayers = () => {
     const { teamPlayers, allCollections, collectionId } = this.props;
-    let currentCollection = teamPlayers
-    if (collectionId !== 'current-user') {
-      currentCollection = allCollections[collectionId];
-    }
+    const currentCollection = allCollections[collectionId] || teamPlayers;
     return currentCollection.map((player, index) => {
       if (player) {
         const { id, name, position, rating } = player;

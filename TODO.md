@@ -3,7 +3,7 @@
 [x] Alias, create and join Room
 [x] The area below contains divs with football player names as the user picks them
 [x] People joined in room
-[ ] Start and shuffle button (Draft begins)
+[x] Start and shuffle button (Draft begins)
 [ ] Reset and start over option
 [ ] Update Player info as you play(community effort)
 
