@@ -46,3 +46,8 @@ code {
   height: 90vh;
   overflow-y: scroll;
 }
+
+.timer-wrapper {
+  display: flex;
+  justify-content: center;
+}

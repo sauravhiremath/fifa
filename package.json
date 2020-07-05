@@ -15,6 +15,7 @@
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.0",
     "react-chat-elements": "^10.9.2",
+    "react-countdown-circle-timer": "^2.2.2",
     "react-dom": "^16.13.1",
     "react-grid-layout": "^0.18.3",
     "react-instantsearch-dom": "^6.4.0",

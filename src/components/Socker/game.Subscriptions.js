@@ -9,7 +9,7 @@ export const subscribeTo = {
     socker.on('show-players-teams', data => cb(null, data.teams));
   },
 
-  personalTurnStart: cb => {
+  myTurnStart: cb => {
     socker.on('personal-turn-start', message => {
       console.log(message);
       cb(null, message);

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Input, Button, MessageList, SystemMessage } from 'react-chat-elements';
 
+import TurnTimer from './TurnTimer';
 import { subscribeTo } from '../Socker/game.Subscriptions';
 
 class GroupChat extends React.Component {
@@ -55,7 +56,7 @@ class GroupChat extends React.Component {
       console.log(message);
     });
 
-    subscribeTo.personalTurnStart((err, message) => {
+    subscribeTo.myTurnStart((err, message) => {
       const systemMsg = {
         position: 'right',
         notch: false,
@@ -78,7 +79,10 @@ class GroupChat extends React.Component {
         text: message
       };
 
+      const currentUsername = message.replace(/ .*/, '');
+
       this.setState(state => ({ messages: [...state.messages, systemMsg] }));
+      this.props.setParentStates([{ currentUsername }]);
       console.log(message);
     });
 
