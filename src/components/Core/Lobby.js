@@ -24,7 +24,8 @@ class Lobby extends React.Component {
     playersJoined: [],
     currentItem: undefined,
     allCollections: {},
-    currentCollectionId: 'current-user'
+    currentCollectionId: 'current-user',
+    currentUsername: ''
   };
 
   static contextTypes = { theme: PropTypes.object };
@@ -153,6 +154,7 @@ class Lobby extends React.Component {
       playersJoined,
       isReady,
       chanceNum,
+      currentUsername,
       isTurn,
       isDraftReady,
       allCollections,
@@ -207,7 +209,7 @@ class Lobby extends React.Component {
         <Col lg={3} md={6}>
           <GroupChat setParentStates={this.setStates} />
           <br />
-          {isTurn && <TurnTimer isTurn={isTurn} turnKey={chanceNum} />}
+          {isTurn && <TurnTimer isTurn={isTurn} currentPlayer={currentUsername} />}
         </Col>
       </Row>
     );

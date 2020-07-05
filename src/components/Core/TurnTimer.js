@@ -1,6 +1,6 @@
 import React from 'react';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
-import { number, func } from 'prop-types';
+import { number, func, string } from 'prop-types';
 
 const renderTime = ({ remainingTime }) => {
   if (remainingTime === 0) {
@@ -16,17 +16,23 @@ const renderTime = ({ remainingTime }) => {
   );
 };
 
-const TurnTimer = ({ isTurn }) => {
+const TurnTimer = ({ isTurn, currentPlayer }) => {
   return (
-    <div className="timer-wrapper">
-      <CountdownCircleTimer
-        isPlaying={isTurn}
-        duration={10}
-        colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
-        onComplete={() => [false, 1000]}
-      >
-        {renderTime}
-      </CountdownCircleTimer>
+    <div>
+      <div className="timer-wrapper">
+        <CountdownCircleTimer
+          isPlaying={isTurn}
+          duration={process.env.NODE_ENV === 'production' ? 300 : 10}
+          colors={[['#2193b0', 0.5], ['#FFE000', 0.33], ['#A30000']]}
+          size={160}
+          strokeWidth={16}
+          onComplete={() => [false, 1000]}
+        >
+          {renderTime}
+        </CountdownCircleTimer>
+      </div>
+      <br />
+      <h3>{`Current Chance: ${currentPlayer}`}</h3>
     </div>
   );
 };
@@ -37,7 +43,7 @@ renderTime.propTypes = {
 
 TurnTimer.propTypes = {
   isTurn: number.isRequired,
-  turnKey: number.isRequired
+  currentPlayer: string.isRequired
 };
 
 export default TurnTimer;

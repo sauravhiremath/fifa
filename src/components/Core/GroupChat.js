@@ -79,7 +79,10 @@ class GroupChat extends React.Component {
         text: message
       };
 
+      const currentUsername = message.replace(/ .*/, '');
+
       this.setState(state => ({ messages: [...state.messages, systemMsg] }));
+      this.props.setParentStates([{ currentUsername }]);
       console.log(message);
     });
 
@@ -150,8 +153,6 @@ class GroupChat extends React.Component {
           placeholder="Type here..."
           rightButtons={<Button color="white" backgroundColor="black" text="Send" />}
         />
-        <br />
-        <TurnTimer />
       </div>
     );
   }
