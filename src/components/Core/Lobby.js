@@ -11,6 +11,7 @@ import PlayerSearch from './PlayerSearch';
 import GroupChat from './GroupChat';
 import JoinedPlayers from './JoinedPlayers';
 import { emit } from '../Socker/game.Emitters';
+import TurnTimer from './TurnTimer';
 
 class Lobby extends React.Component {
   state = {
@@ -18,6 +19,7 @@ class Lobby extends React.Component {
     isReady: false,
     isDraftReady: false,
     isTurn: false,
+    chanceNum: 0,
     teamPlayers: [],
     playersJoined: [],
     currentItem: undefined,
@@ -29,8 +31,7 @@ class Lobby extends React.Component {
 
   static propTypes = {
     roomId: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired
+    password: PropTypes.string.isRequired
   };
 
   preDraft = () => {
@@ -151,6 +152,8 @@ class Lobby extends React.Component {
       teamPlayers,
       playersJoined,
       isReady,
+      chanceNum,
+      isTurn,
       isDraftReady,
       allCollections,
       currentCollectionId,
@@ -203,6 +206,8 @@ class Lobby extends React.Component {
         </Col>
         <Col lg={3} md={6}>
           <GroupChat setParentStates={this.setStates} />
+          <br />
+          {isTurn && <TurnTimer isTurn={isTurn} turnKey={chanceNum} />}
         </Col>
       </Row>
     );
