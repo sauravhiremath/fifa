@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "FIFA Teams Builder",
+  "name": "Multiplayer FIFA Drafts Simulator",
   "icons": [
     {
       "src": "favicon.ico",
