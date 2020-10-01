@@ -10,15 +10,17 @@ A multiplayer game simulating Football players draft on a web platform.
 
 ## About
 
-It is a turn-based multiplayer game. Where people enter and create a room. Other people hop into the room.
+It's a turn-based multiplayer game. This game in particular allows you to build your own Football Team, by choosing players based on turns. You can search these football players in the same platform. Filter them based on any stats (their name, rating, team, positions, and a lot more!)
 
-Then the game begins where all players are shuffled and first-person gets the chance to pick the football-player he wants. He can search from the list of players (viewing their stats, position, ratings, and other details) and confirm his selection within the allocation time. Now, the turn is passed to another player.
+**To play:**
+- Create a room (add a password, if you wanna keep it private)
+- Share the room ID with your friends, and they can join the room
+- Once, all players are ready the draft begins
+- Each user can choose their player from the search box
+  - Every turn has a time limit, so pick before the time runs out!
+- After you create your dream teams, use the same teams on your FIFA game and play with each other
 
-This repeats until every person has picked their whole football squad. There are various modes you can choose from
-
-Different Modes include:
-- **Classic Mode** - Classic Football turn based draft
-- **Money in the Bank Mode** - Football Draft with bettings and selling of players
+This was created mainly for offline gaming, to avoid writing player lists manually on a paper or sending on chats when creating custom teams amongst a group of friends. Easily search and add players to your teams with this platform as a middleman :smile:
 
 ## Usage
 * No registration or login, just add an alias.
