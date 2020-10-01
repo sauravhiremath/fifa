@@ -207,6 +207,10 @@ class Lobby extends React.Component {
         <Col lg={3} md={6}>
           <GroupChat setParentStates={this.setStates} />
           <br />
+          <h4>
+            PASSWORD - <b>{password || 'none'}</b>{' '}
+          </h4>
+          <br />
           {isTurn && (
             <TurnTimer
               isTurn={isTurn}
