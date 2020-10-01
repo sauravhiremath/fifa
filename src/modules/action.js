@@ -4,7 +4,8 @@ export const Types = {
   UPDATE_USERNAME: 'UPDATE_USERNAME',
   ADD_ROOMID: 'ADD_ROOMID',
   REMOVE_ROOMID: 'REMOVE_ROOMID',
-  ADD_PASSWORD: 'ADD_PASSWORD'
+  ADD_PASSWORD: 'ADD_PASSWORD',
+  ADD_OPTIONS: 'ADD_OPTIONS'
 };
 
 export const logIn = username => ({
@@ -33,4 +34,9 @@ export const removeRoomId = () => ({
 export const addPassword = password => ({
   type: Types.ADD_PASSWORD,
   payload: password
+});
+
+export const addOptions = options => ({
+  type: Types.ADD_OPTIONS,
+  payload: options
 });

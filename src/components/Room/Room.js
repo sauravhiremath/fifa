@@ -11,7 +11,7 @@ import JoinRoom from './Room.Join';
 import CreateRoom from './Room.Create';
 import { SockerInit } from '../Socker/Socker';
 import { initListeners } from '../Socker/init.Listeners';
-import { addRoomId, addPassword } from '../../modules/action';
+import { addRoomId, addPassword, addOptions } from '../../modules/action';
 import { emit } from '../Socker/game.Emitters';
 
 export let socker = undefined;
@@ -19,7 +19,7 @@ export let socker = undefined;
 class Room extends React.Component {
   state = {
     action: 'join',
-    error: '',
+    error: ''
   };
 
   static propTypes = {
@@ -30,9 +30,10 @@ class Room extends React.Component {
   handleAuth = data => {
     const { username } = this.props;
     const { action } = this.state;
-    const { roomId, password } = data;
-    socker = SockerInit(username, roomId, password, action);
-    initListeners(this, roomId, socker);
+    const { roomId, password, options } = data;
+    // options -> only when action === 'create'
+    socker = SockerInit(username, roomId, password, action, options);
+    initListeners(this, roomId, password, options, socker);
   };
 
   resetError = () => {
@@ -90,13 +91,15 @@ const mapStateToProps = function (state) {
   return {
     username: state.username,
     roomId: state.roomId,
-    password: state.password
+    password: state.password,
+    options: state.options
   };
 };
 
 const mapDispatchToProps = dispatch => ({
   addRoomId: roomId => dispatch(addRoomId({ roomId })),
-  addPassword: password => dispatch(addPassword({ password }))
+  addPassword: password => dispatch(addPassword({ password })),
+  addOptions: options => dispatch(addOptions({ options }))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Room);

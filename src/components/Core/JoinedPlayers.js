@@ -23,7 +23,6 @@ class JoinedPlayers extends React.Component {
   }
 
   render() {
-    const { theme } = this.context;
     const { playersJoined, changeCollectionTo } = this.props;
 
     console.log(`[DEBUG] PLAYERS JOINED ARE: ${JSON.stringify(playersJoined)}`);

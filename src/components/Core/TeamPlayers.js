@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, Row, Table } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 
 export default class TeamPlayers extends React.Component {
   static propTypes = {
@@ -26,6 +26,7 @@ export default class TeamPlayers extends React.Component {
           </tr>
         );
       }
+      return '';
     });
   };
 

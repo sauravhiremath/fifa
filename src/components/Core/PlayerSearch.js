@@ -5,7 +5,6 @@ import { InstantSearch, SearchBox, connectHits } from 'react-instantsearch-dom';
 import { Image } from 'react-bootstrap';
 
 import { restUrl } from '../../env';
-import { emit } from '../Socker/game.Emitters';
 
 const customSearchClient = {
   async search(requests) {
