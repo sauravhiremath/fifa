@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Input, Button, MessageList, SystemMessage } from 'react-chat-elements';
+import { Input, Button, MessageList } from 'react-chat-elements';
 
-import TurnTimer from './TurnTimer';
 import { subscribeTo } from '../Socker/game.Subscriptions';
 
 class GroupChat extends React.Component {
