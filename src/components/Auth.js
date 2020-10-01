@@ -13,8 +13,10 @@ import { restUrl } from '../env';
 
 class Auth extends React.Component {
   state = {
-    redirectToReferrer: false
-  }
+    redirectToReferrer: false,
+    isLoginFailed: false,
+    isServerDown: false
+  };
 
   static propTypes = {
     location: PropTypes.object.isRequired,
@@ -49,18 +51,19 @@ class Auth extends React.Component {
     const { username } = this.state;
     const { logIn } = this.props;
 
-    const response = await axios.post(`${restUrl}/auth/login`, { username });
-    if (!response.data.success) {
-      return (
-        <ErrorHandler
-          redirectUrl="/"
-          error={{ title: 'AUTH FAILED, TRY AGAIN!', content: response.message }}
-        />
-      );
+    try {
+      const response = await axios.post(`${restUrl}/auth/login`, { username });
+      if (!response.data.success || !response) {
+        return this.setState({ isLoginFailed: true });
+      }
+
+      Cookies.set('fifa-profile', response.data.token);
+      logIn(username);
+      this.setState({ redirectToReferrer: true });
+    } catch (error) {
+      console.log(error.message);
+      return this.setState({ isServerDown: true });
     }
-    Cookies.set('fifa-profile', response.data.token);
-    logIn(username);
-    this.setState({ redirectToReferrer: true });
   };
 
   enterUsername() {
@@ -89,19 +92,45 @@ class Auth extends React.Component {
 
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } };
-    const { redirectToReferrer } = this.state;
+    const { redirectToReferrer, isServerDown, isLoginFailed } = this.state;
 
     if (redirectToReferrer === true) {
       return <Redirect to={from} />;
     }
 
     return (
-      <div className="row align-items-center justify-content-left">
-        <div className="col-sm-12 col-md-6">
-          {introInfo()}
-          {this.enterUsername()}
+      <>
+        {isServerDown && (
+          <ErrorHandler
+            redirectUrl="/"
+            error={{
+              title: 'SEVERS ARE DOWN FOR MAINTAINENCE!',
+              content: 'WE WILL BE BACK SOON, BIGGER AND BETTER'
+            }}
+            resetError={() => {
+              this.setState({ isServerDown: false });
+            }}
+          />
+        )}
+        {isLoginFailed && (
+          <ErrorHandler
+            redirectUrl="/"
+            error={{
+              title: 'LOGIN FAILED, TRY AGAIN!',
+              content: 'CHECK YOUR CREDENTIALS OR TRY ANOTHER NAME'
+            }}
+            resetError={() => {
+              this.setState({ isLoginFailed: false });
+            }}
+          />
+        )}
+        <div className="row align-items-center justify-content-left">
+          <div className="col-sm-12 col-md-6">
+            {introInfo()}
+            {this.enterUsername()}
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 }
@@ -133,7 +162,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  logIn: (username) => dispatch(logIn({ username })),
+  logIn: username => dispatch(logIn({ username }))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Auth);
