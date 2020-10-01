@@ -22,7 +22,7 @@ const TurnTimer = ({ isTurn, currentPlayer, duration }) => {
       <div className="timer-wrapper">
         <CountdownCircleTimer
           isPlaying={isTurn}
-          duration={duration || 10}
+          duration={duration / 1000 || 10}
           colors={[['#2193b0', 0.5], ['#FFE000', 0.33], ['#A30000']]}
           size={160}
           strokeWidth={16}

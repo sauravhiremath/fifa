@@ -9,7 +9,7 @@ export default class Create extends React.Component {
     roomId: '',
     password: '',
     options: {
-      maxTimerLimit: 120,
+      maxTimerLimit: 120 * 1000,
       maxPlayersLimit: 14
     }
   };
@@ -29,7 +29,7 @@ export default class Create extends React.Component {
       this.setState({ password });
     }
     if (event.target.name === 'max-timer-limit') {
-      const maxTimerLimit = Number(event.target.value);
+      const maxTimerLimit = Number(event.target.value) * 1000;
       if (maxTimerLimit > 0 && typeof maxTimerLimit === 'number') {
         this.setState(prevState => ({
           options: { ...prevState.options, maxTimerLimit }

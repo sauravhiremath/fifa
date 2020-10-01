@@ -6,7 +6,7 @@ export function SockerInit(username, roomId, password, action, options) {
   const token = Cookies.get('fifa-profile');
   const socker = openSocket(`${sockerUrl}`, {
     path: '/classic-mode',
-    query: { username, roomId, password, action, token, options }
+    query: { username, roomId, password, action, token, options: JSON.stringify(options) }
   });
   return socker;
 }
