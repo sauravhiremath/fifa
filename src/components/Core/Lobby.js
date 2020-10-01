@@ -19,7 +19,6 @@ class Lobby extends React.Component {
     isReady: false,
     isDraftReady: false,
     isTurn: false,
-    chanceNum: 0,
     teamPlayers: [],
     playersJoined: [],
     currentItem: undefined,
@@ -32,7 +31,8 @@ class Lobby extends React.Component {
 
   static propTypes = {
     roomId: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired
+    password: PropTypes.string.isRequired,
+    options: PropTypes.object.isRequired
   };
 
   preDraft = () => {
@@ -148,12 +148,10 @@ class Lobby extends React.Component {
   };
 
   render() {
-    const { roomId, password } = this.props;
+    const { roomId, password, options } = this.props;
     const {
       teamPlayers,
       playersJoined,
-      isReady,
-      chanceNum,
       currentUsername,
       isTurn,
       isDraftReady,
@@ -209,7 +207,13 @@ class Lobby extends React.Component {
         <Col lg={3} md={6}>
           <GroupChat setParentStates={this.setStates} />
           <br />
-          {isTurn && <TurnTimer isTurn={isTurn} currentPlayer={currentUsername} />}
+          {isTurn && (
+            <TurnTimer
+              isTurn={isTurn}
+              currentPlayer={currentUsername}
+              duration={options.maxTimerLimit || 10}
+            />
+          )}
         </Col>
       </Row>
     );
@@ -220,7 +224,8 @@ const mapStateToProps = state => {
   return {
     username: state.username,
     roomId: state.roomId,
-    password: state.password
+    password: state.password,
+    options: state.options
   };
 };
 

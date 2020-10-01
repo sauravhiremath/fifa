@@ -4,7 +4,8 @@ export const defaultState = {
   loggedIn: false,
   username: '',
   roomId: '',
-  password: ''
+  password: '',
+  options: {}
 };
 
 const store = (state = defaultState, action) => {
@@ -35,6 +36,11 @@ const store = (state = defaultState, action) => {
     case Types.ADD_PASSWORD: {
       const password = action.payload.password;
       return { ...state, password };
+    }
+
+    case Types.ADD_OPTIONS: {
+      const options = action.payload.options;
+      return { ...state, options };
     }
 
     default:

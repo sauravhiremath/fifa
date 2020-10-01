@@ -1,5 +1,4 @@
 import React from 'react';
-import shortid from 'shortid';
 import PropTypes from 'prop-types';
 import { Form, FormControl, InputGroup } from 'react-bootstrap';
 import Button from 'react-uwp/Button';
@@ -30,15 +29,19 @@ export default class Create extends React.Component {
       this.setState({ password });
     }
     if (event.target.name === 'max-timer-limit') {
-      const maxTimerLimit = event.target.value;
+      const maxTimerLimit = Number(event.target.value);
       if (maxTimerLimit > 0 && typeof maxTimerLimit === 'number') {
-        this.setState({ options: { ...maxTimerLimit } });
+        this.setState(prevState => ({
+          options: { ...prevState.options, maxTimerLimit }
+        }));
       }
     }
     if (event.target.name === 'max-players-limit') {
-      const maxPlayersLimit = event.target.value;
+      const maxPlayersLimit = Number(event.target.value);
       if (maxPlayersLimit > 0 && typeof maxPlayersLimit === 'number') {
-        this.setState({ options: { ...maxPlayersLimit } });
+        this.setState(prevState => ({
+          options: { ...prevState.options, maxPlayersLimit }
+        }));
       }
     }
   };
@@ -118,7 +121,7 @@ export default class Create extends React.Component {
               onChange={this.handleDataChange}
             />
             <InputGroup.Append>
-              <InputGroup.Text id="time-prefiz">players</InputGroup.Text>
+              <InputGroup.Text id="players-prefix">players</InputGroup.Text>
             </InputGroup.Append>
           </InputGroup>
           <br />
