@@ -8,11 +8,15 @@ import Button from 'react-uwp/Button';
 export default class Create extends React.Component {
   state = {
     roomId: '',
-    password: ''
+    password: '',
+    options: {
+      maxTimerLimit: 120,
+      maxPlayersLimit: 14
+    }
   };
 
   static propTypes = {
-    changeAuth: PropTypes.func.isRequired,
+    changeAuth: PropTypes.func.isRequired
   };
 
   componentDidMount() {
@@ -25,13 +29,25 @@ export default class Create extends React.Component {
       const password = event.target.value;
       this.setState({ password });
     }
+    if (event.target.name === 'max-timer-limit') {
+      const maxTimerLimit = event.target.value;
+      if (maxTimerLimit > 0 && typeof maxTimerLimit === 'number') {
+        this.setState({ options: { ...maxTimerLimit } });
+      }
+    }
+    if (event.target.name === 'max-players-limit') {
+      const maxPlayersLimit = event.target.value;
+      if (maxPlayersLimit > 0 && typeof maxPlayersLimit === 'number') {
+        this.setState({ options: { ...maxPlayersLimit } });
+      }
+    }
   };
 
   handleSubmit = event => {
     event.preventDefault();
     const { changeAuth } = this.props;
-    const { roomId, password } = this.state;
-    changeAuth({ roomId, password });
+    const { roomId, password, options } = this.state;
+    changeAuth({ roomId, password, options });
   };
 
   getNewRoomId = () => {
@@ -59,7 +75,7 @@ export default class Create extends React.Component {
             />
           </InputGroup>
           <br />
-          Add password to keep it exclusive
+          <h6>Add password to keep it exclusive</h6>
           <InputGroup>
             <FormControl
               ref={input => {
@@ -71,6 +87,39 @@ export default class Create extends React.Component {
               aria-describedby="password"
               onChange={this.handleDataChange}
             />
+          </InputGroup>
+          <br />
+          <br />
+          <h4>Game Settings</h4>
+          <br />
+          <h6>Max Time per chance </h6>
+          <InputGroup>
+            <FormControl
+              type="number"
+              placeholder="Default: 120"
+              name="max-timer-limit"
+              aria-label="max-timer-limit"
+              aria-describedby="max-timer-limit"
+              onChange={this.handleDataChange}
+            />
+            <InputGroup.Append>
+              <InputGroup.Text id="time-prefiz">seconds</InputGroup.Text>
+            </InputGroup.Append>
+          </InputGroup>
+          <br />
+          <h6>Max Players Per Team</h6>
+          <InputGroup>
+            <FormControl
+              type="number"
+              placeholder="Default: 14"
+              name="max-players-limit"
+              aria-label="max-players-limit"
+              aria-describedby="max-players-limit"
+              onChange={this.handleDataChange}
+            />
+            <InputGroup.Append>
+              <InputGroup.Text id="time-prefiz">players</InputGroup.Text>
+            </InputGroup.Append>
           </InputGroup>
           <br />
           <InputGroup>

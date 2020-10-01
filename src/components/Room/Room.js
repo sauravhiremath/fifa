@@ -19,7 +19,7 @@ export let socker = undefined;
 class Room extends React.Component {
   state = {
     action: 'join',
-    error: '',
+    error: ''
   };
 
   static propTypes = {
@@ -30,8 +30,9 @@ class Room extends React.Component {
   handleAuth = data => {
     const { username } = this.props;
     const { action } = this.state;
-    const { roomId, password } = data;
-    socker = SockerInit(username, roomId, password, action);
+    const { roomId, password, options } = data;
+    // options -> only when action === 'create'
+    socker = SockerInit(username, roomId, password, action, options);
     initListeners(this, roomId, socker);
   };
 
