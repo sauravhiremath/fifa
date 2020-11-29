@@ -36,6 +36,15 @@
   "xo": {
     "prettier": true
   },
+  "renovate": {
+    "packageRules": [
+      {
+        "packagePatterns": [ "eslint", "^@types/" ],
+        "groupName": "eslint",
+        "automerge": true
+      }
+    ]
+  },
   "browserslist": {
     "production": [
       ">0.2%",
