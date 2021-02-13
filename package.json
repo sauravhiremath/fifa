@@ -5,7 +5,7 @@
   "dependencies": {
     "@testing-library/jest-dom": "5.11.6",
     "@testing-library/react": "11.2.2",
-    "@testing-library/user-event": "12.6.0",
+    "@testing-library/user-event": "12.7.1",
     "algoliasearch": "4.8.3",
     "axios": "0.21.1",
     "bootstrap": "4.5.3",
