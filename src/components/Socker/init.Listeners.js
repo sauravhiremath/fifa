@@ -1,5 +1,5 @@
-export const initListeners = (room, roomId, password, options, socker) => {
-  socker.on('[SUCCESS] Successfully initialised', () => {
+export const initListeners = (room, socker) => {
+  socker.on('[SUCCESS] Successfully initialised', ({ roomId, password, options }) => {
     console.log('[SUCCESS] Successfully initialised');
     room.props.addRoomId(roomId);
     room.props.addPassword(password);
