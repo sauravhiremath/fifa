@@ -33,7 +33,7 @@ class Room extends React.Component {
     const { roomId, password, options } = data;
     // options -> only when action === 'create'
     socker = SockerInit(username, roomId, password, action, options);
-    initListeners(this, roomId, password, options, socker);
+    initListeners(this, socker);
   };
 
   resetError = () => {

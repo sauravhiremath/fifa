@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Col, Row } from 'react-bootstrap';
 import Button from 'react-uwp/Button';
-import ContentDialog from 'react-uwp/ContentDialog';
+import Toast from 'react-uwp/Toast';
 
 import TeamPlayers from './TeamPlayers';
 import PlayerSearch from './PlayerSearch';
@@ -15,7 +15,7 @@ import TurnTimer from './TurnTimer';
 
 class Lobby extends React.Component {
   state = {
-    warning: [false, undefined, undefined],
+    warning: [true, '', ''],
     isReady: false,
     isDraftReady: false,
     isTurn: false,
@@ -103,19 +103,21 @@ class Lobby extends React.Component {
       rating: newPlayer['Overall Rating']
     };
     const warning = warnIfDuplicateAcrossCollections(item, allCollections, playersJoined);
-    if (warning) {
-      return this.setState({ warning });
-    }
-
-    // TODO: This check shouldn't be necessary, the above
-    //       check should handle all duplicate cases of all
-    //       players. (Test and remove later)
-    if (teamPlayers.every(v => v.id !== item.id)) {
-      this.setState({
-        currentItem: item
+    if (warning[0]) {
+      this.setState({ warning }, () => {
+        console.log('updated warning state', this.state.warning);
       });
     } else {
-      return console.log('Player already added!');
+      // TODO: This check shouldn't be necessary, the above
+      //       check should handle all duplicate cases of all
+      //       players. (Test and remove later)
+      if (teamPlayers.every(v => v.id !== item.id)) {
+        this.setState({
+          currentItem: item
+        });
+      } else {
+        return console.log('Player already added!');
+      }
     }
   };
 
@@ -135,18 +137,20 @@ class Lobby extends React.Component {
 
   showWarning = warning => {
     return (
-      <ContentDialog
-        showCloseButton
+      <Toast
+        showCloseIcon
+        closeDelay={3000}
         defaultShow={warning[0]}
-        primaryButtonText="OKAY, UNDERSTOOD"
-        secondaryButtonText={null}
         title={warning[1]}
-        content={warning[2]}
-        onCloseDialog={() => this.setState({ warning: [false, undefined, undefined] })}
+        description={warning[2]}
+        onToggleShowToast={isToast => {
+          if (isToast) {
+            this.setState({ warning: [false, undefined, undefined] });
+          }
+        }}
       />
     );
   };
-
   render() {
     const { roomId, password, options } = this.props;
     const {
@@ -234,8 +238,8 @@ const mapStateToProps = state => {
 };
 
 const warnIfDuplicateAcrossCollections = (item, collections, players) => {
-  for (const sockerId in collections) {
-    for (const eachItem of collections[sockerId]) {
+  for (const [sockerId, items] of Object.entries(collections)) {
+    for (const eachItem of items) {
       if (eachItem.id === item.id) {
         const { username } = players.filter(player => player.id === sockerId)[0];
         return [
@@ -246,7 +250,7 @@ const warnIfDuplicateAcrossCollections = (item, collections, players) => {
       }
     }
   }
-  return false;
+  return [false, undefined, undefined];
 };
 
 export default connect(mapStateToProps)(Lobby);
