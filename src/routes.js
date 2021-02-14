@@ -13,6 +13,7 @@ const ROUTES = [
     component: props => {
       const { loggedIn } = reduxStore.getState();
       if (!loggedIn) {
+        // eslint-disable-next-line react/prop-types
         return <Redirect to={{ pathname: '/auth', state: { from: props.location } }} />;
       }
       return <RenderRoutes {...props} />;
