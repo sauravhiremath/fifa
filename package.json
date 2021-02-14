@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "5.11.9",
-    "@testing-library/react": "11.2.2",
+    "@testing-library/react": "11.2.5",
     "@testing-library/user-event": "12.7.1",
     "algoliasearch": "4.8.5",
     "axios": "0.21.1",
