@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 import { InstantSearch, SearchBox, connectHits } from 'react-instantsearch-dom';
 import { Image } from 'react-bootstrap';
+import LazyLoad from 'react-lazyload';
 
+import playerLoading from './../../images/playerLoading.svg';
 import { restUrl } from '../../env';
 
 const customSearchClient = {
@@ -57,13 +59,12 @@ export default class PlayerSearch extends React.Component {
             onClick={() => this.addItem(item)}
           >
             <div className="playerHitsImage">
-              <Image
-                src={item.photo_url.replace('https', 'http')}
-                onError={e =>
-                  (e.target.src =
-                    'https://media.giphy.com/media/ely755SrwemZZTiXpJ/source.gif')
-                }
-              />
+              <LazyLoad height={100}>
+                <Image
+                  src={item.photo_url.replace('https', 'http')}
+                  onError={e => (e.target.src = playerLoading)}
+                />
+              </LazyLoad>
             </div>
             <div className="playerHitsContent">
               <div>{item.name}</div>
