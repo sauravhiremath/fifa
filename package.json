@@ -8,7 +8,7 @@
     "@testing-library/user-event": "12.7.1",
     "algoliasearch": "4.8.3",
     "axios": "0.21.1",
-    "bootstrap": "4.5.3",
+    "bootstrap": "4.6.0",
     "jquery": "3.5.1",
     "js-cookie": "2.2.1",
     "prop-types": "15.7.2",
