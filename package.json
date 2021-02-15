@@ -15,7 +15,7 @@
     "react": "17.0.1",
     "react-bootstrap": "1.4.3",
     "react-chat-elements": "10.13.0",
-    "react-countdown-circle-timer": "2.4.0",
+    "react-countdown-circle-timer": "2.5.0",
     "react-dom": "17.0.1",
     "react-grid-layout": "1.2.0",
     "react-instantsearch-dom": "6.9.0",
