@@ -68,7 +68,7 @@
     "babel-eslint": "10.1.0",
     "eslint-config-prettier": "7.2.0",
     "eslint-config-xo": "0.34.0",
-    "eslint-config-xo-react": "0.23.0",
+    "eslint-config-xo-react": "0.24.0",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-jsx-a11y": "6.4.1",
     "eslint-plugin-prettier": "3.3.1",
