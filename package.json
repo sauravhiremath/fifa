@@ -9,7 +9,7 @@
     "algoliasearch": "4.8.5",
     "axios": "0.21.1",
     "bootstrap": "4.6.0",
-    "jquery": "3.5.1",
+    "jquery": "3.6.0",
     "js-cookie": "2.2.1",
     "prop-types": "15.7.2",
     "react": "17.0.1",
