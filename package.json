@@ -18,7 +18,7 @@
     "react-countdown-circle-timer": "2.4.0",
     "react-dom": "17.0.1",
     "react-grid-layout": "1.2.0",
-    "react-instantsearch-dom": "6.9.0",
+    "react-instantsearch-dom": "6.10.3",
     "react-lazyload": "^3.2.0",
     "react-router-dom": "5.2.0",
     "react-scripts": "3.4.4",
