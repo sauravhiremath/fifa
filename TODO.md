@@ -9,7 +9,7 @@
 
 ## Future_features
 
- - [ ] Load balancing with socket clustering support.
+ - [x] Load balancing with socket clustering/redis support.
  - [ ] Option to manually add players to teams before starting draft (Useful when someone
     left in between and don't wanna start all over)
  - [ ] Add players using CLI. Ex !add Cristiano
