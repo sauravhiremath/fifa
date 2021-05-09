@@ -1,8 +1,12 @@
 {
   "name": "fifa",
   "version": "1.1.0",
+  "engines": {
+    "node": "12.x.x"
+  },
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.1.2",
     "@testing-library/jest-dom": "5.11.9",
     "@testing-library/react": "11.2.5",
     "@testing-library/user-event": "12.7.1",
@@ -28,9 +32,9 @@
     "socket.io-client": "4.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject",
     "lint": "eslint --fix --ext js,jsx src"
   },
@@ -53,6 +57,7 @@
     "@babel/plugin-proposal-export-default-from": "7.12.13",
     "@types/react-redux": "7.1.16",
     "@types/redux-logger": "3.0.8",
+    "autoprefixer": "^9",
     "babel-eslint": "10.1.0",
     "eslint-config-prettier": "7.2.0",
     "eslint-config-xo": "0.34.0",
@@ -62,9 +67,11 @@
     "eslint-plugin-prettier": "3.3.1",
     "eslint-plugin-react": "7.22.0",
     "eslint-plugin-react-hooks": "4.2.0",
+    "postcss": "^7",
     "prettier": "2.2.1",
     "react-redux": "7.2.2",
     "redux-logger": "3.0.6",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "typescript": "4.1.5"
   }
 }
