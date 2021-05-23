@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 // import Cookies from 'js-cookie';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { reduxStore } from './index';
-import { Auth, Room, Lobby } from './components';
+import { Auth, Room, Lobby, Landing } from './components';
 
 const ROUTES = [
   { path: '/auth', key: 'AUTH', exact: true, component: Auth },
@@ -12,10 +12,10 @@ const ROUTES = [
     key: 'APP',
     component: props => {
       const { loggedIn } = reduxStore.getState();
-      if (!loggedIn) {
-        // eslint-disable-next-line react/prop-types
-        return <Redirect to={{ pathname: '/auth', state: { from: props.location } }} />;
-      }
+      // if (!loggedIn) {
+      //   // eslint-disable-next-line react/prop-types
+      //   return <Redirect to={{ pathname: '/auth', state: { from: props.location } }} />;
+      // }
       return <RenderRoutes {...props} />;
     },
     routes: [
@@ -23,7 +23,13 @@ const ROUTES = [
         path: '/',
         key: 'APP_ROOT',
         exact: true,
-        component: Room
+        component: Landing
+      },
+      {
+        path: '/auth',
+        key: 'APP_ROOT',
+        exact: true,
+        component: Auth
       },
       {
         path: '/room',
