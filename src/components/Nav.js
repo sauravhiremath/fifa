@@ -21,7 +21,7 @@ const Nav = ({ username }) => {
   };
 
   return (
-    <nav className="relative z-50 h-24 select-none">
+    <nav className="font-landing relative z-50 h-24 select-none">
       <div className="relative flex flex-wrap items-center justify-between h-24 overflow-hidden font-medium border-b border-gray-200 md:overflow-visible lg:justify-center sm:px-4 md:px-2">
         <div className="flex items-center justify-start w-1/4 h-full pr-4 pl-4">
           <a href="#_" className="inline-block py-4 md:py-0">

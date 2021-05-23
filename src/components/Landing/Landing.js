@@ -7,7 +7,7 @@ import ErrorHandler from '../ErrorHandler';
 
 const Landing = () => {
   return (
-    <div className="container max-w-lg px-4 py-8 mx-auto text-center md:py-32 md:max-w-none">
+    <div className="font-landing container max-w-lg px-4 py-8 mx-auto text-center md:py-32 md:max-w-none">
       <h1 className="text-5xl font-extrabold leading-tight tracking-tight text-center text-gray-900 md:text-6xl md:leading-8 lg:text-7xl">
         <span className="inline md:block">Build and Play with your</span>{' '}
         <span className="relative mt-2 text-transparent bg-clip-text bg-gradient-to-br md:inline-block from-red-600 to-red-300">
