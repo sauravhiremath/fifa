@@ -2,10 +2,11 @@
 
 ### Live at [https://fifa.sauravmh.com](https://fifa.sauravmh.com)
 
-[![HitCount](http://hits.dwyl.com/sauravhiremath/fifa.svg)](http://hits.dwyl.com/sauravhiremath/fifa)
-
 A multiplayer game simulating Football players draft on a web platform.
 
+### Beta version
+
+![beta-landing](https://user-images.githubusercontent.com/28642011/119253304-2f878600-bbce-11eb-805d-52badaa2302f.png)
 ![gameplay](https://i.giphy.com/media/W28AHIGbv0DOBcGoD8/source.gif)
 
 ## About
