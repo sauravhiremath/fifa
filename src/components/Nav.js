@@ -2,62 +2,8 @@ import React, { useState } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { Navbar, Form, Button } from 'react-bootstrap';
-import logo from '../logo.svg';
+import { Navbar } from 'react-bootstrap';
 import clsx from 'clsx';
-
-// class Nav extends React.Component {
-//   static contextTypes = { theme: PropTypes.object };
-
-//   static propTypes = {
-//     username: PropTypes.string.isRequired
-//   };
-
-//   loginStatus = () => {
-//     const username = this.props.username;
-//     if (username) {
-//       return (
-//         <Navbar.Collapse className="justify-content-end">
-//           <Navbar.Text>
-//             Signed in as: <b>{username}</b>
-//           </Navbar.Text>
-//         </Navbar.Collapse>
-//       );
-//     }
-
-//     return (
-//       <Navbar.Collapse className="justify-content-end">
-//         <Form inline>
-//           <Button variant="outline-primary">Login</Button>
-//         </Form>
-//       </Navbar.Collapse>
-//     );
-//   };
-
-//   render() {
-//     const { theme } = this.context;
-//     return (
-//       <Navbar
-//         variant="dark"
-//         style={{
-//           background: theme.useFluentDesign ? theme.acrylicTexture80.background : 'none'
-//         }}
-//       >
-//         <Navbar.Brand href="/">
-//           <img
-//             src={logo}
-//             width="30"
-//             height="30"
-//             className="d-inline-block align-top"
-//             alt="logo"
-//           />{' '}
-//           Fifa.io
-//         </Navbar.Brand>
-//         <this.loginStatus />
-//       </Navbar>
-//     );
-//   }
-// }
 
 const Nav = ({ username }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -88,16 +34,10 @@ const Nav = ({ username }) => {
         <div
           className={clsx(
             'top-0 left-0 items-start hidden w-full h-full p-4 text-sm bg-gray-900 bg-opacity-50 md:items-center md:w-3/4 lg:text-base md:bg-transparent md:p-0 md:relative md:flex',
-            showMenu ? 'flex fixed' : 'hidden'
+            showMenu && 'flex fixed'
           )}
         >
           <div className="flex-col w-full h-auto overflow-hidden bg-white rounded-lg md:bg-transparent md:overflow-visible md:rounded-none md:relative md:flex md:flex-row">
-            <a
-              href="#_"
-              className="items-center block w-auto h-16 px-6 text-xl font-black leading-none text-gray-900 md:hidden"
-            >
-              tails<span className="text-indigo-600">.</span>
-            </a>
             <div className="flex flex-col items-start justify-center w-full space-x-6 text-center lg:space-x-8 md:w-2/3 md:mt-0 md:flex-row md:items-center">
               <a
                 href="#_"
@@ -163,7 +103,7 @@ const Nav = ({ username }) => {
           onClick={() => setShowMenu(v => !v)}
         >
           <svg
-            className="w-6 h-6 text-gray-700"
+            className={clsx('w-6 h-6 text-gray-700', showMenu && 'hidden')}
             x-show="!showMenu"
             fill="none"
             strokeLinecap="round"
@@ -175,13 +115,12 @@ const Nav = ({ username }) => {
             <path d="M4 6h16M4 12h16M4 18h16" />
           </svg>
           <svg
-            className="w-6 h-6 text-gray-700"
+            className={clsx('w-6 h-6 text-gray-700', !showMenu && 'hidden')}
             x-show="showMenu"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
-            style={{ display: 'none' }}
           >
             <path
               strokeLinecap="round"
