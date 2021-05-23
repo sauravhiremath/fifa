@@ -76,8 +76,8 @@ const Nav = ({ username }) => {
 
   return (
     <nav className="relative z-50 h-24 select-none">
-      <div className="container relative flex flex-wrap items-center justify-between h-24 mx-auto overflow-hidden font-medium border-b border-gray-200 md:overflow-visible lg:justify-center sm:px-4 md:px-2">
-        <div className="flex items-center justify-start w-1/4 h-full pr-4">
+      <div className="relative flex flex-wrap items-center justify-between h-24 overflow-hidden font-medium border-b border-gray-200 md:overflow-visible lg:justify-center sm:px-4 md:px-2">
+        <div className="flex items-center justify-start w-1/4 h-full pr-4 pl-4">
           <a href="#_" className="inline-block py-4 md:py-0">
             <span className="p-1 text-xl font-black leading-none text-gray-900">
               <span className="">fifa.io</span>
@@ -142,13 +142,15 @@ const Nav = ({ username }) => {
             </div>
             <div className="flex flex-col items-start justify-end w-full pt-4 md:items-center md:w-1/3 md:flex-row md:py-0">
               <a
-                href="#"
-                className="w-full px-6 py-2 mr-0 text-gray-700 md:px-0 lg:pl-2 md:mr-4 lg:mr-5 md:w-auto"
+                href="https://github.com/sauravhiremath/fifa"
+                target="__blank"
+                rel="noopener"
+                className="w-full px-6 pt-2 pb-1 mr-0 text-gray-700 border-b-2 border-red-400 md:px-0 lg:px-2 md:mr-4 lg:mr-5 md:w-auto"
               >
                 View on github
               </a>
               <a
-                href="#_"
+                href="/auth"
                 className="inline-flex items-center w-full px-6 py-3 text-sm font-medium leading-4 text-white md:px-3 md:w-auto lg:px-5 focus:outline-none md:focus:ring-2 focus:ring-0 focus:ring-offset-2 hover:bg-red-400 focus:ring-red-600 bg-red-500 rounded-sm"
               >
                 PLAY NOW
@@ -157,7 +159,7 @@ const Nav = ({ username }) => {
           </div>
         </div>
         <div
-          className="absolute right-0 flex flex-col items-center items-end justify-center w-10 h-10 bg-white rounded-full cursor-pointer md:hidden hover:bg-gray-100"
+          className="absolute right-4 flex flex-col items-center justify-center w-10 h-10 bg-white rounded-full cursor-pointer md:hidden hover:bg-gray-100"
           onClick={() => setShowMenu(v => !v)}
         >
           <svg
