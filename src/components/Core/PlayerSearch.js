@@ -50,6 +50,11 @@ export default class PlayerSearch extends React.Component {
   };
 
   Hits = ({ hits }) => {
+    const image = process.env.NODE_ENV === 'production' ? 'photo_url' : 'image';
+    const name = process.env.NODE_ENV === 'production' ? 'name' : 'title';
+    const rating = process.env.NODE_ENV === 'production' ? 'Overall Rating' : 'rating';
+    const positions = process.env.NODE_ENV === 'production' ? 'positions' : 'genre';
+
     return (
       <div>
         {hits.map(item => (
@@ -61,15 +66,15 @@ export default class PlayerSearch extends React.Component {
             <div className="playerHitsImage">
               <LazyLoad height={100}>
                 <Image
-                  src={item.photo_url.replace('https', 'http')}
+                  src={item[image].replace('https', 'http')}
                   onError={e => (e.target.src = playerLoading)}
                 />
               </LazyLoad>
             </div>
             <div className="playerHitsContent">
-              <div>{item.name}</div>
+              <div>{item[name]}</div>
               <div>
-                <b>Rating:</b> {item['Overall Rating']} <b>Positions:</b> {item.positions}
+                <b>Rating:</b> {item[rating]} <b>Positions:</b> {item[positions]}
               </div>
             </div>
           </div>
@@ -96,7 +101,7 @@ export default class PlayerSearch extends React.Component {
         }}
       >
         <InstantSearch
-          indexName="dev_PLAYERS"
+          indexName={process.env.NODE_ENV === 'production' ? 'dev_PLAYERS' : 'movies'}
           searchClient={customSearchClient}
           stalledSearchDelay={500}
         >

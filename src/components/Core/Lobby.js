@@ -15,7 +15,7 @@ import TurnTimer from './TurnTimer';
 
 class Lobby extends React.Component {
   state = {
-    warning: [true, '', ''],
+    warning: [false, '', ''],
     isReady: false,
     isDraftReady: false,
     isTurn: false,
@@ -137,15 +137,16 @@ class Lobby extends React.Component {
 
   showWarning = warning => {
     return (
+      // Toast does not work, issue from react-uwp project
       <Toast
         showCloseIcon
         closeDelay={3000}
         defaultShow={warning[0]}
         title={warning[1]}
-        description={warning[2]}
+        description={[warning[2]]}
         onToggleShowToast={isToast => {
           if (isToast) {
-            this.setState({ warning: [false, undefined, undefined] });
+            this.setState({ warning: [false, '', ''] });
           }
         }}
       />
@@ -250,7 +251,7 @@ const warnIfDuplicateAcrossCollections = (item, collections, players) => {
       }
     }
   }
-  return [false, undefined, undefined];
+  return [false, '', ''];
 };
 
 export default connect(mapStateToProps)(Lobby);
