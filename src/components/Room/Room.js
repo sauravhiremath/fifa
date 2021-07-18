@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
@@ -16,76 +16,63 @@ import { emit } from '../Socker/game.Emitters';
 
 export let socker = undefined;
 
-class Room extends React.Component {
-  state = {
-    action: 'join',
-    error: ''
-  };
+const Room = ({ username, roomId }) => {
+  const [action, setAction] = useState('join');
+  const [error, setError] = useState('');
 
-  static propTypes = {
-    username: PropTypes.string.isRequired,
-    roomId: PropTypes.string.isRequired
-  };
-
-  handleAuth = data => {
-    const { username } = this.props;
-    const { action } = this.state;
+  const handleAuth = data => {
     const { roomId, password, options } = data;
     // options -> only when action === 'create'
     socker = SockerInit(username, roomId, password, action, options);
     initListeners(this, socker);
   };
 
-  resetError = () => {
-    this.setState({ error: '' });
+  const resetError = () => {
+    setError('');
   };
 
-  render() {
-    const { action, error } = this.state;
-    const { roomId } = this.props;
+  if (error) {
+    emit.closeConnection();
+    return <ErrorHandler redirectUrl="/" error={error} resetError={resetError} />;
+  }
 
-    if (error) {
-      emit.closeConnection();
-      return <ErrorHandler redirectUrl="/" error={error} resetError={this.resetError} />;
-    }
-
-    if (!roomId) {
-      return (
-        <div className="p-3">
-          <Welcome />
-          <hr />
-          <Row>
-            <Col>{action === 'join' && <JoinRoom changeAuth={this.handleAuth} />}</Col>
-            <Col>
-              {action === 'create' && <CreateRoom changeAuth={this.handleAuth} />}
-            </Col>
-          </Row>
-          <br />
-          <HyperLink
-            onClick={() => {
-              this.setState(prevState => ({
-                action: prevState.action === 'join' ? 'create' : 'join'
-              }));
-            }}
-          >
-            {`${action === 'join' ? 'Create New' : 'Join'} Room`}
-          </HyperLink>
-        </div>
-      );
-    }
-
+  if (!roomId) {
     return (
-      <Redirect
-        push
-        to={{
-          pathname: '/room',
-          search: `?=${roomId}`,
-          state: { referrer: '/' }
-        }}
-      />
+      <div className="p-3">
+        <Welcome />
+        <hr />
+        <Row>
+          <Col>{action === 'join' && <JoinRoom changeAuth={handleAuth} />}</Col>
+          <Col>{action === 'create' && <CreateRoom changeAuth={handleAuth} />}</Col>
+        </Row>
+        <br />
+        <HyperLink
+          onClick={() =>
+            setAction(prevAction => (prevAction === 'join' ? 'create' : 'join'))
+          }
+        >
+          {`${action === 'join' ? 'Create New' : 'Join'} Room`}
+        </HyperLink>
+      </div>
     );
   }
-}
+
+  return (
+    <Redirect
+      push
+      to={{
+        pathname: '/room',
+        search: `?=${roomId}`,
+        state: { referrer: '/' }
+      }}
+    />
+  );
+};
+
+Room.propTypes = {
+  username: PropTypes.string.isRequired,
+  roomId: PropTypes.string.isRequired
+};
 
 const mapStateToProps = function (state) {
   return {

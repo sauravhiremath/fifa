@@ -16,7 +16,7 @@ const Landing = () => {
       </h1>
       <div className="mx-auto mt-5 text-gray-500 text-center md:mt-12 md:max-w-lg lg:text-lg">
         Simplifying the way we play multiplayer games. Build custom teams and compete with
-        others
+        others in a turn based game
       </div>
       <div className="flex flex-col items-center mt-12 text-center">
         <span className="relative inline-flex w-full md:w-auto">
